@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisOpenQuizAPI", "Tennis
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisOpenQuizCashing", "TennisOpenQuizCashing\TennisOpenQuizCashing.csproj", "{F7510686-5444-4B7E-945C-C07E629F4B84}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModelsData", "ModelsData", "{6CA85724-B36D-4737-8FDB-FD05AA9248C4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CashingData", "CashingData", "{E89A4EDB-A3FD-4CEF-BD54-E968DAFD3FEF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
