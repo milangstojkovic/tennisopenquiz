@@ -19,7 +19,7 @@ namespace TennisOpenQuizAPI.Services
             foreach (var playerData in playersData)
             {
                 Player player = new Player();
-                player.PlayerID = playerData["PlayerID"] != null ? playerData["PlayerID"].ToString() : string.Empty;
+                player.PlayerID = playerData["PlayerID"] != null ? (Guid)playerData["PlayerID"] : Guid.Empty;
                 player.Name = playerData["Name"] != null ? playerData["Name"].ToString() : string.Empty;
                 player.Surname = playerData["Surname"] != null ? playerData["Surname"].ToString() : string.Empty;
                 player.Ranking = playerData["Ranking"] != null ?Int32.Parse(playerData["Ranking"].ToString()) : 0;
@@ -38,7 +38,7 @@ namespace TennisOpenQuizAPI.Services
             Player player = new Player();
             if (playerData != null)
             {
-                player.PlayerID = playerData["PlayerID"] != null ? playerData["PlayerID"].ToString() : string.Empty;
+                player.PlayerID = playerData["PlayerID"] != null ? (Guid)playerData["PlayerID"] : Guid.Empty;
                 player.Name = playerData["Name"] != null ? playerData["Name"].ToString() : string.Empty;
                 player.Surname = playerData["Surname"] != null ? playerData["Surname"].ToString() : string.Empty;
                 player.Ranking = playerData["Ranking"] != null ? Int32.Parse(playerData["Ranking"].ToString()) : 0;
