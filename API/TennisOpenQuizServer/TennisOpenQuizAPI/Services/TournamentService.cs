@@ -9,7 +9,7 @@ namespace TennisOpenQuizAPI.Services
 {
     public class TournamentService
     {
-        public static List<Tournament> GetTournaments()
+        public List<Tournament> GetTournaments()
         {
             ISession session = SessionManager.GetSession();
             List<Tournament> tournamentsList = new List<Tournament>();
@@ -28,7 +28,7 @@ namespace TennisOpenQuizAPI.Services
             return tournamentsList;
         }
 
-        public static Tournament GetTournament(Guid tournamentID)
+        public Tournament GetTournament(Guid tournamentID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
@@ -45,7 +45,7 @@ namespace TennisOpenQuizAPI.Services
             return tour;
         }
 
-        public static void AddTournament(Tournament tour)
+        public void AddTournament(Tournament tour)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)

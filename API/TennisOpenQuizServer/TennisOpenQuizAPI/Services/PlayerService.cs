@@ -9,7 +9,7 @@ namespace TennisOpenQuizAPI.Services
 {
     public class PlayerService
     {
-        public static List<Player> GetPlayers()
+        public List<Player> GetPlayers()
         {
             ISession session = SessionManager.GetSession();
             List<Player> playersList = new List<Player>();
@@ -29,7 +29,7 @@ namespace TennisOpenQuizAPI.Services
             }
             return playersList;
         }
-        public static Player GetPlayer(Guid playerID)
+        public Player GetPlayer(Guid playerID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
@@ -48,7 +48,7 @@ namespace TennisOpenQuizAPI.Services
             return player;
         }
 
-        public static void AddPlayer(Player player)
+        public void AddPlayer(Player player)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)

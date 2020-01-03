@@ -29,12 +29,12 @@ namespace TennisOpenQuizAPI.Services
             return winner;
         }
 
-        public void AddWinner(Winner winner)
+        public static void AddWinner(Winner winner)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet winnerData = session.Execute("insert into \"Winner\" (\"MatchID\", Player1ForehandWinners, Player1BackhandWinners, Player1TotalWinners, Player2ForehandWinners, Player2BackhandWinners, Player2TotalWinners)  values ('" + winner.MatchID + "', '" + winner.Player1ForehandWinners + "', '" + breakPt.Player1BreakPtWon + "', '" + breakPt.Player2BreakPtAtt + "', '" + breakPt.Player2BreakPtWon + "')");
+            RowSet winnerData = session.Execute("insert into \"Winner\" (\"MatchID\", Player1ForehandWinners, Player1BackhandWinners, Player1TotalWinners, Player2ForehandWinners, Player2BackhandWinners, Player2TotalWinners)  values ('" + winner.MatchID + "', '" + winner.Player1ForehandWinners + "', '" + winner.Player1BackhandWinners + "', '" + winner.Player1TotalWinners + "', '" + winner.Player2ForehandWinners + "', '"+winner.Player2BackhandWinners+"', '"+winner.Player2TotalWinners+"')");
         }
     }
 }

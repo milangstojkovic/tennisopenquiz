@@ -15,5 +15,7 @@ namespace TennisOpenQuizAPI.Models
 
         public Guid Player2ID { get; set; }
 
+        public DateTime Date { get; set; }
+
     }
 }

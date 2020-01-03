@@ -9,7 +9,7 @@ namespace TennisOpenQuizAPI.Services
 {
     public class MatchService
     {
-        public List<Match> GetMatchs()
+        public List<Match> GetMatches()
         {
             ISession session = SessionManager.GetSession();
             List<Match> matchesList = new List<Match>();
@@ -23,6 +23,7 @@ namespace TennisOpenQuizAPI.Services
                 match.TournamentID = matchData["TournamentID"] != null ? Guid.Parse(matchData["TournamentID"].ToString()) : Guid.Empty;
                 match.Player1ID = matchData["Player1ID"] != null ? Guid.Parse(matchData["Player1ID"].ToString()) : Guid.Empty;
                 match.Player2ID = matchData["Player2ID"] != null ? Guid.Parse(matchData["Player2ID"].ToString()) : Guid.Empty;
+                match.Date = matchData["Date"] != null ? DateTime.Parse(matchData["Date"].ToString()) : DateTime.MinValue;
                 matchesList.Add(match);
             }
             return matchesList;
@@ -41,8 +42,17 @@ namespace TennisOpenQuizAPI.Services
                 match.TournamentID = matchData["TournamentID"] != null ? Guid.Parse(matchData["TournamentID"].ToString()) : Guid.Empty;
                 match.Player1ID = matchData["Player1ID"] != null ? Guid.Parse(matchData["Player1ID"].ToString()) : Guid.Empty;
                 match.Player2ID = matchData["Player2ID"] != null ? Guid.Parse(matchData["Player2ID"].ToString()) : Guid.Empty;
+                match.Date = matchData["Date"] != null ? DateTime.Parse(matchData["Date"].ToString()) : DateTime.MinValue;
             }
             return match;
+        }
+
+        public void AddMatch(Match match)
+        {
+            ISession session = SessionManager.GetSession();
+            if (session == null)
+                return;
+            RowSet matchData = session.Execute("insert into \"Match\" (\"MatchID\", TournamentID, Player1ID, Player2ID, Date)  values ('" + match.MatchID + "', '" + match.TournamentID + "', '" + match.Player1ID + "', '" + match.Player2ID + "', '" + match.Date + "')");
         }
     }
 }

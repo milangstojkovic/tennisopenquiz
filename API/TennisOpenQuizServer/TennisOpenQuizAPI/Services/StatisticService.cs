@@ -41,8 +41,10 @@ namespace TennisOpenQuizAPI.Services
             if (session == null)
                 return;
             RowSet statisticData = session.Execute("insert into \"Statistic\" (\"MatchID\", Player1Aces, Player2Aces, Player1DoubleFaults, Player2DoubleFaults, Player1UnforcedErrors, Player2UnforcedErrors, Player1TotalPoints, Player2TotalPoints)  values ('" + statistic.MatchID + "', '" + statistic.Player1Aces + "', '" + statistic.Player2Aces + "', '" + statistic.Player1DoubleFaults + "', '" + statistic.Player2DoubleFaults + "', '" + statistic.Player1UnforcedErrors + "', '" + statistic.Player2UnforcedErrors + "', '" + statistic.Player1TotalPoints + "', '" + statistic.Player2TotalPoints + "' )");
-            WinnerService.AddWinners(statistic.MatchID);
-            BreakPtService.AddBreakPt(statistic.MatchID);
+            foreach(Set s in statistic.Result)
+                SetService.AddSet(s);
+            WinnerService.AddWinner(statistic.Winners);
+            BreakPtService.AddBreakPt(statistic.BreakPts);
         }
     }
 }

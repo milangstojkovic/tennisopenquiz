@@ -13,30 +13,30 @@ namespace TennisOpenQuizAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserService _userService;
-        public UsersController(UserService userService)
+        private readonly UserService userService;
+        public UsersController()
         {
-            _userService = userService;
+            userService = new UserService();
         }
         // GET: api/Users
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return _userService.GetUsers();
+            return userService.GetUsers();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}", Name = "Get")]
         public User Get(Guid id)
         {
-            return _userService.GetUser(id);
+            return userService.GetUser(id);
         }
 
         // POST: api/Users
         [HttpPost]
         public void Post([FromBody] User user)
         {
-             _userService.AddUser(user);
+             userService.AddUser(user);
         }
 
         // PUT: api/Users/5

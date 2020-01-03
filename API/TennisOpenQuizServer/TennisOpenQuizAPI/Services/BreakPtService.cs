@@ -27,7 +27,7 @@ namespace TennisOpenQuizAPI.Services
             return breakPt;
         }
 
-        public void AddBreakPt(BreakPt breakPt)
+        public static void AddBreakPt(BreakPt breakPt)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)

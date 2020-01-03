@@ -28,7 +28,7 @@ namespace TennisOpenQuizAPI.Services
             return setsList;
         }
 
-        public void AddSet(Set set)
+        public static void AddSet(Set set)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
