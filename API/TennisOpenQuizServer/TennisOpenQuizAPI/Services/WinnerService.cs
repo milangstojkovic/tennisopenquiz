@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Cassandra;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Cassandra;
 using TennisOpenQuizAPI.Models;
 
 namespace TennisOpenQuizAPI.Services
@@ -34,7 +32,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet winnerData = session.Execute("insert into winner (matchID, player1forehandwinners, player1backhandwinners, player1totalwinners, player2forehandwinners, player2backhandwinners, player2totalwinners)  values ('" + winner.MatchID + "', '" + winner.Player1ForehandWinners + "', '" + winner.Player1BackhandWinners + "', '" + winner.Player1TotalWinners + "', '" + winner.Player2ForehandWinners + "', '"+winner.Player2BackhandWinners+"', '"+winner.Player2TotalWinners+"')");
+            RowSet winnerData = session.Execute("insert into winner (matchID, player1forehandwinners, player1backhandwinners, player1totalwinners, player2forehandwinners, player2backhandwinners, player2totalwinners)  values ('" + winner.MatchID + "', '" + winner.Player1ForehandWinners + "', '" + winner.Player1BackhandWinners + "', '" + winner.Player1TotalWinners + "', '" + winner.Player2ForehandWinners + "', '" + winner.Player2BackhandWinners + "', '" + winner.Player2TotalWinners + "')");
         }
     }
 }

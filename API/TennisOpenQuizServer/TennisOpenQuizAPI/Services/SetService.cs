@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Cassandra;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cassandra;
 using TennisOpenQuizAPI.Models;
 
 namespace TennisOpenQuizAPI.Services
@@ -15,7 +13,7 @@ namespace TennisOpenQuizAPI.Services
             List<Set> setsList = new List<Set>();
             if (session == null)
                 return null;
-            var SetsData = session.Execute("select * from set where matchid ='"+matchID+"'");
+            var SetsData = session.Execute("select * from set where matchid ='" + matchID + "'");
             foreach (var SetData in SetsData)
             {
                 Set set = new Set();

@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using TennisOpenQuizAPI.Models;
 using TennisOpenQuizAPI.Services;
 
@@ -36,14 +32,14 @@ namespace TennisOpenQuizAPI.Controllers
         [HttpPost]
         public void Post([FromBody] User user)
         {
-             userService.AddUser(user);
+            userService.AddUser(user);
         }
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
-            
+
         }
 
         // DELETE: api/ApiWithActions/5

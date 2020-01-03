@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Cassandra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Cassandra;
 using TennisOpenQuizAPI.Models;
 
 namespace TennisOpenQuizAPI.Services
@@ -35,7 +34,7 @@ namespace TennisOpenQuizAPI.Services
                 return null;
             var TournamentData = session.Execute("select * from tournament where tournamentid='" + tournamentID + "'").FirstOrDefault();
             Tournament tour = new Tournament();
-            if(TournamentData!= null)
+            if (TournamentData != null)
             {
                 tour.TournamentID = TournamentData["tournamentid"] != null ? TournamentData["tournamentid"].ToString() : String.Empty;
                 tour.Name = TournamentData["name"] != null ? TournamentData["name"].ToString() : string.Empty;

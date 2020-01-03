@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Cassandra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Cassandra;
 using TennisOpenQuizAPI.Models;
 
 namespace TennisOpenQuizAPI.Services
@@ -34,7 +33,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var matchData = session.Execute("select * from match where matchid='"+matchID+"'").FirstOrDefault();
+            var matchData = session.Execute("select * from match where matchid='" + matchID + "'").FirstOrDefault();
             Match match = new Match();
             if (matchData != null)
             {

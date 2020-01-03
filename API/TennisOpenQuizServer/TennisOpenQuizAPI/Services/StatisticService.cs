@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Cassandra;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Cassandra;
 using TennisOpenQuizAPI.Models;
 
 namespace TennisOpenQuizAPI.Services
@@ -15,7 +13,7 @@ namespace TennisOpenQuizAPI.Services
             if (session == null)
                 return null;
             var statisticData = session.Execute("select * from \"Statistic\" where \"MatchID\" = '" + matchID + "'").FirstOrDefault();
-           
+
             Statistic statistic = new Statistic();
             if (statisticData != null)
             {
@@ -41,7 +39,7 @@ namespace TennisOpenQuizAPI.Services
             if (session == null)
                 return;
             RowSet statisticData = session.Execute("insert into statistic (matchid, player1aces, player2aces, player1doublefaults, player2doublefaults, player1unforcederrors, player2unforcederrors, player1totalpoints, player2totalpoints)  values ('" + statistic.MatchID + "', '" + statistic.Player1Aces + "', '" + statistic.Player2Aces + "', '" + statistic.Player1DoubleFaults + "', '" + statistic.Player2DoubleFaults + "', '" + statistic.Player1UnforcedErrors + "', '" + statistic.Player2UnforcedErrors + "', '" + statistic.Player1TotalPoints + "', '" + statistic.Player2TotalPoints + "' )");
-            foreach(Set s in statistic.Result)
+            foreach (Set s in statistic.Result)
                 SetService.AddSet(s);
             WinnerService.AddWinner(statistic.Winners);
             BreakPtService.AddBreakPt(statistic.BreakPts);
