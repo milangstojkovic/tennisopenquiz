@@ -15,35 +15,35 @@ namespace TennisOpenQuizAPI.Services
             List<Player> playersList = new List<Player>();
             if (session == null)
                 return null;
-            var playersData = session.Execute("select * from \"Player\"");
+            var playersData = session.Execute("select * from player");
             foreach (var playerData in playersData)
             {
                 Player player = new Player();
-                player.PlayerID = playerData["PlayerID"] != null ? (Guid)playerData["PlayerID"] : Guid.Empty;
-                player.Name = playerData["Name"] != null ? playerData["Name"].ToString() : string.Empty;
-                player.Surname = playerData["Surname"] != null ? playerData["Surname"].ToString() : string.Empty;
-                player.Ranking = playerData["Ranking"] != null ?Int32.Parse(playerData["Ranking"].ToString()) : 0;
-                player.Score = playerData["Score"] != null ? Int32.Parse(playerData["Score"].ToString()) : 0;
-                player.BirthDate = playerData["BirthDate"] != null ? DateTime.Parse(playerData["BirthDate"].ToString()) : DateTime.MinValue;
+                player.PlayerID = playerData["playerid"] != null ? playerData["playerid"].ToString() : string.Empty;
+                player.Name = playerData["name"] != null ? playerData["name"].ToString() : string.Empty;
+                player.Surname = playerData["surname"] != null ? playerData["surname"].ToString() : string.Empty;
+                player.Ranking = playerData["ranking"] != null ?Int32.Parse(playerData["ranking"].ToString()) : 0;
+                player.Score = playerData["score"] != null ? Int32.Parse(playerData["score"].ToString()) : 0;
+                player.BirthDate = playerData["birthdate"] != null ? DateTime.Parse(playerData["birthdate"].ToString()) : DateTime.MinValue;
                 playersList.Add(player);
             }
             return playersList;
         }
-        public Player GetPlayer(Guid playerID)
+        public Player GetPlayer(string playerID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var playerData = session.Execute("select * from \"Player\" where \"PlayerID\" = '"+playerID+"'").FirstOrDefault();
+            var playerData = session.Execute("select * from player where playerid = '"+playerID+"'").FirstOrDefault();
             Player player = new Player();
             if (playerData != null)
             {
-                player.PlayerID = playerData["PlayerID"] != null ? (Guid)playerData["PlayerID"] : Guid.Empty;
-                player.Name = playerData["Name"] != null ? playerData["Name"].ToString() : string.Empty;
-                player.Surname = playerData["Surname"] != null ? playerData["Surname"].ToString() : string.Empty;
-                player.Ranking = playerData["Ranking"] != null ? Int32.Parse(playerData["Ranking"].ToString()) : 0;
-                player.Score = playerData["Score"] != null ? Int32.Parse(playerData["Score"].ToString()) : 0;
-                player.BirthDate = playerData["BirthDate"] != null ? DateTime.Parse(playerData["BirthDate"].ToString()) : DateTime.MinValue;
+                player.PlayerID = playerData["playerid"] != null ? playerData["playerid"].ToString() : string.Empty;
+                player.Name = playerData["name"] != null ? playerData["name"].ToString() : string.Empty;
+                player.Surname = playerData["surname"] != null ? playerData["surname"].ToString() : string.Empty;
+                player.Ranking = playerData["ranking"] != null ? Int32.Parse(playerData["ranking"].ToString()) : 0;
+                player.Score = playerData["score"] != null ? Int32.Parse(playerData["score"].ToString()) : 0;
+                player.BirthDate = playerData["birthdate"] != null ? DateTime.Parse(playerData["birthdate"].ToString()) : DateTime.MinValue;
             }
             return player;
         }
@@ -53,7 +53,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet userData = session.Execute("insert into \"Player\" (\"PlayerID\", Name, Surname, Ranking, Score, BirthDate)  values ('" + player.PlayerID + "', '" + player.Name + "', '" + player.Surname + "', '" + player.Ranking + "', '"+player.Score+"', '"+player.BirthDate+"')");
+            RowSet userData = session.Execute("insert into player (playerid, name, surname, ranking, score, birthdate)  values ('" + player.PlayerID + "', '" + player.Name + "', '" + player.Surname + "', '" + player.Ranking + "', '"+player.Score+"', '"+player.BirthDate+"')");
         }
     }
 }

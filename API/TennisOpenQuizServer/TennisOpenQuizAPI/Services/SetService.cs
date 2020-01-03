@@ -9,20 +9,20 @@ namespace TennisOpenQuizAPI.Services
 {
     public class SetService
     {
-        public static List<Set> GetSets(Guid matchID)
+        public static List<Set> GetSets(string matchID)
         {
             ISession session = SessionManager.GetSession();
             List<Set> setsList = new List<Set>();
             if (session == null)
                 return null;
-            var SetsData = session.Execute("select * from \"Set\" where \"MatchID\"='"+matchID+"'");
+            var SetsData = session.Execute("select * from set where matchid ='"+matchID+"'");
             foreach (var SetData in SetsData)
             {
                 Set set = new Set();
-                set.MatchID = SetData["MatchID"] != null ? Guid.Parse(SetData["MatchID"].ToString()) : Guid.Empty;
-                set.SetNo = SetData["SetNo"] != null ? Int32.Parse(SetData["SetNo"].ToString()) : 0;
-                set.Player1GamesWon = SetData["Player1GamesWon"] != null ? Int32.Parse(SetData["Player1GamesWon"].ToString()) : 0;
-                set.Player2GamesWon = SetData["Player2GamesWon"] != null ? Int32.Parse(SetData["Player2GamesWon"].ToString()) : 0;
+                set.MatchID = SetData["matchid"] != null ? SetData["matchid"].ToString() : string.Empty;
+                set.SetNo = SetData["setno"] != null ? Int32.Parse(SetData["setno"].ToString()) : 0;
+                set.Player1GamesWon = SetData["player1gameswon"] != null ? Int32.Parse(SetData["player1gameswon"].ToString()) : 0;
+                set.Player2GamesWon = SetData["player2gameswon"] != null ? Int32.Parse(SetData["player2gameswon"].ToString()) : 0;
                 setsList.Add(set);
             }
             return setsList;
@@ -33,7 +33,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet setData = session.Execute("insert into \"Set\" (\"MatchID\", SetNo, Player1GamesWon, Player2GamesWon)  values ('" + set.MatchID + "', '" + set.SetNo + "', '" + set.Player1GamesWon + "', '" + set.Player2GamesWon + "')");
+            RowSet setData = session.Execute("insert into set (matchid, setno, player1gameswon, player2gameswon)  values ('" + set.MatchID + "', '" + set.SetNo + "', '" + set.Player1GamesWon + "', '" + set.Player2GamesWon + "')");
         }
     }
 }

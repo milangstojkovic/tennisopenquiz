@@ -7,7 +7,7 @@ namespace TennisOpenQuizAPI.Models
 {
     public class Tournament
     {
-        public Guid TournamentID { get; set; }
+        public string TournamentID { get; set; }
 
         public string Name { get; set; }
 

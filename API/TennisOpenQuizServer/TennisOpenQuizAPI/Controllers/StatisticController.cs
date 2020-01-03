@@ -20,8 +20,8 @@ namespace TennisOpenQuizAPI.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "Get")]
-        public Statistic Get(Guid id)
+        [HttpGet("{id}", Name = "GetStatistic")]
+        public Statistic Get(string id)
         {
             return statisticService.GetStatistic(id);
         }

@@ -19,30 +19,30 @@ namespace TennisOpenQuizAPI.Services
             foreach (var matchData in matchesData)
             {
                 Match match = new Match();
-                match.MatchID = matchData["MatchID"] != null ? Guid.Parse(matchData["MatchID"].ToString()) : Guid.Empty;
-                match.TournamentID = matchData["TournamentID"] != null ? Guid.Parse(matchData["TournamentID"].ToString()) : Guid.Empty;
-                match.Player1ID = matchData["Player1ID"] != null ? Guid.Parse(matchData["Player1ID"].ToString()) : Guid.Empty;
-                match.Player2ID = matchData["Player2ID"] != null ? Guid.Parse(matchData["Player2ID"].ToString()) : Guid.Empty;
-                match.Date = matchData["Date"] != null ? DateTime.Parse(matchData["Date"].ToString()) : DateTime.MinValue;
+                match.MatchID = matchData["matchid"] != null ? matchData["matchid"].ToString() : string.Empty;
+                match.TournamentID = matchData["tournamentid"] != null ? matchData["tournamentid"].ToString() : string.Empty;
+                match.Player1ID = matchData["player1id"] != null ? matchData["player1id"].ToString() : string.Empty;
+                match.Player2ID = matchData["player2id"] != null ? matchData["player2id"].ToString() : string.Empty;
+                match.Date = matchData["date"] != null ? DateTime.Parse(matchData["date"].ToString()) : DateTime.MinValue;
                 matchesList.Add(match);
             }
             return matchesList;
         }
 
-        public Match GetMatch(Guid matchID)
+        public Match GetMatch(string matchID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var matchData = session.Execute("select * from \"Match\" where \"MatchID\"='"+matchID+"'").FirstOrDefault();
+            var matchData = session.Execute("select * from match where matchid='"+matchID+"'").FirstOrDefault();
             Match match = new Match();
             if (matchData != null)
             {
-                match.MatchID = matchData["MatchID"] != null ? Guid.Parse(matchData["MatchID"].ToString()) : Guid.Empty;
-                match.TournamentID = matchData["TournamentID"] != null ? Guid.Parse(matchData["TournamentID"].ToString()) : Guid.Empty;
-                match.Player1ID = matchData["Player1ID"] != null ? Guid.Parse(matchData["Player1ID"].ToString()) : Guid.Empty;
-                match.Player2ID = matchData["Player2ID"] != null ? Guid.Parse(matchData["Player2ID"].ToString()) : Guid.Empty;
-                match.Date = matchData["Date"] != null ? DateTime.Parse(matchData["Date"].ToString()) : DateTime.MinValue;
+                match.MatchID = matchData["matchid"] != null ? matchData["matchid"].ToString() : string.Empty;
+                match.TournamentID = matchData["tournamentid"] != null ? matchData["tournamentid"].ToString() : string.Empty;
+                match.Player1ID = matchData["player1id"] != null ? matchData["player1id"].ToString() : string.Empty;
+                match.Player2ID = matchData["player2id"] != null ? matchData["player2id"].ToString() : string.Empty;
+                match.Date = matchData["date"] != null ? DateTime.Parse(matchData["date"].ToString()) : DateTime.MinValue;
             }
             return match;
         }
@@ -52,7 +52,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet matchData = session.Execute("insert into \"Match\" (\"MatchID\", TournamentID, Player1ID, Player2ID, Date)  values ('" + match.MatchID + "', '" + match.TournamentID + "', '" + match.Player1ID + "', '" + match.Player2ID + "', '" + match.Date + "')");
+            RowSet matchData = session.Execute("insert into match (matchid, tournamentid, player1id, player2id, date)  values ('" + match.MatchID + "', '" + match.TournamentID + "', '" + match.Player1ID + "', '" + match.Player2ID + "', '" + match.Date + "')");
         }
     }
 }

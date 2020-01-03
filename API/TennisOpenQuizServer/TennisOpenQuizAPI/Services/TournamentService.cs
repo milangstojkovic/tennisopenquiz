@@ -15,32 +15,32 @@ namespace TennisOpenQuizAPI.Services
             List<Tournament> tournamentsList = new List<Tournament>();
             if (session == null)
                 return null;
-            var tournamentsData = session.Execute("select * from \"Tournament\"");
+            var tournamentsData = session.Execute("select * from tournament");
             foreach (var tournamentData in tournamentsData)
             {
                 Tournament tournament = new Tournament();
-                tournament.TournamentID = tournamentData["TournamentID"] != null ? (Guid)tournamentData["TournamentID"] : Guid.Empty;
-                tournament.Name = tournamentData["Name"] != null ? tournamentData["Name"].ToString() : string.Empty;
-                tournament.Date = tournamentData["Date"] != null ? DateTime.Parse(tournamentData["Date"].ToString()) : DateTime.MinValue;
-                tournament.Surface = tournamentData["Surface"] != null ? tournamentData["Surface"].ToString() : string.Empty;
+                tournament.TournamentID = tournamentData["tournamentid"] != null ? tournamentData["tournamentid"].ToString() : String.Empty;
+                tournament.Name = tournamentData["name"] != null ? tournamentData["name"].ToString() : string.Empty;
+                tournament.Date = tournamentData["date"] != null ? DateTime.Parse(tournamentData["date"].ToString()) : DateTime.MinValue;
+                tournament.Surface = tournamentData["surface"] != null ? tournamentData["surface"].ToString() : string.Empty;
                 tournamentsList.Add(tournament);
             }
             return tournamentsList;
         }
 
-        public Tournament GetTournament(Guid tournamentID)
+        public Tournament GetTournament(string tournamentID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var TournamentData = session.Execute("select * from \"Tournament\" where \"TournamentID\"='" + tournamentID + "'").FirstOrDefault();
+            var TournamentData = session.Execute("select * from tournament where tournamentid='" + tournamentID + "'").FirstOrDefault();
             Tournament tour = new Tournament();
             if(TournamentData!= null)
             {
-                tour.TournamentID = TournamentData["TournamentID"] != null ? (Guid)TournamentData["TournamentID"] : Guid.Empty;
-                tour.Name = TournamentData["Name"] != null ? TournamentData["Name"].ToString() : string.Empty;
-                tour.Date = TournamentData["Date"] != null ? DateTime.Parse(TournamentData["TournamentID"].ToString()) : DateTime.MinValue;
-                tour.Surface = TournamentData["Surface"] != null ? TournamentData["Surface"].ToString() : string.Empty;
+                tour.TournamentID = TournamentData["tournamentid"] != null ? TournamentData["tournamentid"].ToString() : String.Empty;
+                tour.Name = TournamentData["name"] != null ? TournamentData["name"].ToString() : string.Empty;
+                tour.Date = TournamentData["date"] != null ? DateTime.Parse(TournamentData["date"].ToString()) : DateTime.MinValue;
+                tour.Surface = TournamentData["surface"] != null ? TournamentData["surface"].ToString() : string.Empty;
             }
             return tour;
         }
@@ -50,7 +50,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet tourData = session.Execute("insert into \"Tournament\" (\"TournamentID\", Name, Date, Surface)  values ('" + tour.TournamentID + "', '" + tour.Name + "', '" + tour.Date + "', '" + tour.Surface + "')");
+            RowSet tourData = session.Execute("insert into tournament (tournamentid, name, date, surface)  values ('" + tour.TournamentID + "', '" + tour.Name + "', '" + tour.Date + "', '" + tour.Surface + "')");
         }
     }
 }

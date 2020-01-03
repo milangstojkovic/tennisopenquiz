@@ -15,7 +15,7 @@ namespace TennisOpenQuizAPI
             if (session == null)
             {
                 Cluster cluster = Cluster.Builder().AddContactPoint("127.0.0.1").Build();
-                session = cluster.Connect("TennisOpenQuiz");
+                session = cluster.Connect("tennisopenquiz");
             }
 
             return session;

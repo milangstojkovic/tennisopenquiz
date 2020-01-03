@@ -9,20 +9,20 @@ namespace TennisOpenQuizAPI.Services
 {
     public class BreakPtService
     {
-        public static BreakPt GetBreakPt(Guid matchID)
+        public static BreakPt GetBreakPt(string matchID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var breakPtData = session.Execute("select * from \"BreakPt\" where \"MatchID\" = '" + matchID + "'").FirstOrDefault();
+            var breakPtData = session.Execute("select * from breakpt where matchid = '" + matchID + "'").FirstOrDefault();
             BreakPt breakPt = new BreakPt();
             if (breakPtData != null)
             {
-                breakPt.MatchID = Guid.Parse(breakPtData["MatchID"].ToString());
-                breakPt.Player1BreakPtAtt = breakPtData["Player1BreakPtAtt"] != null ? Int32.Parse(breakPtData["Player1BreakPtAtt"].ToString()) : 0;
-                breakPt.Player2BreakPtAtt = breakPtData["Player2BreakPtAtt"] != null ? Int32.Parse(breakPtData["Player2BreakPtAtt"].ToString()) : 0;
-                breakPt.Player1BreakPtWon = breakPtData["Player1BreakPtWon"] != null ? Int32.Parse(breakPtData["Player1BreakPtWon"].ToString()) : 0;
-                breakPt.Player2BreakPtWon = breakPtData["Player2BreakPtWon"] != null ? Int32.Parse(breakPtData["Player2BreakPtWon"].ToString()) : 0;
+                breakPt.MatchID = breakPtData["matchid"].ToString();
+                breakPt.Player1BreakPtAtt = breakPtData["player1breakptatt"] != null ? Int32.Parse(breakPtData["player1breakptatt"].ToString()) : 0;
+                breakPt.Player2BreakPtAtt = breakPtData["player2breakptatt"] != null ? Int32.Parse(breakPtData["player2breakptatt"].ToString()) : 0;
+                breakPt.Player1BreakPtWon = breakPtData["player1breakptwon"] != null ? Int32.Parse(breakPtData["player1breakptwon"].ToString()) : 0;
+                breakPt.Player2BreakPtWon = breakPtData["player2breakptwon"] != null ? Int32.Parse(breakPtData["player2breakptwon"].ToString()) : 0;
             }
             return breakPt;
         }
@@ -32,7 +32,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet breakPtData = session.Execute("insert into \"BreakPt\" (\"MatchID\", Player1BreakPtAtt, Player1BreakPtWon, Player2BreakPtAtt, Player2BreakPtWon)  values ('" + breakPt.MatchID + "', '" + breakPt.Player1BreakPtAtt + "', '" + breakPt.Player1BreakPtWon + "', '" + breakPt.Player2BreakPtAtt + "', '"+breakPt.Player2BreakPtWon+"')");
+            RowSet breakPtData = session.Execute("insert into breakpt (matchid, player1breakptatt, player1breakptwon, player2breakptatt, player2breakptwon)  values ('" + breakPt.MatchID + "', '" + breakPt.Player1BreakPtAtt + "', '" + breakPt.Player1BreakPtWon + "', '" + breakPt.Player2BreakPtAtt + "', '"+breakPt.Player2BreakPtWon+"')");
         }
     }
 }
