@@ -8,7 +8,11 @@ namespace TennisOpenQuizAPI.Services
 {
     public class UserService
     {
-        public static List<User> GetUsers()
+        public UserService()
+        {
+
+        }
+        public List<User> GetUsers()
         {
             ISession session = SessionManager.GetSession();
             List<User> usersList = new List<User>();
@@ -18,7 +22,7 @@ namespace TennisOpenQuizAPI.Services
             foreach (var UserData in UsersData)
             {
                 User user = new User();
-                user.UserID = UserData["UserID"] != null ? UserData["UserID"].ToString() : string.Empty;
+                user.UserID = UserData["UserID"] != null ? (Guid)UserData["UserID"] : Guid.Empty;
                 user.Username = UserData["Username"] != null ? UserData["Username"].ToString() : string.Empty;
                 user.Email = UserData["Email"] != null ? UserData["Email"].ToString() : string.Empty;
                 user.Password = UserData["Password"] != null ? UserData["Password"].ToString() : string.Empty;
@@ -28,7 +32,7 @@ namespace TennisOpenQuizAPI.Services
             return usersList;
         }
 
-        public static User GetUser(string userID)
+        public User GetUser(string userID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
@@ -37,7 +41,7 @@ namespace TennisOpenQuizAPI.Services
             User user = new User();
             if (UserData != null)
             {
-                user.UserID = UserData["UserID"] != null ? UserData["UserID"].ToString() : string.Empty;
+                user.UserID = UserData["UserID"] != null ? (Guid)UserData["UserID"] : Guid.Empty;
                 user.Username = UserData["Username"] != null ? UserData["Username"].ToString() : string.Empty;
                 user.Email = UserData["Email"] != null ? UserData["Email"].ToString() : string.Empty;
                 user.Password = UserData["Password"] != null ? UserData["Password"].ToString() : string.Empty;
@@ -46,7 +50,7 @@ namespace TennisOpenQuizAPI.Services
             return user;
         }
 
-        public static void AddUser(User user)
+        public void AddUser(User user)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
