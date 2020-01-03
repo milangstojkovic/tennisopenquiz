@@ -8,7 +8,7 @@ namespace TennisOpenQuizAPI.Models
     public class Winner
     {
 
-        public string WinnerID { get; set; }
+        public Guid WinnerID { get; set; }
 
         public int ForehandWinners { get; set; }
 

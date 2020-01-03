@@ -8,7 +8,7 @@ namespace TennisOpenQuizAPI.Models
     public class BreakPt
     {
 
-        public string BreakPtID { get; set; }
+        public Guid BreakPtID { get; set; }
 
         public int BreakPtAtt { get; set; }
 

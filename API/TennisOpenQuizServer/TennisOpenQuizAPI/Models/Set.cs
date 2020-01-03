@@ -8,7 +8,7 @@ namespace TennisOpenQuizAPI.Models
     public class Set
     {
 
-        public int SetID { get; set; }
+        public Guid SetID { get; set; }
 
         public int Player1GamesWon { get; set; }
 
