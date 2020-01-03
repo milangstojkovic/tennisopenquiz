@@ -10,7 +10,7 @@ namespace TennisOpenQuizAPI.Models
 
         public string StatisticID { get; set; }
 
-        public List<Set> Result { get; set; }
+        public Result Result { get; set; }
 
         public int Player1Aces { get; set; }
 

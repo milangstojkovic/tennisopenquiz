@@ -44,5 +44,13 @@ namespace TennisOpenQuizAPI.Services
             }
             return tour;
         }
+
+        public static void AddTournament(Tournament tour)
+        {
+            ISession session = SessionManager.GetSession();
+            if (session == null)
+                return;
+            RowSet tourData = session.Execute("insert into \"Tournament\" (\"TournamentID\", Name, Date, Surface)  values ('" + tour.TournamentID + "', '" + tour.Name + "', '" + tour.Date + "', '" + tour.Surface + "')");
+        }
     }
 }
