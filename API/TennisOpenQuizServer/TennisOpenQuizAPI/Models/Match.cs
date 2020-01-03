@@ -9,12 +9,11 @@ namespace TennisOpenQuizAPI.Models
     {
         public Guid MatchID { get; set; }
 
-        public Tournament Tour { get; set; }
+        public Guid TournamentID { get; set; }
 
-        public Player Player1 { get; set; }
+        public Guid Player1ID { get; set; }
 
-        public Player Player2 { get; set; }
+        public Guid Player2ID { get; set; }
 
-        public Statistic Stats { get; set; }
     }
 }

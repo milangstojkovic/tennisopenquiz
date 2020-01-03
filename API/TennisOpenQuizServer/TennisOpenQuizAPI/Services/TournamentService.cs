@@ -28,7 +28,7 @@ namespace TennisOpenQuizAPI.Services
             return tournamentsList;
         }
 
-        public static Tournament GetTournament(string tournamentID)
+        public static Tournament GetTournament(Guid tournamentID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)

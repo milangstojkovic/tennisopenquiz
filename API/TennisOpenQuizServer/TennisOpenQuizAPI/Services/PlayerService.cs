@@ -29,7 +29,7 @@ namespace TennisOpenQuizAPI.Services
             }
             return playersList;
         }
-        public static Player GetPlayer(string playerID)
+        public static Player GetPlayer(Guid playerID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)

@@ -8,10 +8,14 @@ namespace TennisOpenQuizAPI.Models
     public class BreakPt
     {
 
-        public Guid BreakPtID { get; set; }
+        public Guid MatchID { get; set; }
 
-        public int BreakPtAtt { get; set; }
+        public int Player1BreakPtAtt { get; set; }
 
-        public int BreakPtWon { get; set; }
+        public int Player1BreakPtWon { get; set; }
+
+        public int Player2BreakPtAtt { get; set; }
+
+        public int Player2BreakPtWon { get; set; }
     }
 }

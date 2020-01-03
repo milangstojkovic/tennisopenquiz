@@ -32,7 +32,7 @@ namespace TennisOpenQuizAPI.Services
             return usersList;
         }
 
-        public User GetUser(string userID)
+        public User GetUser(Guid userID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)

@@ -8,9 +8,9 @@ namespace TennisOpenQuizAPI.Models
     public class Statistic
     {
 
-        public Guid StatisticID { get; set; }
+        public List<Set> Result { get; set; }
 
-        public Result Result { get; set; }
+        public Guid MatchID { get; set; }
 
         public int Player1Aces { get; set; }
 
@@ -24,13 +24,9 @@ namespace TennisOpenQuizAPI.Models
 
         public int Player2UnforcedErrors { get; set; }
 
-        public Winner Player1Winners { get; set; }
+        public Winner Winners { get; set; }
 
-        public Winner Player2Winners { get; set; }
-
-        public BreakPt Player1BreakPts { get; set; }
-
-        public BreakPt Player2BreakPts { get; set; }
+        public BreakPt BreakPts { get; set; }
 
         public int Player1TotalPoints { get; set; }
 
