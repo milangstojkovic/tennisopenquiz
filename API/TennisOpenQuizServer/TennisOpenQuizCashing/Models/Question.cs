@@ -12,7 +12,8 @@ namespace TennisOpenQuizCashing.Models
 
         }
 
-        public string QuestionContent { get; set; }
+        public string QuestionText { get; set; }
         public List<Answer> Answers { get; set; }
+        public bool Active { get; set; }
     }
 }
