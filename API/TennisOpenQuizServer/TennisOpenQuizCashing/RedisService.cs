@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
+using TennisOpenQuizCashing.Models;
 
 namespace TennisOpenQuizCashing
 {
@@ -30,6 +32,18 @@ namespace TennisOpenQuizCashing
             }
             Log.Debug("Connected to Redis");
         }
+        public Tournament Function()
+        {
+            var configString = $"{_redisHost}:{_redisPort},connectRetry=5";
+            _redis = ConnectionMultiplexer.Connect(configString);
+
+            var db = _redis.GetDatabase();
+            Tournament tour = new Tournament("1", "Proba", new DateTime(2019), "sljaka");
+            db.StringSet("primer", JsonConvert.SerializeObject(tour));
+            Tournament tourFromCache = JsonConvert.DeserializeObject<Tournament>(db.StringGet("primer"));
+
+            return tourFromCache;
+        } 
         public async Task<bool> Set(string key, string value)
         {
             var db = _redis.GetDatabase();
