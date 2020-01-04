@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using TennisOpenQuizCashing.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,9 +19,9 @@ namespace TennisOpenQuizCashing.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Tournament Get()
         {
-            return new string[] { "value1", "value2" };
+            return _redisService.Function();
         }
 
         // GET api/<controller>/5
