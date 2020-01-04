@@ -13,7 +13,5 @@ namespace TennisOpenQuizAPI.Models
         public string Password { get; set; }
 
         public int Score { get; set; }
-
-        public List<int> ScoreHistory { get; set; }
     }
 }
