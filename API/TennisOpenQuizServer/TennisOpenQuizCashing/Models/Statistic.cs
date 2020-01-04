@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TennisOpenQuizCashing.Models
 {
@@ -9,7 +6,7 @@ namespace TennisOpenQuizCashing.Models
     {
 
         public List<Set> Result { get; set; }
-
+        public Game Games { get; set; }
         public string MatchID { get; set; }
 
         public int Player1Aces { get; set; }

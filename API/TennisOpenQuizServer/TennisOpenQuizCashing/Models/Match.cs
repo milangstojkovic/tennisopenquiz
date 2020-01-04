@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TennisOpenQuizCashing.Models
+﻿namespace TennisOpenQuizCashing.Models
 {
     public class Match
     {
@@ -14,6 +9,7 @@ namespace TennisOpenQuizCashing.Models
         public string PlayerNameA { get; set; }
 
         public string PlayerNameB { get; set; }
+        public bool Live { get; set; }
 
     }
 }
