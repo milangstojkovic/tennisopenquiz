@@ -49,7 +49,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet tourData = session.Execute("insert into tournament (tournamentid, name, date, surface)  values ('" + tour.TournamentID + "', '" + tour.Name + "', '" + tour.Date + "', '" + tour.Surface + "')");
+            RowSet tourData = session.Execute("insert into tournament (tournamentid, name, date, surface)  values (uuid(), '" + tour.Name + "', '" + tour.Date + "', '" + tour.Surface + "')");
         }
     }
 }

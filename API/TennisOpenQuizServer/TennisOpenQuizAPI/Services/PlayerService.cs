@@ -52,7 +52,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet userData = session.Execute("insert into player (playerid, name, surname, ranking, score, birthdate)  values ('" + player.PlayerID + "', '" + player.Name + "', '" + player.Surname + "', '" + player.Ranking + "', '" + player.Score + "', '" + player.BirthDate + "')");
+            RowSet userData = session.Execute("insert into player (playerid, name, surname, ranking, score, birthdate)  values (uuid(), '" + player.Name + "', '" + player.Surname + "', '" + player.Ranking + "', '" + player.Score + "', '" + player.BirthDate + "')");
         }
     }
 }

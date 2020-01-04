@@ -51,7 +51,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet matchData = session.Execute("insert into match (matchid, tournamentid, player1id, player2id, date)  values ('" + match.MatchID + "', '" + match.TournamentID + "', '" + match.Player1ID + "', '" + match.Player2ID + "', '" + match.Date + "')");
+            RowSet matchData = session.Execute("insert into match (matchid, tournamentid, player1id, player2id, date)  values (uuid(), '" + match.TournamentID + "', '" + match.Player1ID + "', '" + match.Player2ID + "', '" + match.Date + "')");
         }
     }
 }
