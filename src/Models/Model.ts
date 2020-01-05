@@ -74,3 +74,24 @@ export interface Game {
     player1Points: number;
     player2Points: number;
 }
+
+export interface Question {
+    id: string;
+    text: string;
+    active: boolean;
+    answers: [Answer];
+}
+
+export interface Answer {
+    id: string;
+    questionId: string;
+    text: string;
+    isCorrect: boolean;
+    points: number;
+}
+
+export interface QuesAns {
+    questionId: string;
+    answerId: string;
+    userId: string;
+}

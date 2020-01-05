@@ -54,7 +54,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet userData = session.Execute("insert into user (userid, username, email, password, score)  values ('" + user.UserID + "', '" + user.Username + "', '" + user.Email + "', '" + user.Password + "', '0')");
+            RowSet userData = session.Execute("insert into user (userid, username, email, password, score)  values (uuid(), '" + user.Username + "', '" + user.Email + "', '" + user.Password + "', '0')");
         }
     }
 }
