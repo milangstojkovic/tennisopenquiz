@@ -20,7 +20,7 @@ export const getPlayerByIdService = (id: String): Promise<Player>=>
         throw err
     })
 
-export const createUserService = (player: Player): any => 
+export const createPlayerService = (player: Player): any => 
     axios.post<any>(
         `${baseUrl}/player`, player
     )
