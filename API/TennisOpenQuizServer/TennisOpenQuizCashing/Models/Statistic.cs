@@ -1,4 +1,6 @@
-﻿namespace TennisOpenQuizCashing.Models
+﻿using System.Collections.Generic;
+
+namespace TennisOpenQuizCashing.Models
 {
     public class Statistic
     {

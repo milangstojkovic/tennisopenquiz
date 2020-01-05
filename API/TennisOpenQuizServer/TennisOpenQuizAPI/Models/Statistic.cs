@@ -1,4 +1,6 @@
-﻿namespace TennisOpenQuizAPI.Models
+﻿using System.Collections.Generic;
+
+namespace TennisOpenQuizAPI.Models
 {
     public class Statistic
     {

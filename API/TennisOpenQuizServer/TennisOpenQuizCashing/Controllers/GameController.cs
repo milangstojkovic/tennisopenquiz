@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using TennisOpenQuizCashing.Models;
 using TennisOpenQuizCashing.RedisServices;
@@ -36,7 +33,7 @@ namespace TennisOpenQuizCashing.Controllers
         [HttpPost]
         public void Post([FromBody]Game value, string key)
         {
-            _gameService.AddGame(value, keyS);
+            _gameService.AddGame(value, key);
         }
 
         // PUT api/<controller>/5

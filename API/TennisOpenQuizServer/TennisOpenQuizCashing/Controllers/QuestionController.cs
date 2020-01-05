@@ -17,9 +17,10 @@ namespace TennisOpenQuizCashing.Controllers
         }
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Question Get()
         {
-            return new string[] { "value1", "value2" };
+            _questionService.AddFakeQuestion(null, "pitam");
+            return _questionService.GetFakeQuestion("pitam");
         }
 
         // GET api/<controller>/5
@@ -33,7 +34,7 @@ namespace TennisOpenQuizCashing.Controllers
         [HttpPost]
         public void Post([FromBody]Question value, string key)
         {
-            _questionService.AddQuestion(value, key)
+            _questionService.AddQuestion(value, key);
         }
 
         // PUT api/<controller>/5
