@@ -7,7 +7,7 @@ namespace TennisOpenQuizAPI.Services
 {
     public class SetService
     {
-        public static List<Set> GetSets(string matchID)
+        public List<Set> GetSets(string matchID)
         {
             ISession session = SessionManager.GetSession();
             List<Set> setsList = new List<Set>();
@@ -26,7 +26,7 @@ namespace TennisOpenQuizAPI.Services
             return setsList;
         }
 
-        public static void AddSet(Set set)
+        public void AddSet(Set set)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
