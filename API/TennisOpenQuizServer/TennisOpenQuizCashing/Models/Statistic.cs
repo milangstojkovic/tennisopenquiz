@@ -5,8 +5,6 @@ namespace TennisOpenQuizCashing.Models
     public class Statistic
     {
 
-        public List<Set> Result { get; set; }
-        public Game Games { get; set; }
         public string MatchID { get; set; }
 
         public int Player1Aces { get; set; }
@@ -20,10 +18,6 @@ namespace TennisOpenQuizCashing.Models
         public int Player1UnforcedErrors { get; set; }
 
         public int Player2UnforcedErrors { get; set; }
-
-        public Winner Winners { get; set; }
-
-        public BreakPt BreakPts { get; set; }
 
         public int Player1TotalPoints { get; set; }
 
