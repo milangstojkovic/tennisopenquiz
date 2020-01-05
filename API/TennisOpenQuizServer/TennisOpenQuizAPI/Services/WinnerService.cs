@@ -7,7 +7,7 @@ namespace TennisOpenQuizAPI.Services
 {
     public class WinnerService
     {
-        public static Winner GetWinner(string matchID)
+        public Winner GetWinner(string matchID)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
@@ -27,7 +27,7 @@ namespace TennisOpenQuizAPI.Services
             return winner;
         }
 
-        public static void AddWinner(Winner winner)
+        public void AddWinner(Winner winner)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)

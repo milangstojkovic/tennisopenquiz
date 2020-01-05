@@ -24,11 +24,8 @@ namespace TennisOpenQuizAPI.Services
                 statistic.Player2DoubleFaults = statisticData["player2doublefaults"] != null ? Int32.Parse(statisticData["player2doublefaults"].ToString()) : 0;
                 statistic.Player1UnforcedErrors = statisticData["player1unforcederrors"] != null ? Int32.Parse(statisticData["player1unforcederrors"].ToString()) : 0;
                 statistic.Player2UnforcedErrors = statisticData["player2unforcederrors"] != null ? Int32.Parse(statisticData["player2unforcederrors"].ToString()) : 0;
-                statistic.Winners = WinnerService.GetWinner(matchID);
-                statistic.BreakPts = BreakPtService.GetBreakPt(matchID);
                 statistic.Player1TotalPoints = statisticData["player1totalpoints"] != null ? Int32.Parse(statisticData["player1totalpoints"].ToString()) : 0;
                 statistic.Player2TotalPoints = statisticData["player2totalpoints"] != null ? Int32.Parse(statisticData["player2totalpoints"].ToString()) : 0;
-                statistic.Result = SetService.GetSets(matchID);
             }
             return statistic;
         }
@@ -39,10 +36,6 @@ namespace TennisOpenQuizAPI.Services
             if (session == null)
                 return;
             RowSet statisticData = session.Execute("insert into statistic (matchid, player1aces, player2aces, player1doublefaults, player2doublefaults, player1unforcederrors, player2unforcederrors, player1totalpoints, player2totalpoints)  values (uuid(), '" + statistic.Player1Aces + "', '" + statistic.Player2Aces + "', '" + statistic.Player1DoubleFaults + "', '" + statistic.Player2DoubleFaults + "', '" + statistic.Player1UnforcedErrors + "', '" + statistic.Player2UnforcedErrors + "', '" + statistic.Player1TotalPoints + "', '" + statistic.Player2TotalPoints + "' )");
-            foreach (Set s in statistic.Result)
-                SetService.AddSet(s);
-            WinnerService.AddWinner(statistic.Winners);
-            BreakPtService.AddBreakPt(statistic.BreakPts);
         }
     }
 }
