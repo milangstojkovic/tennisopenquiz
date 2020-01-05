@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace TennisOpenQuizCashing.Models
 {
@@ -7,6 +7,12 @@ namespace TennisOpenQuizCashing.Models
         public Question()
         {
 
+        }
+        public Question(string questionText)
+        {
+            QuestionId = new Guid().ToString();
+            QuestionText = questionText;
+            Active = true;
         }
         public string QuestionId { get; set; }
         public string QuestionText { get; set; }

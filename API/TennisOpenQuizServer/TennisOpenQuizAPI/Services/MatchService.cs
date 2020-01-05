@@ -14,7 +14,7 @@ namespace TennisOpenQuizAPI.Services
             List<Match> matchesList = new List<Match>();
             if (session == null)
                 return null;
-            var matchesData = session.Execute("select * from \"Match\"");
+            var matchesData = session.Execute("select * from match");
             foreach (var matchData in matchesData)
             {
                 Match match = new Match();
