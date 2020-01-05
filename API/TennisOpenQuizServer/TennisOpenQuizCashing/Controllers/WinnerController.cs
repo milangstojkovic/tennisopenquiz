@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TennisOpenQuizCashing.Models;
 using TennisOpenQuizCashing.RedisServices;
@@ -8,12 +11,12 @@ using TennisOpenQuizCashing.RedisServices;
 namespace TennisOpenQuizCashing.Controllers
 {
     [Route("api/[controller]")]
-    public class QuestionController : Controller
+    public class WinnerController : Controller
     {
-        private readonly QuestionService _questionService;
-        public QuestionController(QuestionService questionService)
+        private readonly WinnerService _winnerService;
+        public WinnerController(WinnerService winnerService)
         {
-            _questionService = questionService;
+            _winnerService = winnerService;
         }
         // GET: api/<controller>
         [HttpGet]
@@ -24,16 +27,16 @@ namespace TennisOpenQuizCashing.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Question Get(string id)
+        public Winner Get(string id)
         {
-            return _questionService.GetQuestion(id);
+            return _winnerService.GetWinner(id);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]Question value, string key)
+        public void Post([FromBody]Winner value, string key)
         {
-            _questionService.AddQuestion(value, key)
+            _winnerService.AddWinner(value, key);
         }
 
         // PUT api/<controller>/5
