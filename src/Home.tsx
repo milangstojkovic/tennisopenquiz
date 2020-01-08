@@ -5,7 +5,7 @@ import {Nav} from 'react-bootstrap';
 import Register from './Components/register.component';
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 
-function App() {
+function Home() {
   return (
     <div className="App">
       
@@ -30,4 +30,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
