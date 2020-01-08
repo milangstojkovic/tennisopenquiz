@@ -3,7 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Components/HomeComponent/home";
 import { Nav } from "react-bootstrap";
-import Register from "./Components/register.component";
+import Register from "./Components/RegisterComponent/register";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import Login from "./Components/LoginComponent/login";
 export type Props = {};
@@ -32,6 +32,7 @@ class App extends Component<Props, IState> {
             Click me
           </button>
         </div>
+        <Register />
       </div>
     );
   }
