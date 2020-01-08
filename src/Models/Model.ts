@@ -6,6 +6,7 @@ export interface User {
     score: number;
 }
 
+
 export interface Player {
     id: string;
     name: string;
