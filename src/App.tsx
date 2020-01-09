@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Components/HomeComponent/home";
-import { Nav } from "react-bootstrap";
 import Register from "./Components/RegisterComponent/register";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import Login from "./Components/LoginComponent/login";
 export type Props = {};
 interface IState {

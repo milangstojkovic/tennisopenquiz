@@ -20,7 +20,7 @@ namespace TennisOpenQuizAPI.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "GetSet")]
+        [HttpGet("{id}", Name = "set")]
         public List<Set> Get(string id)
         {
             return setService.GetSets(id);

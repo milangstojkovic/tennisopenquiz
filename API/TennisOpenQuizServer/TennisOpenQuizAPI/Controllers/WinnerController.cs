@@ -20,7 +20,7 @@ namespace TennisOpenQuizAPI.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "GetWinner")]
+        [HttpGet("{id}", Name = "winner")]
         public Winner Get(string id)
         {
             return winnerService.GetWinner(id);

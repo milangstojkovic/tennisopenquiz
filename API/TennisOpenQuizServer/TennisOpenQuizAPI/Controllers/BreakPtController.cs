@@ -20,7 +20,7 @@ namespace TennisOpenQuizAPI.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "GetBreakPt")]
+        [HttpGet("{id}", Name = "breakpt")]
         public BreakPt Get(string id)
         {
             return breakPtService.GetBreakPt(id);

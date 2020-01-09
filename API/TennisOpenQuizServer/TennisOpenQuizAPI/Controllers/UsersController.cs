@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TennisOpenQuizAPI.Models;
 using TennisOpenQuizAPI.Services;
 
@@ -22,7 +23,7 @@ namespace TennisOpenQuizAPI.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "GetUser")]
+        [HttpGet("{id}", Name = "user")]
         public User Get(string id)
         {
             return userService.GetUser(id);

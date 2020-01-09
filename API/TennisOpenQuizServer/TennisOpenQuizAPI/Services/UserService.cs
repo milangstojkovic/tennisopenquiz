@@ -1,4 +1,5 @@
 ﻿using Cassandra;
+using Microsoft.AspNetCore.Cors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace TennisOpenQuizAPI.Services
             List<User> usersList = new List<User>();
             if (session == null)
                 return null;
-            var UsersData = session.Execute("select * from \"User\"");
+            var UsersData = session.Execute("select * from \"user\"");
             foreach (var UserData in UsersData)
             {
                 User user = new User();
@@ -54,7 +55,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet userData = session.Execute("insert into user (userid, username, email, password, score)  values (uuid(), '" + user.Username + "', '" + user.Email + "', '" + user.Password + "', '0')");
+            RowSet userData = session.Execute("insert into \"user\" (userid, username, email, password, score)  values (uuid(), '" + user.Username + "', '" + user.Email + "', '" + user.Password + "', 0)");
         }
     }
 }

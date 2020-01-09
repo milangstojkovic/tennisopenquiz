@@ -1,6 +1,6 @@
 import {Player} from "../Models/Model";
 import axios from 'axios';
-const baseUrl = 'http://localhost:9160/api';
+const baseUrl = 'https://localhost:9160/api';
 
 export const getPlayersService = (): Promise<Player[]> => 
     axios.get<Player[]>(

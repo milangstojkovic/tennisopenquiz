@@ -1,10 +1,10 @@
 import {User} from "../Models/Model";
 import axios from 'axios';
-const baseUrl = 'http://localhost:9160/api';
+const baseUrl = 'https://localhost:5001/api';
 
 export const getUsersService = (): Promise<User[]> => 
     axios.get<User[]>(
-        `${baseUrl}/user`
+        `${baseUrl}/users`
     )
     .then(response => response.data)
     .catch(err => {
@@ -13,7 +13,7 @@ export const getUsersService = (): Promise<User[]> =>
 
 export const getUserByIdService = (id: String): Promise<User>=>
     axios.get<User>(
-        `${baseUrl}/user/${id}`
+        `${baseUrl}/users/${id}`
     )
     .then(response=>response.data)
     .catch(err => {
@@ -21,9 +21,9 @@ export const getUserByIdService = (id: String): Promise<User>=>
     })
 
 export const createUserService = (user: User): any => 
-    axios.post<any>(
-        `${baseUrl}/user`, user
-    )
+    axios.post(
+        `${baseUrl}/users`, user
+    ).then((res)=>{console.log(res)})
     .catch (err=>{
         throw err
     })

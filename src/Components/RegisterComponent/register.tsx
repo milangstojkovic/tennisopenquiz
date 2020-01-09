@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { User } from "../../Models/Model";
-import { userInfo } from "os";
-import {createUserService} from '../../CassandraServices/user.service';
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
+import {createUserService, getUsersService} from '../../CassandraServices/user.service';
 interface Props {}
 interface IState {
   email: string;
@@ -68,6 +66,7 @@ class Register extends Component<Props, IState> {
     this.setState({ username: e.target.value });
   }
   buttonRegisterClicked(e: any): void {
+      e.preventDefault();
     let user = {
       email: this.state.email,
       password: this.state.password,
