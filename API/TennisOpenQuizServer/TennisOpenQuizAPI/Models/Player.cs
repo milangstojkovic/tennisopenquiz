@@ -4,8 +4,6 @@ namespace TennisOpenQuizAPI.Models
 {
     public class Player
     {
-        public string PlayerID { get; set; }
-
         public string Name { get; set; }
 
         public string Surname { get; set; }

@@ -5,6 +5,7 @@ import Home from "./Components/HomeComponent/home";
 import Register from "./Components/RegisterComponent/register";
 import Login from "./Components/LoginComponent/login";
 import Quest from "./Components/QuestComponent/quest";
+import AdminTournament from "./Components/AdminComponent/adminTournament";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -32,6 +33,7 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
+        <AdminTournament/>
         <Quest />
       </div>
     );

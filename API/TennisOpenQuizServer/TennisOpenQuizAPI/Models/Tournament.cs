@@ -4,8 +4,6 @@ namespace TennisOpenQuizAPI.Models
 {
     public class Tournament
     {
-        public string TournamentID { get; set; }
-
         public string Name { get; set; }
 
         public DateTime Date { get; set; }

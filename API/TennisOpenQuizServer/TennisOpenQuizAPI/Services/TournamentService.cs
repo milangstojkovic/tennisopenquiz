@@ -18,7 +18,6 @@ namespace TennisOpenQuizAPI.Services
             foreach (var tournamentData in tournamentsData)
             {
                 Tournament tournament = new Tournament();
-                tournament.TournamentID = tournamentData["tournamentid"] != null ? tournamentData["tournamentid"].ToString() : String.Empty;
                 tournament.Name = tournamentData["name"] != null ? tournamentData["name"].ToString() : string.Empty;
                 tournament.Date = tournamentData["date"] != null ? DateTime.Parse(tournamentData["date"].ToString()) : DateTime.MinValue;
                 tournament.Surface = tournamentData["surface"] != null ? tournamentData["surface"].ToString() : string.Empty;
@@ -27,16 +26,15 @@ namespace TennisOpenQuizAPI.Services
             return tournamentsList;
         }
 
-        public Tournament GetTournament(string tournamentID)
+        public Tournament GetTournament(string tournamentName)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var TournamentData = session.Execute("select * from tournament where tournamentid='" + tournamentID + "' ALLOW FILTERING").FirstOrDefault();
+            var TournamentData = session.Execute("select * from tournament where name='" + tournamentName + "' ALLOW FILTERING").FirstOrDefault();
             Tournament tour = new Tournament();
             if (TournamentData != null)
             {
-                tour.TournamentID = TournamentData["tournamentid"] != null ? TournamentData["tournamentid"].ToString() : String.Empty;
                 tour.Name = TournamentData["name"] != null ? TournamentData["name"].ToString() : string.Empty;
                 tour.Date = TournamentData["date"] != null ? DateTime.Parse(TournamentData["date"].ToString()) : DateTime.MinValue;
                 tour.Surface = TournamentData["surface"] != null ? TournamentData["surface"].ToString() : string.Empty;
@@ -49,7 +47,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet tourData = session.Execute("insert into tournament (tournamentid, name, date, surface)  values (uuid(), '" + tour.Name + "', '" + tour.Date + "', '" + tour.Surface + "')");
+            RowSet tourData = session.Execute("insert into tournament (name, date, surface)  values ('" + tour.Name + "', '" + tour.Date + "', '" + tour.Surface + "')");
         }
     }
 }

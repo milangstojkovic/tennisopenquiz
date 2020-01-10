@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Tournament } from "../../Models/Model";
-import {createTournamentService, getTournamentsService} from "../../CassandraServices/tournament.service";
+import { Player } from "../../Models/Model";
+import {createPlayerService, getPlayersService} from "../../CassandraServices/player.service";
 
 interface Props {}
 interface IState {
@@ -10,7 +10,7 @@ interface IState {
   i:Number;
 }
 const emptyString = "";
-class AdminTournament extends Component<Props, IState> {
+class AdminPlayer extends Component<Props, IState> {
     names!: string[];
   constructor(props: Props) {
     super(props);
@@ -28,8 +28,15 @@ class AdminTournament extends Component<Props, IState> {
         <input
           type="string"
           value={this.state.name}
-          placeholder="Add name of tournament"
+          placeholder="Name"
           onChange={e => this.handleChangeTournamentName(e)}
+          className="input-name"
+        ></input>
+        <input
+          type="string"
+          value={this.state.surname}
+          placeholder="Surname"
+          onChange={e => this.handleSurname(e)}
           className="input-name"
         ></input>
         <label>Date:</label>
@@ -94,4 +101,4 @@ class AdminTournament extends Component<Props, IState> {
     createTournamentService(tournament as Tournament)
   }
 }
-export default AdminTournament;
+export default AdminPlayer;

@@ -13,22 +13,21 @@ export interface Player {
     surname: string;
     score: number;
     ranking: number;
-    birthDate: Date;
+    birthDate: string;
 }
 
 export interface Tournament {
-    id: string;
     name: string;
-    date: Date;
+    date: string;
     surface: string;
 }
 
 export interface Match {
     id: string;
     tournamentId: string;
-    player1Id: string;
-    player2Id: string;
-    date: Date;
+    player1: string;
+    player2: string;
+    date: string;
     quizable: boolean;
 }
 
