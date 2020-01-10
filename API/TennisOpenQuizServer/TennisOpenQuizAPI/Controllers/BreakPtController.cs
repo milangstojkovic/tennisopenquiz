@@ -14,6 +14,7 @@ namespace TennisOpenQuizAPI.Controllers
     public class BreakPtController : ControllerBase
     {
         private readonly BreakPtService breakPtService;
+
         public BreakPtController()
         {
             breakPtService = new BreakPtService();
