@@ -34,7 +34,7 @@ namespace TennisOpenQuizCashing.Controllers
         [HttpPost]
         public void Post([FromBody]Question value, string key)
         {
-            _questionService.AddQuestion(value, key);
+            _questionService.AddQuestion(value, value.QuestionId);
         }
 
         // PUT api/<controller>/5

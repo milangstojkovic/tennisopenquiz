@@ -22,7 +22,12 @@ export const getUserByIdService = (id: String): Promise<User>=>
 
 export const createUserService = (user: User): any => 
     axios.post<any>(
-        `${baseUrl}/user`, user
+        `${baseUrl}/user`, user,{
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
     )
     .catch (err=>{
         throw err

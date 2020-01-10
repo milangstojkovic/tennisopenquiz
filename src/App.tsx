@@ -6,6 +6,7 @@ import { Nav } from "react-bootstrap";
 import Register from "./Components/RegisterComponent/register";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import Login from "./Components/LoginComponent/login";
+import Quest from "./Components/QuestComponent/quest";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -23,7 +24,7 @@ class App extends Component<Props, IState> {
   render() {
     return (
       <div>
-        <div>
+        {/* <div>
           {this.state.nmbr > 3 ? <Login /> : <Home />}
           <button
             onClick={ev => this.clickedButtonCancel(ev)}
@@ -32,7 +33,8 @@ class App extends Component<Props, IState> {
             Click me
           </button>
         </div>
-        <Register />
+        <Register /> */}
+        <Quest />
       </div>
     );
   }
