@@ -12,7 +12,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var breakPtData = session.Execute("select * from breakpt where matchid = '" + matchID + "'").FirstOrDefault();
+            var breakPtData = session.Execute("select * from breakpt where matchid = '" + matchID + "' ALLOW FILTERING").FirstOrDefault();
             BreakPt breakPt = new BreakPt();
             if (breakPtData != null)
             {

@@ -13,7 +13,7 @@ namespace TennisOpenQuizAPI.Services
             List<Set> setsList = new List<Set>();
             if (session == null)
                 return null;
-            var SetsData = session.Execute("select * from set where matchid ='" + matchID + "'");
+            var SetsData = session.Execute("select * from set where matchid ='" + matchID + "' ALLOW FILTERING");
             foreach (var SetData in SetsData)
             {
                 Set set = new Set();

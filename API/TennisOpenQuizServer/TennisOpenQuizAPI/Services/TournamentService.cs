@@ -32,7 +32,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var TournamentData = session.Execute("select * from tournament where tournamentid='" + tournamentID + "'").FirstOrDefault();
+            var TournamentData = session.Execute("select * from tournament where tournamentid='" + tournamentID + "' ALLOW FILTERING").FirstOrDefault();
             Tournament tour = new Tournament();
             if (TournamentData != null)
             {

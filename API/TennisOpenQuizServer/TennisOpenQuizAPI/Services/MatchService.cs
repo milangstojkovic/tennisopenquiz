@@ -33,7 +33,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var matchData = session.Execute("select * from match where matchid='" + matchID + "'").FirstOrDefault();
+            var matchData = session.Execute("select * from match where matchid='" + matchID + "' ALLOW FILTERING").FirstOrDefault();
             Match match = new Match();
             if (matchData != null)
             {

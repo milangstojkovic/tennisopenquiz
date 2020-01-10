@@ -32,12 +32,12 @@ namespace TennisOpenQuizAPI.Services
             return usersList;
         }
 
-        public User GetUser(string userID)
+        public User GetUser(string username)
         {
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var UserData = session.Execute("select * from user where userid='" + userID + "'").FirstOrDefault();
+            var UserData = session.Execute("select * from user where username='" + username + "' ALLOW FILTERING").FirstOrDefault();
             User user = new User();
             if (UserData != null)
             {

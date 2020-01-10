@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { User } from "../../Models/Model";
-import {createUserService, getUsersService} from '../../CassandraServices/user.service';
+import {createUserService, getUserByNameService, getUsersService} from '../../CassandraServices/user.service';
 interface Props {}
 interface IState {
   email: string;
@@ -46,6 +46,7 @@ class Register extends Component<Props, IState> {
         ></input>
         <div className="buttons-login-register">
           <button
+            id="btnReg"
             className="button-register"
             onClick={e => this.buttonRegisterClicked(e)}
           >
@@ -59,21 +60,45 @@ class Register extends Component<Props, IState> {
   handleChangePassword(e: any): void {
     this.setState({ password: e.target.value });
   }
-  handleChangeEmail(e: any): void {
+  async handleChangeEmail(e: any): Promise<void> {
+    var target=e.target;
+    let emails:User[]=[target as User];
     this.setState({ email: e.target.value });
+    await getUsersService().then(res=>{
+    emails=res.filter(elemet=>elemet.email===target.value)})
+    if(emails.length>0) {
+      target.style.backgroundColor='red';
+      (document.getElementById("btnReg") as HTMLInputElement).disabled=true;
+    }
+    else {
+      target.style.backgroundColor='white';
+      (document.getElementById("btnReg") as HTMLInputElement).disabled=false;
+    }
   }
-  handleChangeUsername(e: any): void {
-    this.setState({ username: e.target.value });
+  async handleChangeUsername(e: any): Promise<void> {
+    let user;
+    var target=e.target;
+    this.setState({ username: target.value });
+    await getUserByNameService(target.value).then(res=>{user=res.username;});
+    if(user==null) {
+      target.style.backgroundColor='white';
+      (document.getElementById("btnReg") as HTMLInputElement).disabled=false;
+    }
+    else {
+      target.style.backgroundColor='red';
+      (document.getElementById("btnReg") as HTMLInputElement).disabled=true;
+    }
   }
   buttonRegisterClicked(e: any): void {
       e.preventDefault();
     let user = {
       email: this.state.email,
       password: this.state.password,
-      username: this.state.username,
-      score: 0
+      username: this.state.username
     };
-    createUserService(user as User);
+    if(!getUserByNameService(user.username)) {
+      createUserService(user as User);
     }
+  }
 }
 export default Register;

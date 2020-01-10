@@ -12,7 +12,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var statisticData = session.Execute("select * from \"Statistic\" where \"MatchID\" = '" + matchID + "'").FirstOrDefault();
+            var statisticData = session.Execute("select * from \"Statistic\" where \"MatchID\" = '" + matchID + "' ALLOW FILTERING").FirstOrDefault();
 
             Statistic statistic = new Statistic();
             if (statisticData != null)

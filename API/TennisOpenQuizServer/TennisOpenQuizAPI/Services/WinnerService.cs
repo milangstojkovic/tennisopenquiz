@@ -12,7 +12,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var winnerData = session.Execute("select * from winner where matchid = '" + matchID + "'").FirstOrDefault();
+            var winnerData = session.Execute("select * from winner where matchid = '" + matchID + "' ALLOW FILTERING").FirstOrDefault();
             Winner winner = new Winner();
             if (winnerData != null)
             {

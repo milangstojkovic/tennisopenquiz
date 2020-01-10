@@ -11,16 +11,16 @@ export const getUsersService = (): Promise<User[]> =>
         throw err
     })
 
-export const getUserByIdService = (id: String): Promise<User>=>
-    axios.get<User>(
-        `${baseUrl}/users/${id}`
+export const getUserByNameService = (name: String): Promise<User>=>
+     axios.get<User>(
+        `${baseUrl}/users/${name}`
     )
     .then(response=>response.data)
     .catch(err => {
         throw err
     })
 
-export const createUserService = (user: User): any => 
+export const createUserService = (user: User): any =>
     axios.post(
         `${baseUrl}/users`, user
     ).then((res)=>{console.log(res)})
