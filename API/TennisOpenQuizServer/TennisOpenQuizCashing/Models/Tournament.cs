@@ -6,10 +6,10 @@ namespace TennisOpenQuizCashing.Models
     {
         public Tournament(string tId, string Name, DateTime dt, string surface)
         {
-            this.TournamentID = tId;
+            TournamentID = tId;
             this.Name = Name;
-            this.Date = dt;
-            this.Surface = surface;
+            Date = dt;
+            Surface = surface;
         }
         public string TournamentID { get; set; }
 

@@ -30,6 +30,12 @@ namespace TennisOpenQuizCashing
             services.AddSingleton<WinnerService>();
             services.AddSingleton<ServiceRedis>();
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +53,7 @@ namespace TennisOpenQuizCashing
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("MyPolicy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

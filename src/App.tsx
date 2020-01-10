@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Components/HomeComponent/home";
 import Register from "./Components/RegisterComponent/register";
 import Login from "./Components/LoginComponent/login";
+import Quest from "./Components/QuestComponent/quest";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -21,7 +22,7 @@ class App extends Component<Props, IState> {
   render() {
     return (
       <div>
-        <div>
+        {/* <div>
           {this.state.nmbr > 3 ? <Login /> : <Home />}
           <button
             onClick={ev => this.clickedButtonCancel(ev)}
@@ -30,7 +31,8 @@ class App extends Component<Props, IState> {
             Click me
           </button>
         </div>
-        <Register />
+        <Register /> */}
+        <Quest />
       </div>
     );
   }

@@ -29,7 +29,7 @@ namespace TennisOpenQuizCashing.RedisServices
         {
             
             var db = _redis.GetDatabase();
-            Question question1 = new Question("Kako se zoves?");
+            Question question1 = new Question("Kako se zoves?", questionKey);
             db.StringSet("pitam", JsonConvert.SerializeObject(question1));
         }
         public Question GetQuestion(string questionKey)

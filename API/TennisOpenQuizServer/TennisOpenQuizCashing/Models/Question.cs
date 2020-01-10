@@ -11,7 +11,7 @@ namespace TennisOpenQuizCashing.Models
         }
         public Question(string questionText)
         {
-            QuestionId = Guid.NewGuid().ToString();
+            QuestionId =Guid.NewGuid().ToString();
             QuestionText = questionText;
             Active = true;
         }
