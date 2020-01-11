@@ -35,11 +35,12 @@ namespace TennisOpenQuizCashing.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]Answer value)
+        public Answer Post([FromBody]Answer value)
         {
             string answerKey = redisKeyGenerator.GenerateKey(value);
 
             answerService.AddAnswer(value, answerKey);
+            return value;
         }
 
         // PUT api/<controller>/5

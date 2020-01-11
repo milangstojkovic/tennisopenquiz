@@ -5,6 +5,8 @@ interface IState {
   name: string;
   date: string;
   surface: string;
+  password: string;
+  email: string;
 }
 const emptyString = "";
 class AdminTournament extends Component<Props, IState> {
@@ -13,7 +15,9 @@ class AdminTournament extends Component<Props, IState> {
     this.state = {
       name: emptyString,
       date: emptyString,
-      surface: emptyString
+      surface: emptyString,
+      password:emptyString,
+      email:emptyString
     };
   }
   render() {
@@ -55,6 +59,20 @@ class AdminTournament extends Component<Props, IState> {
         </div>
       </form>
     );
+  }
+  buttonRegisterClicked(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    throw new Error("Method not implemented.");
+  }
+  handleChangePassword(e: React.ChangeEvent<HTMLInputElement>): void {
+    throw new Error("Method not implemented.");
+  }
+  handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>): void {
+    throw new Error("Method not implemented.");
+  }
+  handleChangeTournament(e: React.ChangeEvent<HTMLInputElement>): void {
+    throw new Error("Method not implemented.");
   }
 }
 export default AdminTournament;

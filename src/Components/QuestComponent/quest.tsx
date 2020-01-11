@@ -10,7 +10,9 @@ const POST = "POST";
 const GET="GET";
 const PUT="PUT";
 const redisQuestionUR = "https://localhost:44379/api/question";
-
+var ID = function () {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  };
 class Quest extends Component<Props, IState> {
   constructor(props: Props) {
     super(props);
@@ -45,7 +47,6 @@ class Quest extends Component<Props, IState> {
     this.setState({ question: event.target.value });
   }
   
-  sendToRedis(questionText: string): void {}
   async addQuestion(question: string): Promise<any> {
     fetch(redisQuestionUR, {
       method: POST,
@@ -53,6 +54,7 @@ class Quest extends Component<Props, IState> {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        questionId:ID(),
         questionText: this.state.question})
     }).then(response => {
       console.log({}, { response });
