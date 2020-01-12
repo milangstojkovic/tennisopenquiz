@@ -19,10 +19,10 @@ namespace TennisOpenQuizAPI.Services
             {
                 Match match = new Match();
                 match.MatchID = matchData["matchid"] != null ? matchData["matchid"].ToString() : string.Empty;
-                match.TournamentName = matchData["tournamentname"] != null ? matchData["tournamentid"].ToString() : string.Empty;
+                match.TournamentName = matchData["tournamentname"] != null ? matchData["tournamentname"].ToString() : string.Empty;
                 match.Player1 = matchData["player1"] != null ? matchData["player1"].ToString() : string.Empty;
                 match.Player2 = matchData["player2"] != null ? matchData["player2"].ToString() : string.Empty;
-                match.Date = matchData["date"] != null ? DateTime.Parse(matchData["date"].ToString()) : DateTime.MinValue;
+                match.Date = matchData["date"] != null ? matchData["date"].ToString() : string.Empty;
                 matchesList.Add(match);
             }
             return matchesList;
@@ -41,7 +41,7 @@ namespace TennisOpenQuizAPI.Services
                 match.TournamentName = matchData["tournamentname"] != null ? matchData["tournamentname"].ToString() : string.Empty;
                 match.Player1 = matchData["player1"] != null ? matchData["player1"].ToString() : string.Empty;
                 match.Player2 = matchData["player2"] != null ? matchData["player2"].ToString() : string.Empty;
-                match.Date = matchData["date"] != null ? DateTime.Parse(matchData["date"].ToString()) : DateTime.MinValue;
+                match.Date = matchData["date"] != null ? matchData["date"].ToString() : string.Empty;
             }
             return match;
         }

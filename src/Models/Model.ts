@@ -8,12 +8,12 @@ export interface User {
 
 
 export interface Player {
-    id: string;
     name: string;
     surname: string;
     score: number;
     ranking: number;
-    birthDate: string;
+    country:string;
+    birthdate: string;
 }
 
 export interface Tournament {
@@ -24,7 +24,7 @@ export interface Tournament {
 
 export interface Match {
     id: string;
-    tournamentId: string;
+    tournamentName: string;
     player1: string;
     player2: string;
     date: string;

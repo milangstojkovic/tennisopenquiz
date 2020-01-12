@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./login.css";
 
-interface Props {}
+interface Props { }
 interface IState {
   email: string;
   password: string;

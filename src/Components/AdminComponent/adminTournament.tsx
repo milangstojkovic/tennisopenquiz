@@ -1,24 +1,24 @@
 import React, { Component } from "react";
 import { Tournament } from "../../Models/Model";
-import {createTournamentService, getTournamentsService} from "../../CassandraServices/tournament.service";
+import { createTournamentService, getTournamentsService } from "../../CassandraServices/tournament.service";
 
-interface Props {}
+interface Props { }
 interface IState {
   name: string;
   date: string;
   surface: string;
-  i:Number;
+  i: Number;
 }
 const emptyString = "";
 class AdminTournament extends Component<Props, IState> {
-    names!: string[];
+  names!: string[];
   constructor(props: Props) {
     super(props);
     this.state = {
       name: emptyString,
       date: emptyString,
-      surface: emptyString,
-      i:0
+      surface: "clay",
+      i: 0
     };
   }
   render() {
@@ -41,10 +41,10 @@ class AdminTournament extends Component<Props, IState> {
           className="input-date"
         ></input>
         <label>Surface:</label>
-        <select name="cars">
-            <option value="clay">Clay</option>
-            <option value="grass">Grass</option>
-            <option value="hard">Hard</option>
+        <select name="surface" id="surface">
+          <option value="clay">Clay</option>
+          <option value="grass">Grass</option>
+          <option value="hard">Hard</option>
         </select>
         <div className="buttonAdd">
           <button
@@ -59,38 +59,42 @@ class AdminTournament extends Component<Props, IState> {
     );
   }
   async handleChangeTournamentName(e: any): Promise<void> {
-    var target=e.target;
-    if (this.state.i==0) {
+    var target = e.target;
+    if (this.state.i === 0) {
       await this.getData();
-      this.setState({i:1});
+      this.setState({ i: 1 });
     }
-    let pomocni:string[]=this.names.filter(element=>element===target.value);
+    let pomocni: string[] = this.names.filter(element => element === target.value);
+    console.log(pomocni)
+    console.log(this.names);
     this.setState({ name: target.value });
-    if(pomocni.length>0) {
-      target.style.backgroundColor='red';
-      (document.getElementById("btnAdd") as HTMLInputElement).disabled=true;
+    if (pomocni.length > 0) {
+      target.style.backgroundColor = 'red';
+      (document.getElementById("btnAdd") as HTMLInputElement).disabled = true;
     }
     else {
-      target.style.backgroundColor='white';
-      (document.getElementById("btnAdd") as HTMLInputElement).disabled=false;
+      target.style.backgroundColor = 'white';
+      (document.getElementById("btnAdd") as HTMLInputElement).disabled = false;
     }
   }
 
-  handleChangeTournamentDate(e:any): void {
-      this.setState({date:e.target.value});
+  handleChangeTournamentDate(e: any): void {
+    this.setState({ date: e.target.value });
   }
 
   async getData() {
-    await getTournamentsService().then(res=>this.names=res.map(element=>element.name));
+    await getTournamentsService().then(res => this.names = res.map(element => element.name));
   }
 
-  buttonAddClicked(ev:any) : void {
+  buttonAddClicked(ev: any): void {
     ev.preventDefault();
     let tournament = {
-        name:this.state.name,
-        date:this.state.date,
-        surface:this.state.surface
+      name: this.state.name,
+      date: this.state.date,
+      surface: this.state.surface
     }
+    let select = document.getElementById("surface") as HTMLSelectElement;
+    tournament.surface = select.options[select.selectedIndex].value;
     createTournamentService(tournament as Tournament)
   }
 }

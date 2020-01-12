@@ -12,6 +12,8 @@ namespace TennisOpenQuizAPI.Models
 
         public int Score { get; set; }
 
+        public string Country { get; set; }
+
         public DateTime BirthDate { get; set; }
     }
 }

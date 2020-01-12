@@ -22,6 +22,7 @@ namespace TennisOpenQuizAPI.Services
                 player.Surname = playerData["surname"] != null ? playerData["surname"].ToString() : string.Empty;
                 player.Ranking = playerData["ranking"] != null ? Int32.Parse(playerData["ranking"].ToString()) : 0;
                 player.Score = playerData["score"] != null ? Int32.Parse(playerData["score"].ToString()) : 0;
+                player.Country = playerData["country"] != null ? playerData["country"].ToString() : string.Empty;
                 player.BirthDate = playerData["birthdate"] != null ? DateTime.Parse(playerData["birthdate"].ToString()) : DateTime.MinValue;
                 playersList.Add(player);
             }
@@ -40,6 +41,7 @@ namespace TennisOpenQuizAPI.Services
                 player.Surname = playerData["surname"] != null ? playerData["surname"].ToString() : string.Empty;
                 player.Ranking = playerData["ranking"] != null ? Int32.Parse(playerData["ranking"].ToString()) : 0;
                 player.Score = playerData["score"] != null ? Int32.Parse(playerData["score"].ToString()) : 0;
+                player.Country = playerData["country"] != null ? playerData["country"].ToString() : string.Empty;
                 player.BirthDate = playerData["birthdate"] != null ? DateTime.Parse(playerData["birthdate"].ToString()) : DateTime.MinValue;
             }
             return player;
@@ -50,7 +52,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet userData = session.Execute("insert into player (playerid, name, surname, ranking, score, birthdate)  values (uuid(), '" + player.Name + "', '" + player.Surname + "', '" + player.Ranking + "', '" + player.Score + "', '" + player.BirthDate + "')");
+            RowSet userData = session.Execute("insert into player (name, surname, ranking, score, country, birthdate)  values ('" + player.Name + "', '" + player.Surname + "', " + player.Ranking + ", " + player.Score + ", '"+player.Country+"', '" + player.BirthDate + "')");
         }
     }
 }

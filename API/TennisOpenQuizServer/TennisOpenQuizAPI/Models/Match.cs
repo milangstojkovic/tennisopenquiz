@@ -12,7 +12,7 @@ namespace TennisOpenQuizAPI.Models
 
         public string Player2 { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
     }
 }

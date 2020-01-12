@@ -23,7 +23,7 @@ export const getUserByNameService = (name: String): Promise<User>=>
 export const createUserService = (user: User): any =>
     axios.post(
         `${baseUrl}/users`, user
-    ).then((res)=>{console.log(res)})
+    )
     .catch (err=>{
         throw err
     })
