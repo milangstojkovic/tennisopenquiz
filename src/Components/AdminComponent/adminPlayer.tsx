@@ -30,74 +30,106 @@ class AdminPlayer extends Component<Props, IState> {
   render() {
     return (
       <form className="playerAdd-form">
-        <label>Name:</label>
-        <input
-          id="playerName"
-          type="string"
-          value={this.state.name}
-          placeholder="Name"
-          onChange={e => this.handleChangeName(e)}
-          className="input-name"
-        ></input>
-        <input
-          id="playerSurname"
-          type="string"
-          value={this.state.surname}
-          placeholder="Surname"
-          onChange={e => this.handleChangeSurname(e)}
-          className="input-name"
-        ></input>
-        <label>Date:</label>
-        <input
-          id="playerBirth"
-          type="date"
-          value={this.state.date}
-          placeholder="Choose date"
-          onChange={e => this.handleChangeDate(e)}
-          className="input-date"
-        ></input>
-        <label>Score:</label>
-        <input
-          type="number"
-          value={this.state.score}
-          placeholder="Choose score"
-          onChange={e => this.handleChangeScore(e)}
-          min="0"
-          step="1"
-          className="input-score"
-        ></input>
-        <label>Ranking:</label>
-        <input
-          type="number"
-          value={this.state.ranking}
-          placeholder="Choose ranking"
-          onChange={e => this.handleChangeRanking(e)}
-          min="1"
-          step="1"
-          max="300"
-          className="input-ranking"
-        ></input>
-        <label>Country:</label>
-        <select name="Country" id="selectCountry">
-          <option value="serbia">Serbia</option>
-          <option value="switzerland">Switzerland</option>
-          <option value="spain">Spain</option>
-          <option value="russia">Russia</option>
-          <option value="greece">Greece</option>
-          <option value="austria">Austria</option>
-          <option value="germany">Germany</option>
-          <option value="italy">Italy</option>
-          <option value="france">France</option>
-        </select>
-        <div className="buttonAdd">
-          <button
-            id="btnAdd"
-            className="button-add"
-            onClick={e => this.buttonAddClicked(e)}
-          >
-            Add
+        <table className="table">
+          <tr>
+            <td>Name:</td>
+            <td>
+              <input
+                id="playerName"
+                type="string"
+                value={this.state.name}
+                placeholder="Name"
+                onChange={e => this.handleChangeName(e)}
+                className="input-name"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Surname:</td>
+            <td>
+              <input
+                id="playerSurname"
+                type="string"
+                value={this.state.surname}
+                placeholder="Surname"
+                onChange={e => this.handleChangeSurname(e)}
+                className="input-name"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Date:</td>
+            <td>
+              <input
+                id="playerBirth"
+                type="date"
+                value={this.state.date}
+                placeholder="Choose date"
+                onChange={e => this.handleChangeDate(e)}
+                className="input-date"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Score:</td>
+            <td>
+              <input
+                type="number"
+                value={this.state.score}
+                placeholder="Choose score"
+                onChange={e => this.handleChangeScore(e)}
+                min="0"
+                step="1"
+                className="input-score"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Ranking:</td>
+            <td>
+              <input
+                type="number"
+                value={this.state.ranking}
+                placeholder="Choose ranking"
+                onChange={e => this.handleChangeRanking(e)}
+                min="1"
+                step="1"
+                max="300"
+                className="input-ranking"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Country:</td>
+            <td>
+              <select name="Country" id="selectCountry">
+                <option value="serbia">Serbia</option>
+                <option value="switzerland">Switzerland</option>
+                <option value="spain">Spain</option>
+                <option value="russia">Russia</option>
+                <option value="greece">Greece</option>
+                <option value="austria">Austria</option>
+                <option value="germany">Germany</option>
+                <option value="italy">Italy</option>
+                <option value="france">France</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <div className="buttonAdd">
+                <button
+                  id="btnAdd"
+                  className="btn btn-primary"
+                  onClick={e => this.buttonAddClicked(e)}
+                >
+                  Add Player
           </button>
-        </div>
+              </div>
+            </td>
+          </tr>
+        </table>
       </form>
     );
   }

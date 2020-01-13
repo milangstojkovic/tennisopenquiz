@@ -46,16 +46,18 @@ class AdminMatches extends Component<Props, IState> {
             return null;
         const matchRendering = this.matches.map((match, index) =>
             <tr key={index}>
+                <th scope="row">{index}</th>
                 <td>{match.tournamentName}</td>
                 <td>{match.player1}</td>
                 <td>{match.player2}</td>
                 <td>{match.date}</td>
-                <td><button id={match.id}>Start match</button></td>
+                <td><button className="btn btn-secondary" id={match.id}>Start match</button></td>
             </tr>
         )
         const toursRender = this.tournaments.map((tournament, index) =>
-            <div className="btnAdd" key={index}>
+            <div className="col" key={index}>
                 <button
+                    className={this.buttonColor(tournament.surface)}
                     id={tournament.name}
                     value={tournament.name}
                     onClick={e => this.handleTourChoose(e)}>
@@ -66,7 +68,7 @@ class AdminMatches extends Component<Props, IState> {
         )
         const playersRender = this.players.map((player, index) =>
             <div key={index}>
-                <button className="btnPlayers"
+                <button className="btn btn-outline-info"
                     id={"" + player.ranking}
                     value={player.name + " " + player.surname}
                     onClick={e => this.handlePlayerChoose(e)}>
@@ -77,24 +79,27 @@ class AdminMatches extends Component<Props, IState> {
 
         return (
             <form className="matches-form">
-                <table id="matches">
-                    <tbody>
+                <table className="table table-hover" id="matches">
+                    <thead>
                         <tr>
-                            <th>Tournament name</th>
-                            <th>Player 1</th>
-                            <th>Player 2</th>
-                            <th>Date</th>
-                            <th></th>
+                            <th scope="col">#</th>
+                            <th scope="col">Tournament name</th>
+                            <th scope="col">Player 1</th>
+                            <th scope="col">Player 2</th>
+                            <th scope="col">Date</th>
+                            <th scope="col"></th>
                         </tr>
+                    </thead>
+                    <tbody>
                         {matchRendering}
                     </tbody>
                 </table>
                 <div>
-                    <button id="addMatch" onClick={e => this.openToursModal(e)} >Add Match</button>
+                    <button id="addMatch" className="btn btn-primary" onClick={e => this.openToursModal(e)} >Add Match</button>
                     <Modal show={this.state.toursModalIsOpen} className="modal">
                         <div className="modal-content">
                             <div className="modal-header">Choose tournament</div>
-                            <div id="tours" className="modal-body">
+                            <div id="tours" className="row">
                                 {toursRender}
                             </div>
                         </div>
@@ -109,7 +114,7 @@ class AdminMatches extends Component<Props, IState> {
                                 <label id="players">Player1: {this.state.player1}</label>
                             </div>
                             <div id="undoBtn">
-                                <button onClick={e => this.clearSelection(e)}>Undo </button>
+                                <button className="btn btn-light" onClick={e => this.clearSelection(e)}>Undo </button>
                             </div>
                         </div>
                     </Modal>
@@ -135,7 +140,7 @@ class AdminMatches extends Component<Props, IState> {
         this.render();
     }
     async handleTourChoose(ev: any): Promise<void> {
-        var target=ev.target;
+        var target = ev.target;
         ev.preventDefault();
         await this.setState({ tournamentName: target.value });
         this.setState({ toursModalIsOpen: false });
@@ -185,6 +190,15 @@ class AdminMatches extends Component<Props, IState> {
         e.preventDefault();
         this.setState({ date: e.target.value });
         this.setState({ btnSubmit: false });
+    }
+
+    buttonColor(e: string): string {
+        if (e === "clay")
+            return "btn btn-outline-warning";
+        else if (e === "grass")
+            return "btn btn-outline-success";
+        else
+            return "btn btn-outline-primary";
     }
 }
 export default AdminMatches;

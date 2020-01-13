@@ -3,6 +3,8 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Quest from "./Components/QuestComponent/quest";
 import AdminMatches from "./Components/AdminComponent/adminMatches";
+import AdminPlayer from "./Components/AdminComponent/adminPlayer";
+import AdminTournament from "./Components/AdminComponent/adminTournament";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -19,7 +21,7 @@ class App extends Component<Props, IState> {
   }
   render() {
     return (
-      <div>
+      <div className="container">
         {/* <div>
           {this.state.nmbr > 3 ? <Login /> : <Home />}
           <button
@@ -30,8 +32,7 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
-        <AdminMatches/>
-        <Quest />
+        <AdminTournament/>
       </div>
     );
   }

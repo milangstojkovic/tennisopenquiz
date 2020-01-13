@@ -24,37 +24,56 @@ class AdminTournament extends Component<Props, IState> {
   render() {
     return (
       <form className="tournamentAdd-form">
-        <label>Name:</label>
-        <input
-          type="string"
-          value={this.state.name}
-          placeholder="Add name of tournament"
-          onChange={e => this.handleChangeTournamentName(e)}
-          className="input-name"
-        ></input>
-        <label>Date:</label>
-        <input
-          type="date"
-          value={this.state.date}
-          placeholder="Choose date"
-          onChange={e => this.handleChangeTournamentDate(e)}
-          className="input-date"
-        ></input>
-        <label>Surface:</label>
-        <select name="surface" id="surface">
-          <option value="clay">Clay</option>
-          <option value="grass">Grass</option>
-          <option value="hard">Hard</option>
-        </select>
-        <div className="buttonAdd">
-          <button
-            id="btnAdd"
-            className="button-add"
-            onClick={e => this.buttonAddClicked(e)}
-          >
-            Add
+        <table className="table">
+          <tr>
+            <td>Name:</td>
+            <td>
+              <input
+                type="string"
+                value={this.state.name}
+                placeholder="Add name of tournament"
+                onChange={e => this.handleChangeTournamentName(e)}
+                className="input-name"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Date:</td>
+            <td>
+              <input
+                type="date"
+                value={this.state.date}
+                placeholder="Choose date"
+                onChange={e => this.handleChangeTournamentDate(e)}
+                className="input-date"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Surface:</td>
+            <td>
+              <select name="surface" id="surface">
+                <option value="clay">Clay</option>
+                <option value="grass">Grass</option>
+                <option value="hard">Hard</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <div className="buttonAdd">
+                <button
+                  id="btnAdd"
+                  className="btn btn-primary"
+                  onClick={e => this.buttonAddClicked(e)}
+                >
+                  Add tournament
           </button>
-        </div>
+              </div>
+            </td>
+          </tr>
+        </table>
       </form>
     );
   }
