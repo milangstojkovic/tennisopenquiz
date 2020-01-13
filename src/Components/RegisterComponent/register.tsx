@@ -1,20 +1,24 @@
 import React, { Component } from "react";
 import { User } from "../../Models/Model";
-import {createUserService, getUserByNameService, getUsersService} from '../../CassandraServices/user.service';
+import {createUserService, getUsersService} from '../../CassandraServices/user.service';
 interface Props {}
 interface IState {
   email: string;
   password: string;
   username: string;
+  i:Number;
 }
 const emptyString = "";
 class Register extends Component<Props, IState> {
+  usernames!: string[];
+  emails!: string[];
   constructor(props: Props) {
     super(props);
     this.state = {
       username: emptyString,
       email: emptyString,
-      password: emptyString
+      password: emptyString,
+      i:0
     };
   }
   render() {
@@ -56,17 +60,20 @@ class Register extends Component<Props, IState> {
         </div>
       </form>
     );
+    
   }
   handleChangePassword(e: any): void {
     this.setState({ password: e.target.value });
   }
   async handleChangeEmail(e: any): Promise<void> {
     var target=e.target;
-    let emails:User[]=[target as User];
-    this.setState({ email: e.target.value });
-    await getUsersService().then(res=>{
-    emails=res.filter(elemet=>elemet.email===target.value)})
-    if(emails.length>0) {
+    if (this.state.i==0) {
+      await this.getData();
+      this.setState({i:1});
+    }
+    let pomocni:string[]=this.emails.filter(element=>element===target.value);
+    this.setState({ email: target.value });
+    if(pomocni.length>0) {
       target.style.backgroundColor='red';
       (document.getElementById("btnReg") as HTMLInputElement).disabled=true;
     }
@@ -76,11 +83,14 @@ class Register extends Component<Props, IState> {
     }
   }
   async handleChangeUsername(e: any): Promise<void> {
-    let user;
     var target=e.target;
+    if (this.state.i==0) {
+      await this.getData();
+      this.setState({i:1});
+    }
+    let pomocni:string[]=this.usernames.filter(element=>element===target.value);
     this.setState({ username: target.value });
-    await getUserByNameService(target.value).then(res=>{user=res.username;});
-    if(user==null) {
+    if(pomocni.length==0) {
       target.style.backgroundColor='white';
       (document.getElementById("btnReg") as HTMLInputElement).disabled=false;
     }
@@ -96,9 +106,13 @@ class Register extends Component<Props, IState> {
       password: this.state.password,
       username: this.state.username
     };
-    if(!getUserByNameService(user.username)) {
       createUserService(user as User);
-    }
+  }
+  async getData() {
+    await getUsersService().then(res=>this.usernames=res.map(element=>element.username));
+    await getUsersService().then(res=>this.emails=res.map(element=>element.email));
+    console.log(this.usernames)
   }
 }
+
 export default Register;

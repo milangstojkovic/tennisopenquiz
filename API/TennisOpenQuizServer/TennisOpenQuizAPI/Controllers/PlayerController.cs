@@ -22,10 +22,10 @@ namespace TennisOpenQuizAPI.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "player")]
-        public Player Get(string id)
+        [HttpGet("{name}+{surname}", Name = "player")]
+        public Player Get(string name, string surname)
         {
-            return playerService.GetPlayer(id);
+            return playerService.GetPlayer(name, surname);
         }
 
         // POST: api/Users

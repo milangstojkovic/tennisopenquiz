@@ -6,13 +6,13 @@ namespace TennisOpenQuizAPI.Models
     {
         public string MatchID { get; set; }
 
-        public string TournamentID { get; set; }
+        public string TournamentName { get; set; }
 
-        public string Player1ID { get; set; }
+        public string Player1 { get; set; }
 
-        public string Player2ID { get; set; }
+        public string Player2 { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
     }
 }

@@ -1,78 +1,120 @@
 import React, { Component } from "react";
-import { User } from "../../Models/Model";
-interface Props {}
+import { Tournament } from "../../Models/Model";
+import { createTournamentService, getTournamentsService } from "../../CassandraServices/tournament.service";
+
+interface Props { }
 interface IState {
   name: string;
   date: string;
   surface: string;
-  password: string;
-  email: string;
+  i: Number;
 }
 const emptyString = "";
 class AdminTournament extends Component<Props, IState> {
+  names!: string[];
   constructor(props: Props) {
     super(props);
     this.state = {
       name: emptyString,
       date: emptyString,
-      surface: emptyString,
-      password:emptyString,
-      email:emptyString
+      surface: "clay",
+      i: 0
     };
   }
   render() {
     return (
       <form className="tournamentAdd-form">
-        <label>Name:</label>
-        <input
-          type="string"
-          value={this.state.name}
-          placeholder="Add name of tournament"
-          onChange={e => this.handleChangeTournament(e)}
-          className="input-name"
-        ></input>
-        <label>Email:</label>
-        <input
-          type="email"
-          value={this.state.email}
-          placeholder="Add email"
-          onChange={e => this.handleChangeEmail(e)}
-          className="input-email"
-        ></input>
-        <label>Password:</label>
-        <input
-          type="password"
-          value={this.state.password}
-          placeholder="Add password"
-          onChange={e => this.handleChangePassword(e)}
-          className="input-password"
-        ></input>
-        <div className="buttons-login-register">
-          <button
-            id="btnReg"
-            className="button-register"
-            onClick={e => this.buttonRegisterClicked(e)}
-          >
-            {" "}
-            Register{" "}
+        <table className="table">
+          <tr>
+            <td>Name:</td>
+            <td>
+              <input
+                type="string"
+                value={this.state.name}
+                placeholder="Add name of tournament"
+                onChange={e => this.handleChangeTournamentName(e)}
+                className="input-name"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Date:</td>
+            <td>
+              <input
+                type="date"
+                value={this.state.date}
+                placeholder="Choose date"
+                onChange={e => this.handleChangeTournamentDate(e)}
+                className="input-date"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Surface:</td>
+            <td>
+              <select name="surface" id="surface">
+                <option value="clay">Clay</option>
+                <option value="grass">Grass</option>
+                <option value="hard">Hard</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <div className="buttonAdd">
+                <button
+                  id="btnAdd"
+                  className="btn btn-primary"
+                  onClick={e => this.buttonAddClicked(e)}
+                >
+                  Add tournament
           </button>
-        </div>
+              </div>
+            </td>
+          </tr>
+        </table>
       </form>
     );
   }
-  buttonRegisterClicked(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void {
-    throw new Error("Method not implemented.");
+  async handleChangeTournamentName(e: any): Promise<void> {
+    var target = e.target;
+    if (this.state.i === 0) {
+      await this.getData();
+      this.setState({ i: 1 });
+    }
+    let pomocni: string[] = this.names.filter(element => element === target.value);
+    console.log(pomocni)
+    console.log(this.names);
+    this.setState({ name: target.value });
+    if (pomocni.length > 0) {
+      target.style.backgroundColor = 'red';
+      (document.getElementById("btnAdd") as HTMLInputElement).disabled = true;
+    }
+    else {
+      target.style.backgroundColor = 'white';
+      (document.getElementById("btnAdd") as HTMLInputElement).disabled = false;
+    }
   }
-  handleChangePassword(e: React.ChangeEvent<HTMLInputElement>): void {
-    throw new Error("Method not implemented.");
+
+  handleChangeTournamentDate(e: any): void {
+    this.setState({ date: e.target.value });
   }
-  handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>): void {
-    throw new Error("Method not implemented.");
+
+  async getData() {
+    await getTournamentsService().then(res => this.names = res.map(element => element.name));
   }
-  handleChangeTournament(e: React.ChangeEvent<HTMLInputElement>): void {
-    throw new Error("Method not implemented.");
+
+  buttonAddClicked(ev: any): void {
+    ev.preventDefault();
+    let tournament = {
+      name: this.state.name,
+      date: this.state.date,
+      surface: this.state.surface
+    }
+    let select = document.getElementById("surface") as HTMLSelectElement;
+    tournament.surface = select.options[select.selectedIndex].value;
+    createTournamentService(tournament as Tournament)
   }
 }
 export default AdminTournament;

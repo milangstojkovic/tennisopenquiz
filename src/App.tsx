@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./Components/HomeComponent/home";
-import Register from "./Components/RegisterComponent/register";
-import Login from "./Components/LoginComponent/login";
 import Quest from "./Components/QuestComponent/quest";
+import AdminMatches from "./Components/AdminComponent/adminMatches";
+import AdminPlayer from "./Components/AdminComponent/adminPlayer";
+import AdminTournament from "./Components/AdminComponent/adminTournament";
 import Questions from "./Components/QuestionsComponent/questions";
 export type Props = {};
 interface IState {
@@ -22,7 +22,7 @@ class App extends Component<Props, IState> {
   }
   render() {
     return (
-      <div>
+      <div className="container">
         {/* <div>
           {this.state.nmbr > 3 ? <Login /> : <Home />}
           <button
@@ -33,6 +33,7 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
+        <AdminTournament/>
         <Questions />
       </div>
     );

@@ -8,27 +8,26 @@ export interface User {
 
 
 export interface Player {
-    id: string;
     name: string;
     surname: string;
     score: number;
     ranking: number;
-    birthDate: Date;
+    country:string;
+    birthdate: string;
 }
 
 export interface Tournament {
-    id: string;
     name: string;
-    date: Date;
+    date: string;
     surface: string;
 }
 
 export interface Match {
     id: string;
-    tournamentId: string;
-    player1Id: string;
-    player2Id: string;
-    date: Date;
+    tournamentName: string;
+    player1: string;
+    player2: string;
+    date: string;
     quizable: boolean;
 }
 
