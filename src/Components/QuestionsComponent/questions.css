@@ -1,5 +1,54 @@
-.questions-form{
-    display:flex;
+.questions-form {
+    display: flex;
     flex-direction: column;
     width: 50%;
+}
+
+.admin-qa {
+    display: flex;
+    flex-direction: row;
+}
+
+.question-part {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.questions-answers-part {
+    border: solid black 1px;
+    flex: 1;
+}
+
+.answers-inputs {
+    display: flex;
+    flex-flow: column;
+}
+
+.input-answer {
+    margin-top: 5px;
+}
+
+.button-send {
+    margin-top: 5px;
+}
+
+.button-cancel {
+    margin-top: 5px;
+    background-color: darkred;
+}
+
+.button-cancel:hover {
+    background-color: rgba(139, 0, 0, 0.431);
+}
+
+.div-answers {
+    display: flex;
+    flex-flow: column;
+}
+
+.div-question-answers {
+    display: flex;
+    flex-flow: column;
+    border: solid black 1px;
 }
