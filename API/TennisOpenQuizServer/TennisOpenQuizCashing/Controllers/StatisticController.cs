@@ -11,9 +11,11 @@ namespace TennisOpenQuizCashing.Controllers
     public class StatisticController : Controller
     {
         private readonly StatisticService _statisticService;
+        private readonly RedisKeyGenerator redisKeyGenerator;
         public StatisticController(StatisticService statisticService)
         {
             _statisticService = statisticService;
+            redisKeyGenerator = new RedisKeyGenerator();
         }
         // GET: api/<controller>
         [HttpGet]
@@ -24,16 +26,19 @@ namespace TennisOpenQuizCashing.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Statistic Get(string id)
+        public Statistic Get(Statistic statistic)
         {
-            return _statisticService.GetStatistic(id);
+            string statisticKey = redisKeyGenerator.GenerateKey(statistic);
+            return _statisticService.GetStatistic(statisticKey);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]Statistic value, string key)
+        public Statistic Post([FromBody]Statistic value)
         {
-            _statisticService.AddStatistic(value, key);
+            string statisticKey = redisKeyGenerator.GenerateKey(value);
+            _statisticService.AddStatistic(value, statisticKey);
+            return value;
         }
 
         // PUT api/<controller>/5

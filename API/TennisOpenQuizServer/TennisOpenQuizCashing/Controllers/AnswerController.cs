@@ -10,10 +10,12 @@ namespace TennisOpenQuizCashing.Controllers
     [Route("api/[controller]")]
     public class AnswerController : Controller
     {
-        private readonly AnswerService _answerService;
+        private readonly AnswerService answerService;
+        private readonly RedisKeyGenerator redisKeyGenerator;
         public AnswerController(AnswerService answerService)
         {
-            _answerService = answerService;
+            this.answerService = answerService;
+            redisKeyGenerator = new RedisKeyGenerator();
         }
         // GET: api/<controller>
         [HttpGet]
@@ -24,16 +26,21 @@ namespace TennisOpenQuizCashing.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Answer Get(string id)
+        public Answer Get([FromBody]Answer answer)
         {
-            return _answerService.GetAnswer(id);
+            string answerKey = redisKeyGenerator.GenerateKey(answer);
+
+            return answerService.GetAnswer(answerKey);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]Answer value, string key)
+        public Answer Post([FromBody]Answer value)
         {
-            _answerService.AddAnswer(value, key);
+            string answerKey = redisKeyGenerator.GenerateKey(value);
+
+            answerService.AddAnswer(value, answerKey);
+            return value;
         }
 
         // PUT api/<controller>/5

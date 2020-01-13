@@ -11,9 +11,11 @@ namespace TennisOpenQuizCashing.Controllers
     public class ProbaController : Controller
     {
         private readonly RedisService _redisService;
+        private readonly RedisKeyGenerator redisKeyGenerator;
         public ProbaController(RedisService redisService)
         {
             _redisService = redisService;
+            redisKeyGenerator = new RedisKeyGenerator();
         }
 
         // GET: api/<controller>

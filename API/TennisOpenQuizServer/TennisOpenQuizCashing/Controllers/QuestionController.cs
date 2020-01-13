@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using TennisOpenQuizCashing.Models;
 using TennisOpenQuizCashing.RedisServices;
@@ -11,9 +12,11 @@ namespace TennisOpenQuizCashing.Controllers
     public class QuestionController : Controller
     {
         private readonly QuestionService _questionService;
+        private readonly RedisKeyGenerator redisKeyGenerator;
         public QuestionController(QuestionService questionService)
         {
             _questionService = questionService;
+            redisKeyGenerator = new RedisKeyGenerator();
         }
         // GET: api/<controller>
         [HttpGet]
@@ -24,17 +27,20 @@ namespace TennisOpenQuizCashing.Controllers
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public Question Get(string id)
+        [HttpGet("{question}")]
+        public Question Get([FromBody]Question question)
         {
-            return _questionService.GetQuestion(id);
+            string questionKey = redisKeyGenerator.GenerateKey(question);
+            return _questionService.GetQuestion(questionKey);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]Question value, string key)
+        public Question Post([FromBody]Question value)
         {
-            _questionService.AddQuestion(value, value.QuestionId);
+            string questionKey = redisKeyGenerator.GenerateKey(value);
+            _questionService.AddQuestion(value, questionKey);
+            return value;
         }
 
         // PUT api/<controller>/5

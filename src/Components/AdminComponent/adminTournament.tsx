@@ -7,7 +7,12 @@ interface IState {
   name: string;
   date: string;
   surface: string;
+<<<<<<< HEAD
   i: Number;
+=======
+  password: string;
+  email: string;
+>>>>>>> b7c516e34462748919b5e7b2d74ba868cb9c3dd1
 }
 const emptyString = "";
 class AdminTournament extends Component<Props, IState> {
@@ -17,8 +22,14 @@ class AdminTournament extends Component<Props, IState> {
     this.state = {
       name: emptyString,
       date: emptyString,
+<<<<<<< HEAD
       surface: "clay",
       i: 0
+=======
+      surface: emptyString,
+      password:emptyString,
+      email:emptyString
+>>>>>>> b7c516e34462748919b5e7b2d74ba868cb9c3dd1
     };
   }
   render() {
@@ -77,6 +88,7 @@ class AdminTournament extends Component<Props, IState> {
       </form>
     );
   }
+<<<<<<< HEAD
   async handleChangeTournamentName(e: any): Promise<void> {
     var target = e.target;
     if (this.state.i === 0) {
@@ -115,6 +127,21 @@ class AdminTournament extends Component<Props, IState> {
     let select = document.getElementById("surface") as HTMLSelectElement;
     tournament.surface = select.options[select.selectedIndex].value;
     createTournamentService(tournament as Tournament)
+=======
+  buttonRegisterClicked(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    throw new Error("Method not implemented.");
+  }
+  handleChangePassword(e: React.ChangeEvent<HTMLInputElement>): void {
+    throw new Error("Method not implemented.");
+  }
+  handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>): void {
+    throw new Error("Method not implemented.");
+  }
+  handleChangeTournament(e: React.ChangeEvent<HTMLInputElement>): void {
+    throw new Error("Method not implemented.");
+>>>>>>> b7c516e34462748919b5e7b2d74ba868cb9c3dd1
   }
 }
 export default AdminTournament;
