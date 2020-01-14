@@ -20,10 +20,9 @@ namespace TennisOpenQuizCashing.Controllers
         }
         // GET: api/<controller>
         [HttpGet]
-        public Question Get()
+        public IEnumerable<Question> Get()
         {
-            _questionService.AddFakeQuestion(null, "pitam");
-            return _questionService.GetFakeQuestion("pitam");
+            return _questionService.GetQuestions();
         }
 
         // GET api/<controller>/5

@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Questions from "./Components/QuestionsComponent/questions";
 import AdminHome from "./Components/AdminComponent/adminHome";
 import Register from "./Components/RegisterComponent/register";
+import Login from "./Components/LoginComponent/login";
+import AdminStatistic from "./Components/AdminStatistic/adminStatistic";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -33,6 +35,7 @@ class App extends Component<Props, IState> {
         <Register /> */}
         <AdminHome/>
         <Questions />
+        <AdminStatistic />
       </div>
     );
   }

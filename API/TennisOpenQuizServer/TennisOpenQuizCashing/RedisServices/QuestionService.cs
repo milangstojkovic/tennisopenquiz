@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
 using TennisOpenQuizCashing.Models;
 
 namespace TennisOpenQuizCashing.RedisServices
@@ -31,6 +32,21 @@ namespace TennisOpenQuizCashing.RedisServices
             var db = _redis.GetDatabase();
             Question question1 = new Question("Kako se zoves?");
             db.StringSet("pitam", JsonConvert.SerializeObject(question1));
+        }
+        public IEnumerable<Question> GetQuestions()
+        {
+            var configString = $"{_redisHost}:{_redisPort}";
+            var db2 = _redis.GetDatabase();
+
+            var db = _redis.GetServer(configString);
+            IEnumerable<RedisKey> dbKeys = db.Keys();
+            List<Question> questions = new List<Question>();
+            foreach(RedisKey key in dbKeys)
+            {
+                Question questionFromCache = JsonConvert.DeserializeObject<Question>(db2.StringGet(key.ToString()));
+                questions.Add(questionFromCache);
+            }
+            return questions;
         }
         public Question GetQuestion(string questionKey)
         {
