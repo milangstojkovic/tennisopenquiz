@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Quest from "./Components/QuestComponent/quest";
-import AdminMatches from "./Components/AdminComponent/adminMatches";
-import AdminPlayer from "./Components/AdminComponent/adminPlayer";
-import AdminTournament from "./Components/AdminComponent/adminTournament";
 import Questions from "./Components/QuestionsComponent/questions";
+import AdminHome from "./Components/AdminComponent/adminHome";
+import Register from "./Components/RegisterComponent/register";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -33,7 +31,7 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
-        <AdminTournament/>
+        <AdminHome/>
         <Questions />
       </div>
     );

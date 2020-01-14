@@ -67,7 +67,7 @@ class AdminMatches extends Component<Props, IState> {
             </div>
         )
         const playersRender = this.players.map((player, index) =>
-            <div key={index}>
+            <div className="player" key={index}>
                 <button className="btn btn-outline-info"
                     id={"" + player.ranking}
                     value={player.name + " " + player.surname}

@@ -67,7 +67,7 @@ class Register extends Component<Props, IState> {
   }
   async handleChangeEmail(e: any): Promise<void> {
     var target=e.target;
-    if (this.state.i==0) {
+    if (this.state.i===0) {
       await this.getData();
       this.setState({i:1});
     }
@@ -84,13 +84,13 @@ class Register extends Component<Props, IState> {
   }
   async handleChangeUsername(e: any): Promise<void> {
     var target=e.target;
-    if (this.state.i==0) {
+    if (this.state.i===0) {
       await this.getData();
       this.setState({i:1});
     }
     let pomocni:string[]=this.usernames.filter(element=>element===target.value);
     this.setState({ username: target.value });
-    if(pomocni.length==0) {
+    if(pomocni.length===0) {
       target.style.backgroundColor='white';
       (document.getElementById("btnReg") as HTMLInputElement).disabled=false;
     }
