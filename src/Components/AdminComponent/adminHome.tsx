@@ -32,7 +32,7 @@ class AdminHome extends Component<Props, IState> {
                             <div className="card-body">
                                 <h5 className="card-title">Players</h5>
                                 <p className="card-text">Click on button and manage players in database.</p>
-                                <a onClick={e => this.openPlayersModal(e)} className="btn btn-primary">Players</a>
+                                <a onClick={e => this.openPlayersModal(e)} className="btn btn-secondary">Players</a>
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@ class AdminHome extends Component<Props, IState> {
                             <div className="card-body">
                                 <h5 className="card-title">Tournaments</h5>
                                 <p className="card-text">Click on button and manage tournaments in database.</p>
-                                <a onClick={e => this.openTournamentsModal(e)} className="btn btn-primary">Tournaments</a>
+                                <a onClick={e => this.openTournamentsModal(e)} className="btn btn-secondary">Tournaments</a>
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@ class AdminHome extends Component<Props, IState> {
                             <div className="card-body">
                                 <h5 className="card-title">Match</h5>
                                 <p className="card-text">Click on button and manage matches in database.</p>
-                                <a onClick={e => this.openMatchesModal(e)} className="btn btn-primary">Matches</a>
+                                <a onClick={e => this.openMatchesModal(e)} className="btn btn-secondary">Matches</a>
                             </div>
                         </div>
                     </div>

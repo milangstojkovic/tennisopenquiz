@@ -6,6 +6,7 @@ import AdminHome from "./Components/AdminComponent/adminHome";
 import Register from "./Components/RegisterComponent/register";
 import Login from "./Components/LoginComponent/login";
 import AdminStatistic from "./Components/AdminStatistic/adminStatistic";
+import NavComponent from "./Components/NavComponent/navComponent";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -22,8 +23,12 @@ class App extends Component<Props, IState> {
   }
   render() {
     return (
-      <div className="container">
-        {/* <div>
+      <div className="body">
+        <div className="header">
+          <NavComponent />
+        </div>
+        <div className="container">
+          {/* <div>
           {this.state.nmbr > 3 ? <Login /> : <Home />}
           <button
             onClick={ev => this.clickedButtonCancel(ev)}
@@ -33,9 +38,10 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
-        <AdminHome/>
-        <Questions />
-        <AdminStatistic />
+          <AdminHome />
+          <Questions />
+          <AdminStatistic />
+        </div>
       </div>
     );
   }

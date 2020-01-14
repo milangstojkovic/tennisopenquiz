@@ -1,0 +1,16 @@
+.nav {
+    background-color: dimgrey;
+}
+
+.nav-item {
+    width:auto;
+}
+
+#logo {
+    text-align: right;
+}
+
+.item {
+    height: 100%;
+    width:auto;
+}
