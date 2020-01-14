@@ -6,6 +6,8 @@ import AdminMatches from "./Components/AdminComponent/adminMatches";
 import AdminPlayer from "./Components/AdminComponent/adminPlayer";
 import AdminTournament from "./Components/AdminComponent/adminTournament";
 import Questions from "./Components/QuestionsComponent/questions";
+import Login from "./Components/LoginComponent/login";
+import AdminStatistic from "./Components/AdminStatistic/adminStatistic";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -33,8 +35,7 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
-        <AdminTournament/>
-        <Questions />
+        <AdminStatistic />
       </div>
     );
   }
