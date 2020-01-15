@@ -58,9 +58,8 @@ class AdminMatches extends Component<Props, IState> {
             <div className="col" key={index}>
                 <button
                     className={this.buttonColor(tournament.surface)}
-                    id={tournament.name}
-                    value={tournament.name}
-                    onClick={e => this.handleTourChoose(e)}>
+                    value={""+tournament.name}
+                    onClick={e => this.handleTourChoose(e, tournament.name)}>
                     <h5>{tournament.name}</h5>
                     <h6>{tournament.surface}</h6>
                 </button>
@@ -135,15 +134,15 @@ class AdminMatches extends Component<Props, IState> {
         await getTournamentsService().then(res => this.tournaments = res);
         await getMatchesService().then(res => this.matches = res);
         await getPlayersService().then(res => this.players = res);
+        console.log(this.tournaments);
         await this.players.sort((player1, player2) => player1.ranking - player2.ranking);
         await this.setState({ loading: false });
         this.render();
     }
-    async handleTourChoose(ev: any): Promise<void> {
-        var target = ev.target;
+    async handleTourChoose(ev:any, name:string): Promise<void> {
         ev.preventDefault();
-        await this.setState({ tournamentName: target.value });
-        this.setState({ toursModalIsOpen: false });
+        await this.setState({ tournamentName: name });
+        console.log(this.state.tournamentName);
         this.setState({ playersModalIsOpen: true });
     }
     openToursModal(e: any): void {
@@ -176,13 +175,14 @@ class AdminMatches extends Component<Props, IState> {
 
     async createMatch(e: any): Promise<void> {
         e.preventDefault();
-        this.setState({ dateModalIsOpen: false });
         let match = {
             player1: this.state.player1,
             player2: this.state.player2,
             tournamentName: this.state.tournamentName,
             date: this.state.date
         }
+        console.log(match.tournamentName);
+        await this.setState({ dateModalIsOpen: false });
         await createMatchService(match as Match);
     }
 

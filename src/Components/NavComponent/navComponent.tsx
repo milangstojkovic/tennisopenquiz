@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import './navComponent.css'
-import logo from '../../Resources/Logo1default.png'
+import logo from '../../Resources/Logo1Default11.png'
 interface Props { }
 interface IState {
 }

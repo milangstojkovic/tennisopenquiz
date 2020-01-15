@@ -7,6 +7,9 @@ import Register from "./Components/RegisterComponent/register";
 import Login from "./Components/LoginComponent/login";
 import AdminStatistic from "./Components/AdminStatistic/adminStatistic";
 import NavComponent from "./Components/NavComponent/navComponent";
+import { updateUserService } from "./CassandraServices/user.service";
+import {User}from "./Models/Model";
+import MatchList from "./Components/MatchListComponent/matchList";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -38,7 +41,7 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
-          <AdminHome />
+          <MatchList />
           <Questions />
           <AdminStatistic />
         </div>

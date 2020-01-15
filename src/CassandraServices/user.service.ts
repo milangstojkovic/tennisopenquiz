@@ -27,3 +27,8 @@ export const createUserService = (user: User): any =>
     .catch (err=>{
         throw err
     })
+
+export const updateUserService = (user:User):any =>
+    axios.put(
+        `${baseUrl}/users/${user.username}`, user
+    )
