@@ -26,9 +26,11 @@ namespace TennisOpenQuizCashing.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Statistic Get(Statistic statistic)
+        public Statistic Get(string matchID)
         {
-            string statisticKey = redisKeyGenerator.GenerateKey(statistic);
+            Statistic statisticToGetKey = new Statistic();
+            statisticToGetKey.MatchID = matchID;
+            string statisticKey = redisKeyGenerator.GenerateKey(statisticToGetKey);
             return _statisticService.GetStatistic(statisticKey);
         }
 

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import "./adminStatistic.css";
 import { Button } from "react-bootstrap";
-interface Props {}
+interface Props {
+  matchId: string;
+}
+
 interface IState {
   acesA: number;
   acesB: number;
@@ -27,6 +30,42 @@ interface IState {
   unforcedErrorsA: number;
   unforcedErrorsB: number;
 }
+class Statistic {
+  constructor(
+    public matchID: string,
+    public Player1Aces: number,
+    public Player2Aces: number,
+    public Player1DoubleFaults: number,
+    public Player2DoubleFaults: number,
+    public Player1UnforcedErrors: number,
+    public Player2UnforcedErrors: number,
+    public Player1TotalPoints: number,
+    public Player2TotalPoints: number
+  ) {}
+}
+class Game{
+    constructor(
+        public matchID:string,
+        public Player1Points:number,
+        public Player2Points:number
+    ){}
+}
+class Set{
+    constructor(
+        public MatchID:string,
+        public setNo:number,
+        public player1GamesWon:number,
+        public player2GamesWon:number,
+        public live:boolean
+    ){}
+}
+
+const emptyString = "";
+const False = false;
+const POST = "POST";
+const GET = "GET";
+const PUT = "PUT";
+const redisStatisticURL = "https://localhost:44379/api/statistic";
 class AdminStatistic extends Component<Props, IState> {
   constructor(props: Props) {
     super(props);
@@ -56,6 +95,8 @@ class AdminStatistic extends Component<Props, IState> {
     };
   }
   render() {
+    console.log(this.props.matchId);
+    console.log(this.state.acesA);
     return (
       <div className="admin-statistic">
         <div className="playerA-statistic">
@@ -275,7 +316,8 @@ class AdminStatistic extends Component<Props, IState> {
               </Button>{" "}
             </div>
           </div>
-        </div>
+        </div>{" "}
+        <Button onClick={() => this.AddStatistic()}> ADD REDIS</Button>
       </div>
     );
   }
@@ -346,7 +388,6 @@ class AdminStatistic extends Component<Props, IState> {
   }
   //#endregion
 
-
   //#region PLAYERB
   gamesBPlusClicked(): void {
     let gamePlus = this.state.gameB + 1;
@@ -413,5 +454,31 @@ class AdminStatistic extends Component<Props, IState> {
     this.setState({ acesB: breakPointsAPlusOne });
   }
   //#endregion
+
+  async AddStatistic(): Promise<void> {
+    let statistic: Statistic = new Statistic(
+      this.props.matchId,
+      this.state.acesA,
+      this.state.acesB,
+      this.state.doubleFaultsA,
+      this.state.doubleFaultsB,
+      this.state.unforcedErrorsA,
+      this.state.unforcedErrorsB,
+      this.state.totalPointsA,
+      this.state.totalPointsB
+    );
+
+    await fetch(redisStatisticURL, {
+      method: POST,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(statistic)
+    }).then(response => {
+      response.json().then(data => {
+        console.log(data);
+      });
+    });
+  }
 }
 export default AdminStatistic;

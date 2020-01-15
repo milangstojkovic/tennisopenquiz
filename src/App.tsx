@@ -35,7 +35,7 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
-        <AdminStatistic />
+        <AdminStatistic key={1} matchId="caos" />
       </div>
     );
   }
