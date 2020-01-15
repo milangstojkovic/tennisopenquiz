@@ -74,11 +74,8 @@ namespace TennisOpenQuizCashing
         private string GenerateKeyForStatistic(Statistic statistic)
         {
             string firstKeyPart = statistic.MatchID;
-            string secondKeyPart = statistic.Player1Aces.ToString() +
-                                   statistic.Player2Aces.ToString() +
-                                   statistic.Player1DoubleFaults.ToString() +
-                                   statistic.Player1DoubleFaults.ToString();
-            string generatedKeyForStatistic = firstKeyPart + "-" + secondKeyPart + "_";
+            
+            string generatedKeyForStatistic = "-"  + firstKeyPart + "_";
 
             return generatedKeyForStatistic;
         }

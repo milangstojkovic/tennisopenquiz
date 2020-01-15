@@ -63,5 +63,11 @@ namespace TennisOpenQuizCashing.RedisServices
             else
                 return questionFromCache;
         }
+        public Question EditQuestion(Question question, string questionKey)
+        {
+            var db = _redis.GetDatabase();
+            db.StringSet(questionKey, JsonConvert.SerializeObject(question));
+            return question;
+        }
     }
 }
