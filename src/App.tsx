@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Quest from "./Components/QuestComponent/quest";
-import AdminMatches from "./Components/AdminComponent/adminMatches";
-import AdminPlayer from "./Components/AdminComponent/adminPlayer";
-import AdminTournament from "./Components/AdminComponent/adminTournament";
 import Questions from "./Components/QuestionsComponent/questions";
+import AdminHome from "./Components/AdminComponent/adminHome";
+import Register from "./Components/RegisterComponent/register";
 import Login from "./Components/LoginComponent/login";
 import AdminStatistic from "./Components/AdminStatistic/adminStatistic";
+import NavComponent from "./Components/NavComponent/navComponent";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -24,8 +23,12 @@ class App extends Component<Props, IState> {
   }
   render() {
     return (
-      <div className="container">
-        {/* <div>
+      <div className="body">
+        <div className="header">
+          <NavComponent />
+        </div>
+        <div className="container">
+          {/* <div>
           {this.state.nmbr > 3 ? <Login /> : <Home />}
           <button
             onClick={ev => this.clickedButtonCancel(ev)}
@@ -35,7 +38,14 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
+<<<<<<< HEAD
         <AdminStatistic key={1} matchId="caos" />
+=======
+          <AdminHome />
+          <Questions />
+          <AdminStatistic />
+        </div>
+>>>>>>> 1dadb54ec95410753b4d4b312036b808ba481dfb
       </div>
     );
   }
