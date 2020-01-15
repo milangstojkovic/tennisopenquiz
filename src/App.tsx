@@ -45,6 +45,8 @@ class App extends Component<Props, IState> {
         </div>
         <Register /> */}
           <ClientMatch />
+        <AdminStatistic key={1} matchId="caos" />
+          <AdminHome />
           <Questions />
         </div>
       </div>
