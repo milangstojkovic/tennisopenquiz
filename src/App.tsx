@@ -38,14 +38,10 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
-<<<<<<< HEAD
         <AdminStatistic key={1} matchId="caos" />
-=======
           <AdminHome />
           <Questions />
-          <AdminStatistic />
         </div>
->>>>>>> 1dadb54ec95410753b4d4b312036b808ba481dfb
       </div>
     );
   }

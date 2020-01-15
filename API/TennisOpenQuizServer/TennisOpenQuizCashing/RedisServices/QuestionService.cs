@@ -28,7 +28,6 @@ namespace TennisOpenQuizCashing.RedisServices
         }
         public void AddFakeQuestion(Question question, string questionKey)
         {
-            
             var db = _redis.GetDatabase();
             Question question1 = new Question("Kako se zoves?");
             db.StringSet("pitam", JsonConvert.SerializeObject(question1));
