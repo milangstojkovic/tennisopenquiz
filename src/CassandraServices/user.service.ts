@@ -32,3 +32,5 @@ export const updateUserService = (user:User):any =>
     axios.put(
         `${baseUrl}/users/${user.username}`, user
     )
+
+    

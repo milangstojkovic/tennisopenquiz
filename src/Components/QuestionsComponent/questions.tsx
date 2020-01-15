@@ -142,6 +142,7 @@ class Questions extends Component<Props, IState> {
       await this.addAnswer(this.state.answerDInput, this.state.question.questionId);
     let ind=this.questions.findIndex(el=>el.questionId==this.state.question.questionId);
     this.questions[ind].answers=this.answers;
+    
   }
 
   handleChangeAnswerA(event: React.ChangeEvent<HTMLInputElement>): void {

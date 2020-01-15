@@ -10,15 +10,18 @@ import NavComponent from "./Components/NavComponent/navComponent";
 import { updateUserService } from "./CassandraServices/user.service";
 import {User}from "./Models/Model";
 import MatchList from "./Components/MatchListComponent/matchList";
+import ClientMatch from "./Components/ClientMatchComponent/clientMatch";
 export type Props = {};
 interface IState {
   nmbr: number;
+  question: boolean;
 }
 class App extends Component<Props, IState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      nmbr: 2
+      nmbr: 2,
+      question:false
     };
   }
   clickedButtonCancel(ev: any) {
@@ -41,18 +44,9 @@ class App extends Component<Props, IState> {
           </button>
         </div>
         <Register /> */}
-<<<<<<< HEAD
-          <MatchList />
-=======
-<<<<<<< HEAD
-        <AdminStatistic key={1} matchId="caos" />
-=======
-          <AdminHome />
->>>>>>> da5d7f040cee4febd1103d47684972ff170b42ec
+          <ClientMatch />
           <Questions />
-          <AdminStatistic />
         </div>
->>>>>>> 1dadb54ec95410753b4d4b312036b808ba481dfb
       </div>
     );
   }
