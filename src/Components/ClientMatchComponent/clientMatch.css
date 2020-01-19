@@ -1,0 +1,37 @@
+.client-match {
+    display: flex;
+    flex-direction: column
+}
+
+.players {
+    display: flex;
+}
+
+h2 {
+    flex: 1;
+    text-align: center;
+}
+h4{
+    text-align: center;
+}
+.totalPoints-data, .aces-data, .doubleFaults-data, .unforcedErrors-data{
+    display: flex;
+}
+
+.totalPointsA, .acesA, .doubleFaultsA, .unforcedErrorsA{
+    display: flex;
+    margin-right: 3%;
+
+    flex: 1;
+    text-align: center;
+    flex-direction: row-reverse;
+}
+
+.totalPointsB, .acesB , .doubleFaultsB, .unforcedErrorsB{
+    display: flex;
+    margin-left: 3%;
+    flex: 1;
+    text-align: center;
+    flex-direction: row;
+
+}

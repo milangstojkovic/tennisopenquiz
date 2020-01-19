@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TennisOpenQuizCashing.PublishSubscribeServices;
 using TennisOpenQuizCashing.RedisServices;
 
 namespace TennisOpenQuizCashing
@@ -29,6 +30,9 @@ namespace TennisOpenQuizCashing
             services.AddSingleton<StatisticService>();
             services.AddSingleton<WinnerService>();
             services.AddSingleton<ServiceRedis>();
+            services.AddSingleton<PublishService>();
+            services.AddSingleton<SubscribeService>();
+
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

@@ -28,6 +28,7 @@ interface IState {
   answerBInput: string;
   answerCInput: string;
   answerDInput: string;
+  stringKeyToReturn: string;
 }
 const emptyString = "";
 const False = false;
@@ -36,14 +37,12 @@ const GET = "GET";
 const PUT = "PUT";
 const redisQuestionUR = "https://localhost:44379/api/question";
 const redisAnswerUR = "https://localhost:44379/api/answer";
+const redisPublishURL = "https://localhost:44379/api/publish";
 
 var ID = function() {
-  return (
-    "_" +
-    Math.random()
-      .toString(36)
-      .substr(2, 9)
-  );
+  return Math.random()
+    .toString(36)
+    .substr(2, 9);
 };
 class Questions extends Component<Props, IState> {
   questions: Question[];
@@ -56,7 +55,8 @@ class Questions extends Component<Props, IState> {
       answerAInput: emptyString,
       answerBInput: emptyString,
       answerCInput: emptyString,
-      answerDInput: emptyString
+      answerDInput: emptyString,
+      stringKeyToReturn: emptyString
     };
     this.questions = [];
     this.answers = [];
@@ -113,6 +113,9 @@ class Questions extends Component<Props, IState> {
           >
             Cancel
           </Button>
+          <button onClick={() => this.sendToRedisAndPublish()}>
+            TEST SUBSCRIBE
+          </button>
         </div>
         <div className="questions-answers-part">
           <div className="question-answers">
@@ -130,18 +133,51 @@ class Questions extends Component<Props, IState> {
       </div>
     );
   }
+  async sendToRedisAndPublish(): Promise<void> {
+    this.addQuestion(this.state.questionInput);
+    await this.publish(this.state.stringKeyToReturn);
+  }
+  async publish(keyPublish: string): Promise<any> {
+    await fetch(redisPublishURL, {
+      method: POST,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        keyValueToPublish: keyPublish
+      })
+    }).then(response => {
+      response.json().then(data => {
+        console.log(data + "Zdrawwwo publishowwwan sam");
+      });
+    });
+  }
   async addQuestionAndAnswers(): Promise<void> {
     await this.addQuestion(this.state.questionInput);
     if (this.state.answerAInput)
-      await this.addAnswer(this.state.answerAInput, this.state.question.questionId);
+      await this.addAnswer(
+        this.state.answerAInput,
+        this.state.question.questionId
+      );
     if (this.state.answerBInput)
-      await this.addAnswer(this.state.answerBInput, this.state.question.questionId);
+      await this.addAnswer(
+        this.state.answerBInput,
+        this.state.question.questionId
+      );
     if (this.state.answerCInput)
-      await this.addAnswer(this.state.answerCInput, this.state.question.questionId);
+      await this.addAnswer(
+        this.state.answerCInput,
+        this.state.question.questionId
+      );
     if (this.state.answerDInput)
-      await this.addAnswer(this.state.answerDInput, this.state.question.questionId);
-    let ind=this.questions.findIndex(el=>el.questionId==this.state.question.questionId);
-    this.questions[ind].answers=this.answers;
+      await this.addAnswer(
+        this.state.answerDInput,
+        this.state.question.questionId
+      );
+    let ind = this.questions.findIndex(
+      el => el.questionId == this.state.question.questionId
+    );
+    this.questions[ind].answers = this.answers;
   }
 
   handleChangeAnswerA(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -166,21 +202,22 @@ class Questions extends Component<Props, IState> {
   handleChangeQuestion(event: React.ChangeEvent<HTMLTextAreaElement>): void {
     this.setState({ questionInput: event.target.value });
   }
-  async addQuestion(questionText: string): Promise<void> {
-    console.log(this.questions);
+  async addQuestion(questionText: string): Promise<any>{
     let generatedIdForQuestion: string = ID();
+    let stringKeyToReturnn: string = emptyString;
     await fetch(redisQuestionUR, {
       method: POST,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json"
       },
       body: JSON.stringify({
         questionId: generatedIdForQuestion,
         questionText: questionText
       })
     }).then(response => {
-      response.json().then(data => {
-        console.log(data);
+      response.json().then(async data => {
+        this.setState({stringKeyToReturn:data})
         this.handleChangeQuestionINSTANCE(questionText, generatedIdForQuestion);
       });
     });
@@ -216,9 +253,7 @@ class Questions extends Component<Props, IState> {
       })
     }).then(response => {
       response.json().then(data => console.log(data));
-      this.answers.push(
-        new Answer(idAnswer, answerText, 0, idQuestion)
-      );
+      this.answers.push(new Answer(idAnswer, answerText, 0, idQuestion));
     });
   }
 }

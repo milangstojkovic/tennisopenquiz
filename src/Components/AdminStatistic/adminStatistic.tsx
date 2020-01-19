@@ -43,21 +43,21 @@ class Statistic {
     public Player2TotalPoints: number
   ) {}
 }
-class Game{
-    constructor(
-        public matchID:string,
-        public Player1Points:number,
-        public Player2Points:number
-    ){}
+class Game {
+  constructor(
+    public matchID: string,
+    public Player1Points: number,
+    public Player2Points: number
+  ) {}
 }
-class Set{
-    constructor(
-        public MatchID:string,
-        public setNo:number,
-        public player1GamesWon:number,
-        public player2GamesWon:number,
-        public live:boolean
-    ){}
+class Set {
+  constructor(
+    public MatchID: string,
+    public setNo: number,
+    public player1GamesWon: number,
+    public player2GamesWon: number,
+    public live: boolean
+  ) {}
 }
 
 const emptyString = "";
@@ -66,6 +66,9 @@ const POST = "POST";
 const GET = "GET";
 const PUT = "PUT";
 const redisStatisticURL = "https://localhost:44379/api/statistic";
+const redisSetURL="https://localhost:44379/api/set";
+const redisGameURL="https://localhost:44379/api/game";
+
 class AdminStatistic extends Component<Props, IState> {
   constructor(props: Props) {
     super(props);
@@ -467,13 +470,43 @@ class AdminStatistic extends Component<Props, IState> {
       this.state.totalPointsA,
       this.state.totalPointsB
     );
-
+    let set: Set = new Set(
+      this.props.matchId,
+      1,
+      this.state.gameA,
+      this.state.gameB,
+      true
+    );
+    let game:Game=new Game(this.props.matchId, this.state.pointsInGameA, this.state.pointsInGameB);
     await fetch(redisStatisticURL, {
       method: POST,
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(statistic)
+    }).then(response => {
+      response.json().then(data => {
+        console.log(data);
+      });
+    });
+
+    await fetch(redisSetURL, {
+      method: POST,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(set)
+    }).then(response => {
+      response.json().then(data => {
+        console.log(data);
+      });
+    });
+    await fetch(redisGameURL, {
+      method: POST,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(game)
     }).then(response => {
       response.json().then(data => {
         console.log(data);

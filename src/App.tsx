@@ -7,6 +7,7 @@ import Register from "./Components/RegisterComponent/register";
 import Login from "./Components/LoginComponent/login";
 import AdminStatistic from "./Components/AdminStatistic/adminStatistic";
 import NavComponent from "./Components/NavComponent/navComponent";
+import ClientMatch from "./Components/ClientMatchComponent/clientMatch";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -39,8 +40,7 @@ class App extends Component<Props, IState> {
         </div>
         <Register /> */}
         <AdminStatistic key={1} matchId="caos" />
-          <AdminHome />
-          <Questions />
+          <ClientMatch key={2} matchID="caos" player1="Novak Djokovic" player2="Rafael Nadal"/>
         </div>
       </div>
     );
