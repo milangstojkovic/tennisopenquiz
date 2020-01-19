@@ -167,7 +167,6 @@ class ClientMatch extends Component<Props, IState> {
   }
   fillStatisticData(): void {
     let el = document.querySelector(".totalPointsA-value") as HTMLDivElement;
-    el.style.transitionDuration = "1s";
 
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
@@ -176,7 +175,6 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".totalPointsB-value") as HTMLDivElement;
-    el.style.transitionDuration = "1s";
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player2TotalPoints /
@@ -184,8 +182,6 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".acesA-value") as HTMLDivElement;
-    el.style.transitionDuration = "1s";
-
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player1Aces /
@@ -193,8 +189,6 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".acesB-value") as HTMLDivElement;
-    el.style.transitionDuration = "1s";
-
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player2Aces /
@@ -202,8 +196,6 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".doubleFaultsA-value") as HTMLDivElement;
-    el.style.transitionDuration = "1s";
-
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player1DoubleFaults /
@@ -211,8 +203,6 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".doubleFaultsB-value") as HTMLDivElement;
-    el.style.transitionDuration = "1s";
-
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player2DoubleFaults /
@@ -220,8 +210,6 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".unforcedErrorsA-value") as HTMLDivElement;
-    el.style.transitionDuration = "1s";
-
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player1UnforcedErrors /
@@ -229,8 +217,6 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".unforcedErrorsB-value") as HTMLDivElement;
-    el.style.transitionDuration = "1s";
-
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player2UnforcedErrors /

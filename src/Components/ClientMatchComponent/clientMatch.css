@@ -4,22 +4,26 @@
     margin-bottom: 10%;
     transition-duration: 1s;
 }
-.btn-refresh{
+
+.btn-refresh {
     margin-top: 5%;
     align-self: center;
     width: 20%;
     background-color: rgb(202, 189, 5);
     border-color: white;
 }
-.btn-refresh:hover{
+
+.btn-refresh:hover {
     background-color: rgb(143, 187, 86);
     transition-duration: 0.5s;
     border-color: white;
 }
-.btn-refresh:active{
+
+.btn-refresh:active {
     background-color: rgb(143, 187, 86);
     border-color: white;
 }
+
 .players {
     display: flex;
 }
@@ -28,26 +32,47 @@ h2 {
     flex: 1;
     text-align: center;
 }
-h4{
+
+h4 {
     text-align: center;
 }
-.totalPoints-data, .aces-data, .doubleFaults-data, .unforcedErrors-data{
+
+.totalPoints-data,
+.aces-data,
+.doubleFaults-data,
+.unforcedErrors-data {
     display: flex;
 }
 
-.totalPointsA, .acesA, .doubleFaultsA, .unforcedErrorsA{
+.totalPointsA,
+.acesA,
+.doubleFaultsA,
+.unforcedErrorsA {
     display: flex;
     margin-right: 1%;
-
     flex: 1;
     text-align: center;
     flex-direction: row-reverse;
 }
 
-.totalPointsB, .acesB , .doubleFaultsB, .unforcedErrorsB{
+.totalPointsB,
+.acesB,
+.doubleFaultsB,
+.unforcedErrorsB {
     display: flex;
     margin-left: 1%;
     flex: 1;
     text-align: center;
     flex-direction: row;
+}
+
+.totalPointsA-value,
+.acesA-value,
+.doubleFaultsA-value,
+.unforcedErrorsA-value,
+.totalPointsB-value,
+.acesB-value,
+.doubleFaultsB-value,
+.unforcedErrorsB-value {
+    transition-duration: 1s;
 }
