@@ -105,14 +105,10 @@ class ClientMatch extends Component<Props, IState> {
           <h4>Aces</h4>
           <div className="aces-data">
             <div className="acesA">
-              <div className="acesA-value">
-                {this.state.player1Aces}
-              </div>
+              <div className="acesA-value">{this.state.player1Aces}</div>
             </div>
             <div className="acesB">
-              <div className="acesB-value">
-                {this.state.player2Aces}
-              </div>
+              <div className="acesB-value">{this.state.player2Aces}</div>
             </div>
           </div>
         </div>
@@ -146,7 +142,10 @@ class ClientMatch extends Component<Props, IState> {
             </div>
           </div>
         </div>
-        <button onClick={() => this.clickedButton()}> REFRESH</button>
+        <Button className="btn-refresh" onClick={() => this.clickedButton()}>
+          {" "}
+          REFRESH
+        </Button>
       </div>
     );
   }
@@ -156,17 +155,20 @@ class ClientMatch extends Component<Props, IState> {
 
     this.setState({
       player1TotalPoints: statistic.player1TotalPoints,
-      player2TotalPoints:statistic.player2TotalPoints,
-      player1Aces:statistic.player1Aces,
-      player2Aces:statistic.player2Aces,
-      player1DoubleFaults:statistic.player1DoubleFaults,
-      player2DoubleFaults:statistic.player1DoubleFaults,
-      player1UnforcedErrors:statistic.player1UnforcedErrors,
-      player2UnforcedErrors:statistic.player2UnforcedErrors
-
+      player2TotalPoints: statistic.player2TotalPoints,
+      player1Aces: statistic.player1Aces,
+      player2Aces: statistic.player2Aces,
+      player1DoubleFaults: statistic.player1DoubleFaults,
+      player2DoubleFaults: statistic.player1DoubleFaults,
+      player1UnforcedErrors: statistic.player1UnforcedErrors,
+      player2UnforcedErrors: statistic.player2UnforcedErrors
     });
-    
+    this.fillStatisticData();
+  }
+  fillStatisticData(): void {
     let el = document.querySelector(".totalPointsA-value") as HTMLDivElement;
+    el.style.transitionDuration = "1s";
+
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player1TotalPoints /
@@ -174,6 +176,7 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".totalPointsB-value") as HTMLDivElement;
+    el.style.transitionDuration = "1s";
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player2TotalPoints /
@@ -181,6 +184,8 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".acesA-value") as HTMLDivElement;
+    el.style.transitionDuration = "1s";
+
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player1Aces /
@@ -188,6 +193,8 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".acesB-value") as HTMLDivElement;
+    el.style.transitionDuration = "1s";
+
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player2Aces /
@@ -195,6 +202,8 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".doubleFaultsA-value") as HTMLDivElement;
+    el.style.transitionDuration = "1s";
+
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player1DoubleFaults /
@@ -202,6 +211,8 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".doubleFaultsB-value") as HTMLDivElement;
+    el.style.transitionDuration = "1s";
+
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player2DoubleFaults /
@@ -209,6 +220,8 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".unforcedErrorsA-value") as HTMLDivElement;
+    el.style.transitionDuration = "1s";
+
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player1UnforcedErrors /
@@ -216,6 +229,8 @@ class ClientMatch extends Component<Props, IState> {
     ).toString();
 
     el = document.querySelector(".unforcedErrorsB-value") as HTMLDivElement;
+    el.style.transitionDuration = "1s";
+
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.state.player2UnforcedErrors /

@@ -66,8 +66,8 @@ const POST = "POST";
 const GET = "GET";
 const PUT = "PUT";
 const redisStatisticURL = "https://localhost:44379/api/statistic";
-const redisSetURL="https://localhost:44379/api/set";
-const redisGameURL="https://localhost:44379/api/game";
+const redisSetURL = "https://localhost:44379/api/set";
+const redisGameURL = "https://localhost:44379/api/game";
 
 class AdminStatistic extends Component<Props, IState> {
   constructor(props: Props) {
@@ -98,8 +98,6 @@ class AdminStatistic extends Component<Props, IState> {
     };
   }
   render() {
-    console.log(this.props.matchId);
-    console.log(this.state.acesA);
     return (
       <div className="admin-statistic">
         <div className="playerA-statistic">
@@ -477,7 +475,11 @@ class AdminStatistic extends Component<Props, IState> {
       this.state.gameB,
       true
     );
-    let game:Game=new Game(this.props.matchId, this.state.pointsInGameA, this.state.pointsInGameB);
+    let game: Game = new Game(
+      this.props.matchId,
+      this.state.pointsInGameA,
+      this.state.pointsInGameB
+    );
     await fetch(redisStatisticURL, {
       method: POST,
       headers: {
@@ -485,9 +487,7 @@ class AdminStatistic extends Component<Props, IState> {
       },
       body: JSON.stringify(statistic)
     }).then(response => {
-      response.json().then(data => {
-        console.log(data);
-      });
+      response.json().then(data => {});
     });
 
     await fetch(redisSetURL, {
@@ -497,9 +497,7 @@ class AdminStatistic extends Component<Props, IState> {
       },
       body: JSON.stringify(set)
     }).then(response => {
-      response.json().then(data => {
-        console.log(data);
-      });
+      response.json().then(data => {});
     });
     await fetch(redisGameURL, {
       method: POST,
@@ -508,10 +506,10 @@ class AdminStatistic extends Component<Props, IState> {
       },
       body: JSON.stringify(game)
     }).then(response => {
-      response.json().then(data => {
-        console.log(data);
-      });
+      response.json().then(data => {});
     });
+
+    alert("Statistic changed");
   }
 }
 export default AdminStatistic;

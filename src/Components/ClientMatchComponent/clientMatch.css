@@ -1,8 +1,25 @@
 .client-match {
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    margin-bottom: 10%;
+    transition-duration: 1s;
 }
-
+.btn-refresh{
+    margin-top: 5%;
+    align-self: center;
+    width: 20%;
+    background-color: rgb(202, 189, 5);
+    border-color: white;
+}
+.btn-refresh:hover{
+    background-color: rgb(143, 187, 86);
+    transition-duration: 0.5s;
+    border-color: white;
+}
+.btn-refresh:active{
+    background-color: rgb(143, 187, 86);
+    border-color: white;
+}
 .players {
     display: flex;
 }
@@ -20,7 +37,7 @@ h4{
 
 .totalPointsA, .acesA, .doubleFaultsA, .unforcedErrorsA{
     display: flex;
-    margin-right: 3%;
+    margin-right: 1%;
 
     flex: 1;
     text-align: center;
@@ -29,9 +46,8 @@ h4{
 
 .totalPointsB, .acesB , .doubleFaultsB, .unforcedErrorsB{
     display: flex;
-    margin-left: 3%;
+    margin-left: 1%;
     flex: 1;
     text-align: center;
     flex-direction: row;
-
 }

@@ -6,13 +6,11 @@
 .playerA-statistic {
     flex: 1;
     margin-right: 6px;
-    border: solid green 2px;
 }
 
 .playerB-statistic {
     flex: 1;
     margin-left: 6px;
-    border: solid green 2px;
 }
 
 h1 {
