@@ -77,7 +77,7 @@ h1 {
     border: solid green 1px;
 }
 
-.breakPoints {
+.breakPoints, .winners {
     margin-top: 5%;
     display: flex;
     border: solid green 1px;

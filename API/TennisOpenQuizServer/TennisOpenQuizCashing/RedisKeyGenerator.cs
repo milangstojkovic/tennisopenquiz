@@ -32,6 +32,8 @@ namespace TennisOpenQuizCashing
                 generatedKey = GenerateKeyForSet((Set)obj);
             else if (someObject == typeof(Winner))
                 generatedKey = GenerateKeyForWinner((Winner)obj);
+            else if (someObject == typeof(BreakPt))
+                generatedKey = GenerateKeyForBreakPt((BreakPt)obj);
             else generatedKey = "";
 
             return generatedKey;
@@ -60,6 +62,14 @@ namespace TennisOpenQuizCashing
             string firstKeyPart = game.MatchId;
             
             string generatedKeyForGame = "-" + firstKeyPart + "_game";
+
+            return generatedKeyForGame;
+        }
+        private string GenerateKeyForBreakPt(BreakPt breakPt)
+        {
+            string firstKeyPart = breakPt.MatchID;
+
+            string generatedKeyForGame = "-" + firstKeyPart + "_breakPt";
 
             return generatedKeyForGame;
         }

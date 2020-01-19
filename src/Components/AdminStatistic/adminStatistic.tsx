@@ -21,14 +21,24 @@ interface IState {
   setA: number;
   setB: number;
 
-  breakPointsA: number;
-  breakPointsB: number;
+  breakPointsAWon: number;
+  breakPointsBWon: number;
+
+  breakPointsAAtt: number;
+  breakPointsBAtt: number;
 
   pointsInGameA: number;
   pointsInGameB: number;
 
   unforcedErrorsA: number;
   unforcedErrorsB: number;
+
+  forehandWinnersA: number;
+  forehandWinnersB: number;
+  backhandWinnersA: number;
+  backhandWinnersB: number;
+  totalWinnersA: number;
+  totalWinnersB: number;
 }
 class Statistic {
   constructor(
@@ -45,21 +55,40 @@ class Statistic {
 }
 class Game {
   constructor(
-    public matchID: string,
+    public matchId: string,
     public Player1Points: number,
     public Player2Points: number
   ) {}
 }
 class Set {
   constructor(
-    public MatchID: string,
+    public matchID: string,
     public setNo: number,
     public player1GamesWon: number,
     public player2GamesWon: number,
     public live: boolean
   ) {}
 }
-
+class BreakPt {
+  constructor(
+    public matchID: string,
+    public player1BreakPtAtt: number,
+    public player1BreakPtWon: number,
+    public player2BreakPtAtt: number,
+    public player2BreakPtWon: number
+  ) {}
+}
+class Winner {
+  constructor(
+    public matchID: string,
+    public player1ForehandWinners: number,
+    public player1BackhandWinners: number,
+    public player1TotalWinners: number,
+    public player2ForehandWinners: number,
+    public player2BackhandWinners: number,
+    public player2TotalWinners: number
+  ) {}
+}
 const emptyString = "";
 const False = false;
 const POST = "POST";
@@ -68,6 +97,8 @@ const PUT = "PUT";
 const redisStatisticURL = "https://localhost:44379/api/statistic";
 const redisSetURL = "https://localhost:44379/api/set";
 const redisGameURL = "https://localhost:44379/api/game";
+const redisWinnerURL = "https://localhost:44379/api/winner";
+const redisBreakPtURL = "https://localhost:44379/api/breakpt";
 
 class AdminStatistic extends Component<Props, IState> {
   constructor(props: Props) {
@@ -87,14 +118,24 @@ class AdminStatistic extends Component<Props, IState> {
       setA: 0,
       setB: 0,
 
-      breakPointsA: 0,
-      breakPointsB: 0,
+      breakPointsAAtt: 0,
+      breakPointsAWon: 0,
+
+      breakPointsBAtt: 0,
+      breakPointsBWon: 0,
 
       pointsInGameA: 0,
       pointsInGameB: 0,
 
       unforcedErrorsA: 0,
-      unforcedErrorsB: 0
+      unforcedErrorsB: 0,
+
+      forehandWinnersA: 0,
+      forehandWinnersB: 0,
+      backhandWinnersB: 0,
+      backhandWinnersA: 0,
+      totalWinnersA: 0,
+      totalWinnersB: 0
     };
   }
   render() {
@@ -196,16 +237,66 @@ class AdminStatistic extends Component<Props, IState> {
           </div>
           <div className="breakPoints">
             <label className="label">
-              Break points: {this.state.breakPointsA}
+              Break points att: {this.state.breakPointsAAtt}
             </label>
             <div className="buttons">
-              <Button onClick={() => this.breakPointsAPlusClicked()}>+</Button>
+              <Button onClick={() => this.breakPointsAAttPlusClicked()}>
+                +
+              </Button>
               <Button
                 className="button-minus"
-                onClick={() => this.breakPointsAMinusClicked()}
+                onClick={() => this.breakPointsAAttMinusClicked()}
               >
                 -
               </Button>{" "}
+            </div>
+          </div>
+          <div className="breakPoints">
+            <label className="label">
+              Break points won: {this.state.breakPointsAWon}
+            </label>
+            <div className="buttons">
+              <Button onClick={() => this.breakPointsAWonPlusClicked()}>
+                +
+              </Button>
+              <Button
+                className="button-minus"
+                onClick={() => this.breakPointsAWonMinusClicked()}
+              >
+                -
+              </Button>{" "}
+            </div>
+          </div>
+          <div className="winners">
+            <label className="label">
+              Forehand winners: {this.state.forehandWinnersA}
+            </label>
+            <div className="buttons">
+              <Button onClick={() => this.forehandWinnersAPlusClicked()}>
+                +
+              </Button>
+              <Button
+                className="button-minus"
+                onClick={() => this.forehandWinnersAMinusClicked()}
+              >
+                -
+              </Button>
+            </div>
+          </div>
+          <div className="winners">
+            <label className="label">
+              Backhand winners: {this.state.backhandWinnersA}
+            </label>
+            <div className="buttons">
+              <Button onClick={() => this.backhandWinnersAPlusClicked()}>
+                +
+              </Button>
+              <Button
+                className="button-minus"
+                onClick={() => this.backhandWinnersAMinusClicked()}
+              >
+                -
+              </Button>
             </div>
           </div>
         </div>
@@ -305,16 +396,66 @@ class AdminStatistic extends Component<Props, IState> {
           </div>
           <div className="breakPoints">
             <label className="label">
-              Break points: {this.state.breakPointsB}
+              Break points att: {this.state.breakPointsBAtt}
             </label>
             <div className="buttons">
-              <Button onClick={() => this.breakPointsBPlusClicked()}>+</Button>
+              <Button onClick={() => this.breakPointsBAttPlusClicked()}>
+                +
+              </Button>
               <Button
                 className="button-minus"
-                onClick={() => this.breakPointsBMinusClicked()}
+                onClick={() => this.breakPointsBAttMinusClicked()}
               >
                 -
               </Button>{" "}
+            </div>
+          </div>
+          <div className="breakPoints">
+            <label className="label">
+              Break points won: {this.state.breakPointsBWon}
+            </label>
+            <div className="buttons">
+              <Button onClick={() => this.breakPointsBWonPlusClicked()}>
+                +
+              </Button>
+              <Button
+                className="button-minus"
+                onClick={() => this.breakPointsBWonMinusClicked()}
+              >
+                -
+              </Button>{" "}
+            </div>
+          </div>
+          <div className="winners">
+            <label className="label">
+              Forehand winners: {this.state.forehandWinnersB}
+            </label>
+            <div className="buttons">
+              <Button onClick={() => this.forehandWinnersBPlusClicked()}>
+                +
+              </Button>
+              <Button
+                className="button-minus"
+                onClick={() => this.forehandWinnersBMinusClicked()}
+              >
+                -
+              </Button>
+            </div>
+          </div>
+          <div className="winners">
+            <label className="label">
+              Backhand winners: {this.state.backhandWinnersB}
+            </label>
+            <div className="buttons">
+              <Button onClick={() => this.backhandWinnersBPlusClicked()}>
+                +
+              </Button>
+              <Button
+                className="button-minus"
+                onClick={() => this.backhandWinnersBMinusClicked()}
+              >
+                -
+              </Button>
             </div>
           </div>
         </div>{" "}
@@ -322,18 +463,43 @@ class AdminStatistic extends Component<Props, IState> {
       </div>
     );
   }
+
   //#region PLAYERA
   gamesAPlusClicked(): void {
     let gamePlus = this.state.gameA + 1;
     this.setState({ gameA: gamePlus });
   }
-  breakPointsAMinusClicked(): void {
-    let breakPointsAMinusOne = this.state.breakPointsA - 1;
-    this.setState({ breakPointsA: breakPointsAMinusOne });
+  backhandWinnersAMinusClicked(): void {
+    let backhandWinnersAWonMinusOne = this.state.backhandWinnersA - 1;
+    this.setState({backhandWinnersA: backhandWinnersAWonMinusOne });
   }
-  breakPointsAPlusClicked(): void {
-    let breakPointsAPlusOne = this.state.breakPointsA + 1;
-    this.setState({ breakPointsA: breakPointsAPlusOne });
+  backhandWinnersAPlusClicked(): void {
+    let backhandWinnersPlusOne = this.state.backhandWinnersA + 1;
+    this.setState({ backhandWinnersA: backhandWinnersPlusOne });
+  }
+  forehandWinnersAMinusClicked(): void {
+    let forehandWinnersMinusOne = this.state.forehandWinnersA - 1;
+    this.setState({ forehandWinnersA: forehandWinnersMinusOne });
+  }
+  forehandWinnersAPlusClicked(): void {
+    let forehandWinnersPlusOne = this.state.forehandWinnersA + 1;
+    this.setState({ forehandWinnersA: forehandWinnersPlusOne });
+  }
+  breakPointsAWonMinusClicked(): void {
+    let breakPointsAWonMinusOne = this.state.breakPointsAWon - 1;
+    this.setState({ breakPointsAWon: breakPointsAWonMinusOne });
+  }
+  breakPointsAWonPlusClicked(): void {
+    let breakPointsAWonPlusOne = this.state.breakPointsAWon + 1;
+    this.setState({ breakPointsAWon: breakPointsAWonPlusOne });
+  }
+  breakPointsAAttMinusClicked(): void {
+    let breakPointsAAttMinusOne = this.state.breakPointsAAtt - 1;
+    this.setState({ breakPointsAAtt: breakPointsAAttMinusOne });
+  }
+  breakPointsAAttPlusClicked(): void {
+    let breakPointsAAttPlusOne = this.state.breakPointsAAtt + 1;
+    this.setState({ breakPointsAAtt: breakPointsAAttPlusOne });
   }
   pointsAMinutClicked(): void {
     let breakPointsAMinusOne = this.state.pointsInGameA - 1;
@@ -394,14 +560,23 @@ class AdminStatistic extends Component<Props, IState> {
     let gamePlus = this.state.gameB + 1;
     this.setState({ gameB: gamePlus });
   }
-  breakPointsBMinusClicked(): void {
-    let breakPointsAMinusOne = this.state.breakPointsB - 1;
-    this.setState({ breakPointsB: breakPointsAMinusOne });
+  breakPointsBWonMinusClicked(): void {
+    let breakPointsBWonMinusOne = this.state.breakPointsBWon - 1;
+    this.setState({ breakPointsBWon: breakPointsBWonMinusOne });
   }
-  breakPointsBPlusClicked(): void {
-    let breakPointsAPlusOne = this.state.breakPointsB + 1;
-    this.setState({ breakPointsB: breakPointsAPlusOne });
+  breakPointsBWonPlusClicked(): void {
+    let breakPointsBWonPlusOne = this.state.breakPointsBWon + 1;
+    this.setState({ breakPointsBWon: breakPointsBWonPlusOne });
   }
+  breakPointsBAttMinusClicked(): void {
+    let breakPointsBAttMinusOne = this.state.breakPointsBAtt - 1;
+    this.setState({ breakPointsBAtt: breakPointsBAttMinusOne });
+  }
+  breakPointsBAttPlusClicked(): void {
+    let breakPointsBAttPlusOne = this.state.breakPointsBAtt + 1;
+    this.setState({ breakPointsBAtt: breakPointsBAttPlusOne });
+  }
+
   pointsBMinutClicked(): void {
     let breakPointsAMinusOne = this.state.pointsInGameB - 1;
     this.setState({ pointsInGameB: breakPointsAMinusOne });
@@ -454,6 +629,23 @@ class AdminStatistic extends Component<Props, IState> {
     let breakPointsAPlusOne = this.state.acesB + 1;
     this.setState({ acesB: breakPointsAPlusOne });
   }
+
+  backhandWinnersBMinusClicked(): void {
+    let backhandWinnersBWonMinusOne = this.state.backhandWinnersB - 1;
+    this.setState({ backhandWinnersB: backhandWinnersBWonMinusOne });
+  }
+  backhandWinnersBPlusClicked(): void {
+    let backhandWinnersPlusOne = this.state.backhandWinnersB + 1;
+    this.setState({ backhandWinnersB: backhandWinnersPlusOne });
+  }
+  forehandWinnersBMinusClicked(): void {
+    let forehandWinnersMinusOne = this.state.forehandWinnersB - 1;
+    this.setState({ forehandWinnersB: forehandWinnersMinusOne });
+  }
+  forehandWinnersBPlusClicked(): void {
+    let forehandWinnersPlusOne = this.state.forehandWinnersB + 1;
+    this.setState({ forehandWinnersB: forehandWinnersPlusOne });
+  }
   //#endregion
 
   async AddStatistic(): Promise<void> {
@@ -480,6 +672,22 @@ class AdminStatistic extends Component<Props, IState> {
       this.state.pointsInGameA,
       this.state.pointsInGameB
     );
+    let winner:Winner=new Winner(
+      this.props.matchId,
+      this.state.forehandWinnersA,
+      this.state.backhandWinnersA,
+      this.state.forehandWinnersA+this.state.backhandWinnersA,
+      this.state.forehandWinnersB,
+      this.state.backhandWinnersB,
+      this.state.forehandWinnersB+this.state.backhandWinnersB
+    );
+      let breakPt:BreakPt=new BreakPt(
+        this.props.matchId,
+        this.state.breakPointsAAtt,
+        this.state.breakPointsAWon,
+        this.state.breakPointsBAtt,
+        this.state.breakPointsBWon
+      );
     await fetch(redisStatisticURL, {
       method: POST,
       headers: {
@@ -508,7 +716,24 @@ class AdminStatistic extends Component<Props, IState> {
     }).then(response => {
       response.json().then(data => {});
     });
-
+    await fetch(redisWinnerURL, {
+      method: POST,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(winner)
+    }).then(response => {
+      response.json().then(data => {});
+    });
+    await fetch(redisBreakPtURL, {
+      method: POST,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(breakPt)
+    }).then(response => {
+      response.json().then(data => {});
+    });
     alert("Statistic changed");
   }
 }
