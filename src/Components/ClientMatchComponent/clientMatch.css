@@ -1,0 +1,97 @@
+.client-match {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10%;
+    transition-duration: 1s;
+}
+
+.btn-refresh {
+    margin-top: 5%;
+    align-self: center;
+    width: 20%;
+    background-color: rgb(202, 189, 5);
+    border-color: white;
+}
+
+.btn-refresh:hover {
+    background-color: rgb(143, 187, 86);
+    transition-duration: 0.5s;
+    border-color: white;
+}
+
+.btn-refresh:active {
+    background-color: rgb(143, 187, 86);
+    border-color: white;
+}
+
+.players {
+    display: flex;
+}
+
+h2 {
+    flex: 1;
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+}
+
+.totalPoints-data,
+.aces-data,
+.doubleFaults-data,
+.unforcedErrors-data,
+.forehandWinners-data,
+.breakPointsWon-data,
+.backhandWinners-data,
+.totalWinners-data{
+    display: flex;
+}
+
+.totalPointsA,
+.acesA,
+.doubleFaultsA,
+.unforcedErrorsA,
+.forehandWinnersA,
+.breakPointsWonA,
+.backhandWinnersA,
+.totalWinnersA {
+    display: flex;
+    margin-right: 1%;
+    flex: 1;
+    text-align: center;
+    flex-direction: row-reverse;
+}
+
+.totalPointsB,
+.acesB,
+.doubleFaultsB,
+.unforcedErrorsB,
+.forehandWinnersB,
+.breakPointsWonB,
+.backhandWinnersB,
+.totalWinnersB {
+    display: flex;
+    margin-left: 1%;
+    flex: 1;
+    text-align: center;
+    flex-direction: row;
+}
+
+.totalPointsA-value,
+.acesA-value,
+.doubleFaultsA-value,
+.unforcedErrorsA-value,
+.breakPointsWonA-value,
+.backhandWinnersA-value
+.forehandWinnersB-value,
+.totalPointsB-value,
+.acesB-value,
+.doubleFaultsB-value,
+.unforcedErrorsB-value,
+.forehandWinnersB-value,
+.breakPointsWonB-value,
+.backhandWinnersB-value
+{
+    transition-duration: 1s;
+}

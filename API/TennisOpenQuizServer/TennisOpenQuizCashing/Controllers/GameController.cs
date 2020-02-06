@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using TennisOpenQuizCashing.Models;
 using TennisOpenQuizCashing.RedisServices;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TennisOpenQuizCashing.Controllers
 {
@@ -17,14 +16,12 @@ namespace TennisOpenQuizCashing.Controllers
             _gameService = gameService;
             redisKeyGenerator = new RedisKeyGenerator();
         }
-        // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<controller>/5
         [HttpGet("{id}")]
         public Game Get([FromBody]Game game)
         {
@@ -32,25 +29,21 @@ namespace TennisOpenQuizCashing.Controllers
             return _gameService.GetGame(gameKey);
         }
 
-        // POST api/<controller>
+        [HttpGet("{matchID}")]
+        public Game Get(string matchID)
+        {
+            Game gameToGetKey = new Game();
+            gameToGetKey.MatchId = matchID;
+            string gameKey = redisKeyGenerator.GenerateKey(gameToGetKey);
+            return _gameService.GetGame(gameKey);
+        }
         [HttpPost]
         public Game Post([FromBody]Game value)
         {
-            string gameKey = redisKeyGenerator.GenerateKey(value);
-            _gameService.AddGame(value, gameKey);
+            string breakPtKey = redisKeyGenerator.GenerateKey(value);
+
+            _gameService.AddGame(value, breakPtKey);
             return value;
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

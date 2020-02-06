@@ -25,7 +25,7 @@ namespace TennisOpenQuizCashing.Controllers
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
+        [HttpGet("{matchID}")]
         public Statistic Get(string matchID)
         {
             Statistic statisticToGetKey = new Statistic();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TennisOpenQuizCashing.Models;
 
@@ -31,6 +32,8 @@ namespace TennisOpenQuizCashing
                 generatedKey = GenerateKeyForSet((Set)obj);
             else if (someObject == typeof(Winner))
                 generatedKey = GenerateKeyForWinner((Winner)obj);
+            else if (someObject == typeof(BreakPt))
+                generatedKey = GenerateKeyForBreakPt((BreakPt)obj);
             else generatedKey = "";
 
             return generatedKey;
@@ -39,12 +42,8 @@ namespace TennisOpenQuizCashing
         private string GenerateKeyForWinner(Winner winner)
         {
             string firstKeyPart = winner.MatchID;
-            string secondKeyPart = winner.Player1BackhandWinners.ToString()+
-                                    winner.Player2BackhandWinners.ToString()+
-                                    winner.Player1ForehandWinners.ToString()+
-                                    winner.Player2ForehandWinners.ToString();
 
-            string generatedKeyForWinner = firstKeyPart + '-' + secondKeyPart + '_';
+            string generatedKeyForWinner = "-" + firstKeyPart + "_winner";
 
             return generatedKeyForWinner;
         }
@@ -52,11 +51,8 @@ namespace TennisOpenQuizCashing
         private string GenerateKeyForSet(Set set)
         {
             string firstKeyPart = set.MatchID;
-            string secondKeyPart = (set.SetNo+
-                                    set.Player1GamesWon+
-                                    set.Player2GamesWon).ToString();
 
-            string generatedKeyForSet = firstKeyPart + '-' + secondKeyPart + '_';
+            string generatedKeyForSet = "-" + firstKeyPart + "_set";
 
             return generatedKeyForSet;
         }
@@ -64,9 +60,16 @@ namespace TennisOpenQuizCashing
         private string GenerateKeyForGame(Game game)
         {
             string firstKeyPart = game.MatchId;
-            string secondKeyPart = (game.Player1Points +
-                                    game.Player2Points).ToString();
-            string generatedKeyForGame = firstKeyPart +'-'+ secondKeyPart+'_';
+            
+            string generatedKeyForGame = "-" + firstKeyPart + "_game";
+
+            return generatedKeyForGame;
+        }
+        private string GenerateKeyForBreakPt(BreakPt breakPt)
+        {
+            string firstKeyPart = breakPt.MatchID;
+
+            string generatedKeyForGame = "-" + firstKeyPart + "_breakPt";
 
             return generatedKeyForGame;
         }
@@ -75,7 +78,7 @@ namespace TennisOpenQuizCashing
         {
             string firstKeyPart = statistic.MatchID;
             
-            string generatedKeyForStatistic = "-"  + firstKeyPart + "_";
+            string generatedKeyForStatistic = "-"  + firstKeyPart + "_statistic";
 
             return generatedKeyForStatistic;
         }
@@ -104,7 +107,7 @@ namespace TennisOpenQuizCashing
         private string GenerateKeyForQuestion(Question question)
         {
             string firstKeyPart = question.QuestionId;
-            string secondKeyPart = question.QuestionText.Trim();
+            string secondKeyPart = Regex.Replace(question.QuestionText, @"\s", "");
 
             string generatedKeyForQuestion = firstKeyPart +"-"+ secondKeyPart+"_";
             return generatedKeyForQuestion;
