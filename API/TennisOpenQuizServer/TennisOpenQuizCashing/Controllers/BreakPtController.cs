@@ -11,11 +11,11 @@ using TennisOpenQuizCashing.RedisServices;
 namespace TennisOpenQuizCashing.Controllers
 {
     [Route("api/[controller]")]
-    public class BreakPtController : Controller
+    public class BreakptController : Controller
     {
         private readonly BreakPtService breakPtService;
         private readonly RedisKeyGenerator redisKeyGenerator;
-        public BreakPtController(BreakPtService breakPtService)
+        public BreakptController(BreakPtService breakPtService)
         {
             this.breakPtService = breakPtService;
 

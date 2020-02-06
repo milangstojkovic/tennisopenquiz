@@ -37,5 +37,13 @@ namespace TennisOpenQuizCashing.Controllers
             string gameKey = redisKeyGenerator.GenerateKey(gameToGetKey);
             return _gameService.GetGame(gameKey);
         }
+        [HttpPost]
+        public Game Post([FromBody]Game value)
+        {
+            string breakPtKey = redisKeyGenerator.GenerateKey(value);
+
+            _gameService.AddGame(value, breakPtKey);
+            return value;
+        }
     }
 }

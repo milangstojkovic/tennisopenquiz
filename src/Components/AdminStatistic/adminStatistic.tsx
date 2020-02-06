@@ -1,6 +1,17 @@
 import React, { Component } from "react";
 import "./adminStatistic.css";
 import { Button } from "react-bootstrap";
+const emptyString = "";
+const False = false;
+const POST = "POST";
+const GET = "GET";
+const PUT = "PUT";
+const redisStatisticURL = "https://localhost:44379/api/statistic";
+const redisSetURL = "https://localhost:44379/api/set";
+const redisGameURL = "https://localhost:44379/api/game";
+const redisWinnerURL = "https://localhost:44379/api/winner";
+const redisBreakPtURL = "https://localhost:44379/api/breakpt";
+
 interface Props {
   matchId: string;
 }
@@ -56,8 +67,8 @@ class Statistic {
 class Game {
   constructor(
     public matchId: string,
-    public Player1Points: number,
-    public Player2Points: number
+    public player1Points: number,
+    public player2Points: number
   ) {}
 }
 class Set {
@@ -89,17 +100,6 @@ class Winner {
     public player2TotalWinners: number
   ) {}
 }
-const emptyString = "";
-const False = false;
-const POST = "POST";
-const GET = "GET";
-const PUT = "PUT";
-const redisStatisticURL = "https://localhost:44379/api/statistic";
-const redisSetURL = "https://localhost:44379/api/set";
-const redisGameURL = "https://localhost:44379/api/game";
-const redisWinnerURL = "https://localhost:44379/api/winner";
-const redisBreakPtURL = "https://localhost:44379/api/breakpt";
-
 class AdminStatistic extends Component<Props, IState> {
   constructor(props: Props) {
     super(props);
@@ -471,7 +471,7 @@ class AdminStatistic extends Component<Props, IState> {
   }
   backhandWinnersAMinusClicked(): void {
     let backhandWinnersAWonMinusOne = this.state.backhandWinnersA - 1;
-    this.setState({backhandWinnersA: backhandWinnersAWonMinusOne });
+    this.setState({ backhandWinnersA: backhandWinnersAWonMinusOne });
   }
   backhandWinnersAPlusClicked(): void {
     let backhandWinnersPlusOne = this.state.backhandWinnersA + 1;
@@ -672,22 +672,22 @@ class AdminStatistic extends Component<Props, IState> {
       this.state.pointsInGameA,
       this.state.pointsInGameB
     );
-    let winner:Winner=new Winner(
+    let winner: Winner = new Winner(
       this.props.matchId,
       this.state.forehandWinnersA,
       this.state.backhandWinnersA,
-      this.state.forehandWinnersA+this.state.backhandWinnersA,
+      this.state.forehandWinnersA + this.state.backhandWinnersA,
       this.state.forehandWinnersB,
       this.state.backhandWinnersB,
-      this.state.forehandWinnersB+this.state.backhandWinnersB
+      this.state.forehandWinnersB + this.state.backhandWinnersB
     );
-      let breakPt:BreakPt=new BreakPt(
-        this.props.matchId,
-        this.state.breakPointsAAtt,
-        this.state.breakPointsAWon,
-        this.state.breakPointsBAtt,
-        this.state.breakPointsBWon
-      );
+    let breakPt: BreakPt = new BreakPt(
+      this.props.matchId,
+      this.state.breakPointsAAtt,
+      this.state.breakPointsAWon,
+      this.state.breakPointsBAtt,
+      this.state.breakPointsBWon
+    );
     await fetch(redisStatisticURL, {
       method: POST,
       headers: {
@@ -734,7 +734,7 @@ class AdminStatistic extends Component<Props, IState> {
     }).then(response => {
       response.json().then(data => {});
     });
-    alert("Statistic changed");
+    await alert("Statistic changed");
   }
 }
 export default AdminStatistic;

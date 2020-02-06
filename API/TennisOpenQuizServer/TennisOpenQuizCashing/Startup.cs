@@ -32,6 +32,7 @@ namespace TennisOpenQuizCashing
             services.AddSingleton<ServiceRedis>();
             services.AddSingleton<PublishService>();
             services.AddSingleton<SubscribeService>();
+            services.AddSingleton<BreakPtService>();
 
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>

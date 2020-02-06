@@ -40,14 +40,22 @@ h4 {
 .totalPoints-data,
 .aces-data,
 .doubleFaults-data,
-.unforcedErrors-data {
+.unforcedErrors-data,
+.forehandWinners-data,
+.breakPointsWon-data,
+.backhandWinners-data,
+.totalWinners-data{
     display: flex;
 }
 
 .totalPointsA,
 .acesA,
 .doubleFaultsA,
-.unforcedErrorsA {
+.unforcedErrorsA,
+.forehandWinnersA,
+.breakPointsWonA,
+.backhandWinnersA,
+.totalWinnersA {
     display: flex;
     margin-right: 1%;
     flex: 1;
@@ -58,7 +66,11 @@ h4 {
 .totalPointsB,
 .acesB,
 .doubleFaultsB,
-.unforcedErrorsB {
+.unforcedErrorsB,
+.forehandWinnersB,
+.breakPointsWonB,
+.backhandWinnersB,
+.totalWinnersB {
     display: flex;
     margin-left: 1%;
     flex: 1;
@@ -70,9 +82,16 @@ h4 {
 .acesA-value,
 .doubleFaultsA-value,
 .unforcedErrorsA-value,
+.breakPointsWonA-value,
+.backhandWinnersA-value
+.forehandWinnersB-value,
 .totalPointsB-value,
 .acesB-value,
 .doubleFaultsB-value,
-.unforcedErrorsB-value {
+.unforcedErrorsB-value,
+.forehandWinnersB-value,
+.breakPointsWonB-value,
+.backhandWinnersB-value
+{
     transition-duration: 1s;
 }

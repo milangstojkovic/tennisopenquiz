@@ -4,9 +4,13 @@ import { Button } from "react-bootstrap";
 import { getStatisticByIdService } from "../../CassandraServices/statistic.service";
 const axios = require("axios");
 
+const emptyString = "";
 const redisStatisticURL = "https://localhost:44379/api/statistic/";
-const redisSetURL = "https://localhost:44379/api/set";
-const redisGameURL = "https://localhost:44379/api/game";
+const redisSetURL = "https://localhost:44379/api/set/";
+const redisGameURL = "https://localhost:44379/api/game/";
+const redisWinnerURL = "https://localhost:44379/api/winner/";
+const redisBreakPtURL = "https://localhost:44379/api/breakpt/";
+
 interface Props {
   matchID: string;
   player1: string;
@@ -28,6 +32,18 @@ interface IState {
 
   player1Points: number;
   player2Points: number;
+
+  player1BreakPtAtt: number;
+  player1BreakPtWon: number;
+  player2BreakPtAtt: number;
+  player2BreakPtWon: number;
+
+  player1ForehandWinners: number;
+  player1BackhandWinners: number;
+  player1TotalWinners: number;
+  player2ForehandWinners: number;
+  player2BackhandWinners: number;
+  player2TotalWinners: number;
 }
 class Statistic {
   constructor(
@@ -58,6 +74,27 @@ class Set {
     public live: boolean
   ) {}
 }
+class BreakPt {
+  constructor(
+    public matchID: string,
+    public player1BreakPtAtt: number,
+    public player1BreakPtWon: number,
+    public player2BreakPtAtt: number,
+    public player2BreakPtWon: number
+  ) {}
+}
+class Winner {
+  constructor(
+    public matchID: string,
+    public player1ForehandWinners: number,
+    public player1BackhandWinners: number,
+    public player1TotalWinners: number,
+    public player2ForehandWinners: number,
+    public player2BackhandWinners: number,
+    public player2TotalWinners: number
+  ) {}
+}
+
 class ClientMatch extends Component<Props, IState> {
   constructor(props: Props) {
     super(props);
@@ -74,8 +111,21 @@ class ClientMatch extends Component<Props, IState> {
       setNo: 0,
       player1GamesWon: 0,
       player2GamesWon: 0,
+
       player1Points: 0,
-      player2Points: 0
+      player2Points: 0,
+
+      player1BreakPtAtt: 0,
+      player1BreakPtWon: 0,
+      player2BreakPtAtt: 0,
+      player2BreakPtWon: 0,
+
+      player1ForehandWinners: 0,
+      player1BackhandWinners: 0,
+      player1TotalWinners: 0,
+      player2ForehandWinners: 0,
+      player2BackhandWinners: 0,
+      player2TotalWinners: 0
     };
   }
 
@@ -142,6 +192,66 @@ class ClientMatch extends Component<Props, IState> {
             </div>
           </div>
         </div>
+        <div className="breakPointsWon-client">
+          <h4>Break points won</h4>
+          <div className="breakPointsWon-data">
+            <div className="breakPointsWonA">
+              <div className="breakPointsWonA-value">
+                {this.state.player1BreakPtWon}
+              </div>
+            </div>
+            <div className="breakPointsWonB">
+              <div className="breakPointsWonB-value">
+                {this.state.player2BreakPtWon}
+              </div>
+            </div>
+          </div>
+        </div>{" "}
+        <div className="forehandWinners-client">
+          <h4>Forehand winners</h4>
+          <div className="forehandWinners-data">
+            <div className="forehandWinnersA">
+              <div className="forehandWinnersA-value">
+                {this.state.player1ForehandWinners}
+              </div>
+            </div>
+            <div className="forehandWinnersB">
+              <div className="forehandWinnersB-value">
+                {this.state.player2ForehandWinners}
+              </div>
+            </div>
+          </div>
+        </div>{" "}
+        <div className="backhandWinners-client">
+          <h4>Backhand winners</h4>
+          <div className="backhandWinners-data">
+            <div className="backhandWinnersA">
+              <div className="backhandWinnersA-value">
+                {this.state.player1BackhandWinners}
+              </div>
+            </div>
+            <div className="backhandWinnersB">
+              <div className="backhandWinnersB-value">
+                {this.state.player2BackhandWinners}
+              </div>
+            </div>
+          </div>
+        </div>{" "}
+        <div className="totalWinners-client">
+          <h4>Total winners</h4>
+          <div className="totalWinners-data">
+            <div className="totalWinnersA">
+              <div className="totalWinnersA-value">
+                {this.state.player1TotalWinners}
+              </div>
+            </div>
+            <div className="totalWinnersB">
+              <div className="totalWinnersB-value">
+                {this.state.player2TotalWinners}
+              </div>
+            </div>
+          </div>
+        </div>
         <Button className="btn-refresh" onClick={() => this.clickedButton()}>
           {" "}
           REFRESH
@@ -152,16 +262,41 @@ class ClientMatch extends Component<Props, IState> {
   async clickedButton(): Promise<void> {
     let statistic: Statistic = await this.getStatistic();
     console.log(statistic);
-
+    let set: Set = await this.getSet();
+    let winner: Winner = await this.getWinner();
+    let breakPt: BreakPt = await this.getBreakPt();
     this.setState({
       player1TotalPoints: statistic.player1TotalPoints,
       player2TotalPoints: statistic.player2TotalPoints,
       player1Aces: statistic.player1Aces,
       player2Aces: statistic.player2Aces,
       player1DoubleFaults: statistic.player1DoubleFaults,
-      player2DoubleFaults: statistic.player1DoubleFaults,
+      player2DoubleFaults: statistic.player2DoubleFaults,
       player1UnforcedErrors: statistic.player1UnforcedErrors,
-      player2UnforcedErrors: statistic.player2UnforcedErrors
+      player2UnforcedErrors: statistic.player2UnforcedErrors,
+
+      setNo: set.setNo,
+      player1GamesWon: set.player1GamesWon,
+      player2GamesWon: set.player2GamesWon,
+
+      // player1Points: ,
+      // player2Points: 0,
+
+      player1BreakPtAtt: breakPt.player1BreakPtAtt,
+      player1BreakPtWon: breakPt.player1BreakPtWon,
+      player2BreakPtAtt: breakPt.player2BreakPtAtt,
+      player2BreakPtWon: breakPt.player2BreakPtWon,
+
+      player1ForehandWinners: winner.player1ForehandWinners,
+      player1BackhandWinners: winner.player1BackhandWinners,
+      player1TotalWinners:
+        winner.player1ForehandWinners +
+        winner.player1BackhandWinners,
+      player2ForehandWinners: winner.player2ForehandWinners,
+      player2BackhandWinners: winner.player2BackhandWinners,
+      player2TotalWinners:
+        winner.player2ForehandWinners +
+        winner.player2BackhandWinners
     });
     this.fillStatisticData();
   }
@@ -222,12 +357,96 @@ class ClientMatch extends Component<Props, IState> {
       this.state.player2UnforcedErrors /
       (this.state.player1UnforcedErrors + this.state.player2UnforcedErrors)
     ).toString();
+    el = document.querySelector(".breakPointsWonA-value") as HTMLDivElement;
+    el.style.backgroundColor = "green";
+    el.style.flexGrow = (
+      this.state.player1BreakPtWon /
+      (this.state.player1BreakPtWon + this.state.player2BreakPtWon)
+    ).toString();
+    el = document.querySelector(".breakPointsWonB-value") as HTMLDivElement;
+    el.style.backgroundColor = "green";
+    el.style.flexGrow = (
+      this.state.player2BreakPtWon /
+      (this.state.player1BreakPtWon + this.state.player2BreakPtWon)
+    ).toString();
+    el = document.querySelector(".forehandWinnersA-value") as HTMLDivElement;
+    el.style.backgroundColor = "green";
+    el.style.flexGrow = (
+      this.state.player1ForehandWinners /
+      (this.state.player1ForehandWinners + this.state.player2ForehandWinners)
+    ).toString();
+    el = document.querySelector(".forehandWinnersB-value") as HTMLDivElement;
+    el.style.backgroundColor = "green";
+    el.style.flexGrow = (
+      this.state.player2ForehandWinners /
+      (this.state.player1ForehandWinners + this.state.player2ForehandWinners)
+    ).toString();
+    el = document.querySelector(".backhandWinnersA-value") as HTMLDivElement;
+    el.style.backgroundColor = "green";
+    el.style.flexGrow = (
+      this.state.player1BackhandWinners /
+      (this.state.player1BackhandWinners + this.state.player2BackhandWinners)
+    ).toString();
+    el = document.querySelector(".backhandWinnersB-value") as HTMLDivElement;
+    el.style.backgroundColor = "green";
+    el.style.flexGrow = (
+      this.state.player2BackhandWinners /
+      (this.state.player1BackhandWinners + this.state.player2BackhandWinners)
+    ).toString();
+    el = document.querySelector(".totalWinnersA-value") as HTMLDivElement;
+    el.style.backgroundColor = "green";
+    el.style.flexGrow = (
+      this.state.player1TotalWinners /
+      (this.state.player1TotalWinners + this.state.player2TotalWinners)
+    ).toString();
+    el = document.querySelector(".totalWinnersB-value") as HTMLDivElement;
+    el.style.backgroundColor = "green";
+    el.style.flexGrow = (
+      this.state.player2TotalWinners /
+      (this.state.player1TotalWinners + this.state.player2TotalWinners)
+    ).toString();
   }
   async getStatistic(): Promise<Statistic> {
-    let toRet: Statistic = new Statistic("", 0, 0, 0, 0, 0, 0, 0, 0);
+    let toRet: Statistic = new Statistic(emptyString, 0, 0, 0, 0, 0, 0, 0, 0);
     await axios
       .get(redisStatisticURL + this.props.matchID)
       .then((response: { data: Statistic }) => {
+        toRet = response.data;
+      });
+    return toRet;
+  }
+  async getWinner(): Promise<Winner> {
+    let toRet: Winner = new Winner(emptyString, 0, 0, 0, 0, 0, 0);
+    await axios
+      .get(redisWinnerURL + this.props.matchID)
+      .then((response: { data: Winner }) => {
+        toRet = response.data;
+      });
+    return toRet;
+  }
+  async getSet(): Promise<Set> {
+    let toRet: Set = new Set(emptyString, 0, 0, 0, false);
+    await axios
+      .get(redisSetURL + this.props.matchID)
+      .then((response: { data: Set }) => {
+        toRet = response.data;
+      });
+    return toRet;
+  }
+  async getGame(): Promise<Game> {
+    let toRet: Game = new Game(emptyString, 0, 0);
+    await axios
+      .get(redisGameURL + this.props.matchID)
+      .then((response: { data: Game }) => {
+        toRet = response.data;
+      });
+    return toRet;
+  }
+  async getBreakPt(): Promise<BreakPt> {
+    let toRet: BreakPt = new BreakPt(emptyString, 0, 0, 0, 0);
+    await axios
+      .get(redisBreakPtURL + this.props.matchID)
+      .then((response: { data: BreakPt }) => {
         toRet = response.data;
       });
     return toRet;
