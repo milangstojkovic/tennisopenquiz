@@ -1,22 +1,34 @@
 import React, { Component } from "react";
 import { Match } from "../../Models/Model";
 import { getMatchesService } from "../../CassandraServices/match.service";
+import "./matchList.css";
+import ClientMatch from "../ClientMatchComponent/clientMatch";
 interface Props { }
 interface IState {
     loading: boolean;
+    redirect: boolean;
+    matchid: string;
 }
 class MatchList extends Component<Props, IState> {
     matches!: Match[];
     constructor(props: Props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            redirect: false,
+            matchid: ""
         };
         this.getData();
     }
     render() {
         if (this.state.loading)
             return null;
+        if (this.state.redirect)
+            return (
+                <ClientMatch
+                matchid={this.state.matchid}
+                />
+            )
         const matchRendering = this.matches.map((match, index) =>
             <tr key={index}>
                 <th scope="row">{index}</th>
@@ -24,7 +36,7 @@ class MatchList extends Component<Props, IState> {
                 <td>{match.player1}</td>
                 <td>{match.player2}</td>
                 <td>{match.date}</td>
-                <td><button className="btn btn-secondary" disabled={this.quizStarted(match.date)} id={match.id}>Start match</button></td>
+                <td><button className="btn btn-secondary" disabled={this.quizStarted(match.date)} onClick={e=>this.enterMatch(e)} id={match.matchid}>{this.matchFinished(match.isFinished)}</button></td>
             </tr>
         )
         return (
@@ -58,6 +70,21 @@ class MatchList extends Component<Props, IState> {
             return false;
         else 
             return true;
+    }
+
+    matchFinished(finished: boolean): string {
+        if(finished)
+            return "Statistics";
+        else
+            return "Start match";
+    }
+
+    async enterMatch(event: any): Promise <void> {
+        var target= event.target;
+        await console.log(target.id);
+        await this.setState({matchid: target.id});
+        console.log(this.state.matchid);
+        this.setState({redirect: true});
     }
 }
 export default MatchList;

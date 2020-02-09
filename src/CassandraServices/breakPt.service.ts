@@ -1,6 +1,6 @@
 import {BreakPt} from "../Models/Model";
 import axios from 'axios';
-const baseUrl = 'https://localhost:9160/api';
+const baseUrl = 'https://localhost:5001/api';
 
 export const getBreakPtByIdService = (id: String): Promise<BreakPt>=>
     axios.get<BreakPt>(

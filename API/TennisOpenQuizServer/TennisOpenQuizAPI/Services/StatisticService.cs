@@ -17,7 +17,7 @@ namespace TennisOpenQuizAPI.Services
             Statistic statistic = new Statistic();
             if (statisticData != null)
             {
-                statistic.MatchID = statisticData["matchid"].ToString();
+                statistic.Matchid = statisticData["matchid"].ToString();
                 statistic.Player1Aces = statisticData["player1aces"] != null ? Int32.Parse(statisticData["player1aces"].ToString()) : 0;
                 statistic.Player2Aces = statisticData["player2aces"] != null ? Int32.Parse(statisticData["player2aces"].ToString()) : 0;
                 statistic.Player1DoubleFaults = statisticData["player1doublefaults"] != null ? Int32.Parse(statisticData["player1doublefaults"].ToString()) : 0;

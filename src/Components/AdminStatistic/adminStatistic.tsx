@@ -13,7 +13,7 @@ const redisWinnerURL = "https://localhost:44379/api/winner";
 const redisBreakPtURL = "https://localhost:44379/api/breakpt";
 
 interface Props {
-  matchId: string;
+  matchid: string;
 }
 
 interface IState {
@@ -53,7 +53,7 @@ interface IState {
 }
 class Statistic {
   constructor(
-    public matchID: string,
+    public matchid: string,
     public Player1Aces: number,
     public Player2Aces: number,
     public Player1DoubleFaults: number,
@@ -66,14 +66,14 @@ class Statistic {
 }
 class Game {
   constructor(
-    public matchId: string,
+    public matchid: string,
     public player1Points: number,
     public player2Points: number
   ) {}
 }
 class Set {
   constructor(
-    public matchID: string,
+    public matchid: string,
     public setNo: number,
     public player1GamesWon: number,
     public player2GamesWon: number,
@@ -82,7 +82,7 @@ class Set {
 }
 class BreakPt {
   constructor(
-    public matchID: string,
+    public matchid: string,
     public player1BreakPtAtt: number,
     public player1BreakPtWon: number,
     public player2BreakPtAtt: number,
@@ -91,7 +91,7 @@ class BreakPt {
 }
 class Winner {
   constructor(
-    public matchID: string,
+    public matchid: string,
     public player1ForehandWinners: number,
     public player1BackhandWinners: number,
     public player1TotalWinners: number,
@@ -650,7 +650,7 @@ class AdminStatistic extends Component<Props, IState> {
 
   async AddStatistic(): Promise<void> {
     let statistic: Statistic = new Statistic(
-      this.props.matchId,
+      this.props.matchid,
       this.state.acesA,
       this.state.acesB,
       this.state.doubleFaultsA,
@@ -661,19 +661,19 @@ class AdminStatistic extends Component<Props, IState> {
       this.state.totalPointsB
     );
     let set: Set = new Set(
-      this.props.matchId,
+      this.props.matchid,
       1,
       this.state.gameA,
       this.state.gameB,
       true
     );
     let game: Game = new Game(
-      this.props.matchId,
+      this.props.matchid,
       this.state.pointsInGameA,
       this.state.pointsInGameB
     );
     let winner: Winner = new Winner(
-      this.props.matchId,
+      this.props.matchid,
       this.state.forehandWinnersA,
       this.state.backhandWinnersA,
       this.state.forehandWinnersA + this.state.backhandWinnersA,
@@ -682,7 +682,7 @@ class AdminStatistic extends Component<Props, IState> {
       this.state.forehandWinnersB + this.state.backhandWinnersB
     );
     let breakPt: BreakPt = new BreakPt(
-      this.props.matchId,
+      this.props.matchid,
       this.state.breakPointsAAtt,
       this.state.breakPointsAWon,
       this.state.breakPointsBAtt,

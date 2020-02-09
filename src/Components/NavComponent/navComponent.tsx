@@ -28,7 +28,7 @@ class NavComponent extends Component<Props, IState> {
                     </li>
                 </ul>
                 <ul className="nav">
-                    <li id="logo" className="nav-item">
+                    <li id="logo" className="nav-item" onClick={e=>this.logOut(e)}>
                         <img className="item" src={logo}></img>
                     </li>
                 </ul>
@@ -36,6 +36,10 @@ class NavComponent extends Component<Props, IState> {
         );
 
     }
+    logOut(event:any): void {
+        localStorage.removeItem("username");
+        window.location.reload();
+        }
 }
 
 export default NavComponent;

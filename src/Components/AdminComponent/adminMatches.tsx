@@ -4,6 +4,8 @@ import { getTournamentsService } from "../../CassandraServices/tournament.servic
 import { getMatchesService, createMatchService } from "../../CassandraServices/match.service";
 import Modal from 'react-bootstrap/Modal';
 import { getPlayersService } from "../../CassandraServices/player.service";
+import "./adminMatches.css";
+import AdminStatistic from "../AdminStatistic/adminStatistic";
 
 interface Props { }
 interface IState {
@@ -18,6 +20,8 @@ interface IState {
     playersModalIsOpen: boolean;
     dateModalIsOpen: boolean;
     btnSubmit: boolean;
+    redirect: boolean;
+    matchid: string;
 }
 const emptyString = "";
 class AdminMatches extends Component<Props, IState> {
@@ -37,13 +41,21 @@ class AdminMatches extends Component<Props, IState> {
             dateModalIsOpen: false,
             player1Id: 0,
             player2Id: 0,
-            btnSubmit: true
+            btnSubmit: true,
+            redirect: false,
+            matchid: ""
         };
         this.getData();
     }
     render() {
         if (this.state.loading)
             return null;
+        if(this.state.redirect)
+            return (
+                <AdminStatistic
+                matchid={this.state.matchid}
+                />
+            )
         const matchRendering = this.matches.map((match, index) =>
             <tr key={index}>
                 <th scope="row">{index}</th>
@@ -51,7 +63,7 @@ class AdminMatches extends Component<Props, IState> {
                 <td>{match.player1}</td>
                 <td>{match.player2}</td>
                 <td>{match.date}</td>
-                <td><button className="btn btn-secondary" id={match.id}>Start match</button></td>
+                <td><button className="btn btn-secondary" onClick={e=>this.startMatch(e)} id={match.matchid}>Start match</button></td>
             </tr>
         )
         const toursRender = this.tournaments.map((tournament, index) =>
@@ -199,6 +211,13 @@ class AdminMatches extends Component<Props, IState> {
             return "btn btn-outline-success";
         else
             return "btn btn-outline-primary";
+    }
+    
+    async startMatch(event: any): Promise<void> {
+        let target=event.target;
+        await this.setState({matchid:target.id});
+        await this.setState({redirect: true});
+        this.render();
     }
 }
 export default AdminMatches;

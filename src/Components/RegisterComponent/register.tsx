@@ -51,7 +51,7 @@ class Register extends Component<Props, IState> {
         <div className="buttons-login-register">
           <button
             id="btnReg"
-            className="button-register"
+            className="btn btn-primary"
             onClick={e => this.buttonRegisterClicked(e)}
           >
             {" "}
@@ -107,6 +107,7 @@ class Register extends Component<Props, IState> {
       username: this.state.username
     };
       createUserService(user as User);
+      window.location.reload();
   }
   async getData() {
     await getUsersService().then(res=>this.usernames=res.map(element=>element.username));
