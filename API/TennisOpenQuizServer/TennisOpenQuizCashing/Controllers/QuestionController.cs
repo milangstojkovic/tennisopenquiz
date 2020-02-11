@@ -24,12 +24,10 @@ namespace TennisOpenQuizCashing.Controllers
         {
             return _questionService.GetQuestions();
         }
-
         // GET api/<controller>/5
-        [HttpGet("{question}")]
-        public Question Get([FromBody]Question question)
+        [HttpGet("{questionKey}")]
+        public Question Get(string questionKey)
         {
-            string questionKey = redisKeyGenerator.GenerateKey(question);
             return _questionService.GetQuestion(questionKey);
         }
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
@@ -25,14 +25,14 @@ namespace TennisOpenQuizCashing.RedisServices
         public void AddAnswer(Answer answer, string answerKey)
         {
             var db = _redis.GetDatabase();
-            db.StringSet(answerKey, JsonConvert.SerializeObject(answer));
+            db.StringSet(answerKey, answer.AnswerValue);
         }
 
-        public Answer GetAnswer(string answerKey)
+        public string GetAnswer(string answerKey)
         {
             var db = _redis.GetDatabase();
             Answer answerFromCache = JsonConvert.DeserializeObject<Answer>(db.StringGet(answerKey));
-            return answerFromCache;
+            return answerFromCache.AnswerValue;
         }
     }
 }

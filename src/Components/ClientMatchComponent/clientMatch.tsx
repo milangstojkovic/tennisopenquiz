@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 import "./clientMatch.css";
 import { Button } from "react-bootstrap";
-import { getStatisticByIdService } from "../../CassandraServices/statistic.service";
-const axios = require("axios");
+import { HubConnectionBuilder } from "@aspnet/signalr";
+import * as signalR from "@microsoft/signalr";
 
+const axios = require("axios");
 const emptyString = "";
 const redisStatisticURL = "https://localhost:44379/api/statistic/";
 const redisSetURL = "https://localhost:44379/api/set/";
 const redisGameURL = "https://localhost:44379/api/game/";
 const redisWinnerURL = "https://localhost:44379/api/winner/";
 const redisBreakPtURL = "https://localhost:44379/api/breakpt/";
+const hubConnUrl = "https://localhost:44379/qahub";
+const redisQuestionURL = "https://localhost:44379/api/question/";
+const redisAnswerURL = "https://localhost:44379/api/answer/";
+const POST = "POST";
 
 interface Props {
   matchID: string;
@@ -17,6 +22,8 @@ interface Props {
   player2: string;
 }
 interface IState {
+  question: Question;
+
   player1TotalPoints: number;
   player2TotalPoints: number;
   player1Aces: number;
@@ -44,6 +51,12 @@ interface IState {
   player2ForehandWinners: number;
   player2BackhandWinners: number;
   player2TotalWinners: number;
+
+  /////////////////////////////
+  nick: string;
+  message: string;
+  messages: string[];
+  hubConnection: any;
 }
 class Statistic {
   constructor(
@@ -94,11 +107,36 @@ class Winner {
     public player2TotalWinners: number
   ) {}
 }
-
+class Question {
+  constructor(
+    public questionId: string,
+    public questionText: string,
+    public answerA: string,
+    public answerB: string,
+    public answerC: string,
+    public answerD: string,
+    public points: number,
+    public active: boolean
+  ) {}
+}
+class Answer {
+  constructor(public answerValue: string, public userAnswered: string) {}
+}
 class ClientMatch extends Component<Props, IState> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      question: new Question(
+        emptyString,
+        emptyString,
+        emptyString,
+        emptyString,
+        emptyString,
+        emptyString,
+        0,
+        false
+      ),
+
       player1TotalPoints: 0,
       player2TotalPoints: 0,
       player1Aces: 0,
@@ -125,13 +163,114 @@ class ClientMatch extends Component<Props, IState> {
       player1TotalWinners: 0,
       player2ForehandWinners: 0,
       player2BackhandWinners: 0,
-      player2TotalWinners: 0
+      player2TotalWinners: 0,
+
+      nick: emptyString,
+      message: emptyString,
+      messages: [],
+      hubConnection: null
     };
   }
+  //#region HUB
+  componentDidMount = () => {
+    console.log("aaa");
+    const nick: any = "Nidza";
+    const hubConnection: any = new HubConnectionBuilder()
+      .withUrl(hubConnUrl, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+    this.setState({ hubConnection, nick }, () => {
+      this.state.hubConnection
+        .start(() => console.log("started..."))
+        .then(() => console.log("Connection started!"))
+        .catch((err: any) =>
+          console.log("Error while establishing connection :(")
+        );
+
+      this.state.hubConnection.on(
+        "sendToAll",
+        (nick: string, receivedMessage: string) => {
+          const text = `${nick}: ${receivedMessage}`;
+          const messages = this.state.messages.concat([text]);
+          this.setState({ messages });
+
+          this.setState({ message: receivedMessage });
+
+          this.getQuestion();
+        }
+      );
+    });
+  };
+  sendMessage = () => {
+    this.state.hubConnection
+      .invoke("sendToAll", this.state.nick, this.state.message)
+      .catch((err: any) => console.error(err));
+
+    this.setState({ message: "" });
+  };
+
+  async getQuestion(): Promise<Question> {
+    let toRet: Question = new Question(
+      emptyString,
+      emptyString,
+      emptyString,
+      emptyString,
+      emptyString,
+      emptyString,
+      0,
+      false
+    );
+    await axios
+      .get(redisQuestionURL + this.state.message)
+      .then((response: { data: Question }) => {
+        toRet = response.data;
+        this.setState({ question: toRet });
+        console.log(this.state.question);
+      });
+    return toRet;
+  }
+  //#endregion
 
   render() {
     return (
       <div className="client-match">
+        <div className="question">
+          <h2>
+            Points: {this.state.question.points}{" "}
+            {this.state.question.questionText}
+          </h2>
+          <Button
+            className="btn btn-outline-info"
+            value="a"
+            onClick={() => this.clickedAnswerA()}
+          >
+            A) {this.state.question.answerA}{" "}
+          </Button>
+          <Button
+            className="btn btn-outline-info"
+            value="b"
+            onClick={() => this.clickedAnswerB()}
+          >
+            B) {this.state.question.answerB}{" "}
+          </Button>
+          <Button
+            className="btn btn-outline-info"
+            value="b"
+            onClick={() => this.clickedAnswerC()}
+          >
+            C) {this.state.question.answerC}{" "}
+          </Button>
+          <Button
+            className="btn btn-outline-info"
+            value="b"
+            onClick={() => this.clickedAnswerD()}
+          >
+            D) {this.state.question.answerC}{" "}
+          </Button>
+        </div>
         <div className="players">
           <h2>{this.props.player1}</h2>
           <h2>{this.props.player2}</h2>
@@ -252,14 +391,45 @@ class ClientMatch extends Component<Props, IState> {
             </div>
           </div>
         </div>
-        <Button className="btn-refresh" onClick={() => this.clickedButton()}>
+        <Button className="btn-refresh" onClick={() => this.clickedButtonRefresh()}>
           {" "}
           REFRESH
         </Button>
       </div>
     );
   }
-  async clickedButton(): Promise<void> {
+  async addAnswerToRedis(answerValue: string): Promise<void> {
+    let answerToRedis: Answer = new Answer(
+      answerValue,
+      localStorage.getItem("username") as string
+    );
+    await fetch(redisAnswerURL, {
+      method: POST,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(answerToRedis)
+    }).then(response => {
+      response.json().then(data => {
+        console.log(data);
+      });
+    });
+  }
+  clickedAnswerA(): void {
+    this.addAnswerToRedis("a");
+  }
+  clickedAnswerB(): void {
+    this.addAnswerToRedis("b");
+  }
+  clickedAnswerC(): void {
+    this.addAnswerToRedis("c");
+  }
+  clickedAnswerD(): void {
+    this.addAnswerToRedis("d");
+  }
+
+  async clickedButtonRefresh(): Promise<void> {
     let statistic: Statistic = await this.getStatistic();
     console.log(statistic);
     let set: Set = await this.getSet();
@@ -279,9 +449,6 @@ class ClientMatch extends Component<Props, IState> {
       player1GamesWon: set.player1GamesWon,
       player2GamesWon: set.player2GamesWon,
 
-      // player1Points: ,
-      // player2Points: 0,
-
       player1BreakPtAtt: breakPt.player1BreakPtAtt,
       player1BreakPtWon: breakPt.player1BreakPtWon,
       player2BreakPtAtt: breakPt.player2BreakPtAtt,
@@ -290,13 +457,11 @@ class ClientMatch extends Component<Props, IState> {
       player1ForehandWinners: winner.player1ForehandWinners,
       player1BackhandWinners: winner.player1BackhandWinners,
       player1TotalWinners:
-        winner.player1ForehandWinners +
-        winner.player1BackhandWinners,
+        winner.player1ForehandWinners + winner.player1BackhandWinners,
       player2ForehandWinners: winner.player2ForehandWinners,
       player2BackhandWinners: winner.player2BackhandWinners,
       player2TotalWinners:
-        winner.player2ForehandWinners +
-        winner.player2BackhandWinners
+        winner.player2ForehandWinners + winner.player2BackhandWinners
     });
     this.fillStatisticData();
   }
