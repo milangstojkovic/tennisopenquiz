@@ -3,6 +3,8 @@ import "./clientMatch.css";
 import { Button } from "react-bootstrap";
 import { HubConnectionBuilder } from "@aspnet/signalr";
 import * as signalR from "@microsoft/signalr";
+import { Match } from "../../Models/Model";
+import { getMatchByIdService } from "../../CassandraServices/match.service";
 
 const axios = require("axios");
 const emptyString = "";
@@ -17,9 +19,9 @@ const redisAnswerURL = "https://localhost:44379/api/answer/";
 const POST = "POST";
 
 interface Props {
-  matchID: string;
-  player1: string;
-  player2: string;
+  matchid: string;
+  player1:string;
+  player2:string;
 }
 interface IState {
   question: Question;
@@ -123,6 +125,12 @@ class Answer {
   constructor(public answerValue: string, public userAnswered: string) {}
 }
 class ClientMatch extends Component<Props, IState> {
+  match !: Match;
+  statistic !: Statistic;
+  set !: Set;
+  winner !: Winner;
+  breakPt !: BreakPt;
+  sets !: Set[];
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -170,6 +178,8 @@ class ClientMatch extends Component<Props, IState> {
       messages: [],
       hubConnection: null
     };
+    console.log("uso");
+   // this.getData();
   }
   //#region HUB
   componentDidMount = () => {
@@ -282,111 +292,111 @@ class ClientMatch extends Component<Props, IState> {
               <div className="totalPointsA-value">
                 {this.state.player1TotalPoints}
               </div>
-            </div>
-            <div className="totalPointsB">
-              <div className="totalPointsB-value">
-                {this.state.player2TotalPoints}
+              <div className="totalPointsB">
+                <div className="totalPointsB-value">
+                  {this.statistic.player2TotalPoints}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="aces-client">
-          <h4>Aces</h4>
-          <div className="aces-data">
-            <div className="acesA">
-              <div className="acesA-value">{this.state.player1Aces}</div>
-            </div>
-            <div className="acesB">
-              <div className="acesB-value">{this.state.player2Aces}</div>
-            </div>
-          </div>
-        </div>
-        <div className="doubleFaults-client">
-          <h4>Double faults</h4>
-          <div className="doubleFaults-data">
-            <div className="doubleFaultsA">
-              <div className="doubleFaultsA-value">
-                {this.state.player1DoubleFaults}
+          <div className="aces-client">
+            <h4>Aces</h4>
+            <div className="aces-data">
+              <div className="acesA">
+                <div className="acesA-value">{this.statistic.player1Aces}</div>
               </div>
-            </div>
-            <div className="doubleFaultsB">
-              <div className="doubleFaultsB-value">
-                {this.state.player2DoubleFaults}
+              <div className="acesB">
+                <div className="acesB-value">{this.statistic.player2Aces}</div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="unforcedErrors-client">
-          <h4>Unforced errors</h4>
-          <div className="unforcedErrors-data">
-            <div className="unforcedErrorsA">
-              <div className="unforcedErrorsA-value">
-                {this.state.player1UnforcedErrors}
+          <div className="doubleFaults-client">
+            <h4>Double faults</h4>
+            <div className="doubleFaults-data">
+              <div className="doubleFaultsA">
+                <div className="doubleFaultsA-value">
+                  {this.statistic.player1DoubleFaults}
+                </div>
               </div>
-            </div>
-            <div className="unforcedErrorsB">
-              <div className="unforcedErrorsB-value">
-                {this.state.player2UnforcedErrors}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="breakPointsWon-client">
-          <h4>Break points won</h4>
-          <div className="breakPointsWon-data">
-            <div className="breakPointsWonA">
-              <div className="breakPointsWonA-value">
-                {this.state.player1BreakPtWon}
-              </div>
-            </div>
-            <div className="breakPointsWonB">
-              <div className="breakPointsWonB-value">
-                {this.state.player2BreakPtWon}
+              <div className="doubleFaultsB">
+                <div className="doubleFaultsB-value">
+                  {this.statistic.player2DoubleFaults}
+                </div>
               </div>
             </div>
           </div>
-        </div>{" "}
-        <div className="forehandWinners-client">
-          <h4>Forehand winners</h4>
-          <div className="forehandWinners-data">
-            <div className="forehandWinnersA">
-              <div className="forehandWinnersA-value">
-                {this.state.player1ForehandWinners}
+          <div className="unforcedErrors-client">
+            <h4>Unforced errors</h4>
+            <div className="unforcedErrors-data">
+              <div className="unforcedErrorsA">
+                <div className="unforcedErrorsA-value">
+                  {this.statistic.player1UnforcedErrors}
+                </div>
               </div>
-            </div>
-            <div className="forehandWinnersB">
-              <div className="forehandWinnersB-value">
-                {this.state.player2ForehandWinners}
-              </div>
-            </div>
-          </div>
-        </div>{" "}
-        <div className="backhandWinners-client">
-          <h4>Backhand winners</h4>
-          <div className="backhandWinners-data">
-            <div className="backhandWinnersA">
-              <div className="backhandWinnersA-value">
-                {this.state.player1BackhandWinners}
-              </div>
-            </div>
-            <div className="backhandWinnersB">
-              <div className="backhandWinnersB-value">
-                {this.state.player2BackhandWinners}
+              <div className="unforcedErrorsB">
+                <div className="unforcedErrorsB-value">
+                  {this.statistic.player2UnforcedErrors}
+                </div>
               </div>
             </div>
           </div>
-        </div>{" "}
-        <div className="totalWinners-client">
-          <h4>Total winners</h4>
-          <div className="totalWinners-data">
-            <div className="totalWinnersA">
-              <div className="totalWinnersA-value">
-                {this.state.player1TotalWinners}
+          <div className="breakPointsWon-client">
+            <h4>Break points won</h4>
+            <div className="breakPointsWon-data">
+              <div className="breakPointsWonA">
+                <div className="breakPointsWonA-value">
+                  {this.breakPt.player1BreakPtWon}
+                </div>
+              </div>
+              <div className="breakPointsWonB">
+                <div className="breakPointsWonB-value">
+                  {this.breakPt.player2BreakPtWon}
+                </div>
               </div>
             </div>
-            <div className="totalWinnersB">
-              <div className="totalWinnersB-value">
-                {this.state.player2TotalWinners}
+          </div>{" "}
+          <div className="forehandWinners-client">
+            <h4>Forehand winners</h4>
+            <div className="forehandWinners-data">
+              <div className="forehandWinnersA">
+                <div className="forehandWinnersA-value">
+                  {this.winner.player1ForehandWinners}
+                </div>
+              </div>
+              <div className="forehandWinnersB">
+                <div className="forehandWinnersB-value">
+                  {this.winner.player2ForehandWinners}
+                </div>
+              </div>
+            </div>
+          </div>{" "}
+          <div className="backhandWinners-client">
+            <h4>Backhand winners</h4>
+            <div className="backhandWinners-data">
+              <div className="backhandWinnersA">
+                <div className="backhandWinnersA-value">
+                  {this.winner.player1BackhandWinners}
+                </div>
+              </div>
+              <div className="backhandWinnersB">
+                <div className="backhandWinnersB-value">
+                  {this.winner.player2BackhandWinners}
+                </div>
+              </div>
+            </div>
+          </div>{" "}
+          <div className="totalWinners-client">
+            <h4>Total winners</h4>
+            <div className="totalWinners-data">
+              <div className="totalWinnersA">
+                <div className="totalWinnersA-value">
+                  {this.winner.player1TotalWinners}
+                </div>
+              </div>
+              <div className="totalWinnersB">
+                <div className="totalWinnersB-value">
+                  {this.winner.player2TotalWinners}
+                </div>
               </div>
             </div>
           </div>
@@ -395,9 +405,9 @@ class ClientMatch extends Component<Props, IState> {
           {" "}
           REFRESH
         </Button>
-      </div>
-    );
-  }
+        </div>
+      )
+      }
   async addAnswerToRedis(answerValue: string): Promise<void> {
     let answerToRedis: Answer = new Answer(
       answerValue,
@@ -470,152 +480,172 @@ class ClientMatch extends Component<Props, IState> {
 
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player1TotalPoints /
-      (this.state.player1TotalPoints + this.state.player2TotalPoints)
+      this.statistic.player1TotalPoints /
+      (this.statistic.player1TotalPoints + this.statistic.player2TotalPoints)
     ).toString();
 
     el = document.querySelector(".totalPointsB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player2TotalPoints /
-      (this.state.player1TotalPoints + this.state.player2TotalPoints)
+      this.statistic.player2TotalPoints /
+      (this.statistic.player1TotalPoints + this.statistic.player2TotalPoints)
     ).toString();
 
     el = document.querySelector(".acesA-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player1Aces /
-      (this.state.player1Aces + this.state.player2Aces)
+      this.statistic.player1Aces /
+      (this.statistic.player1Aces + this.statistic.player2Aces)
     ).toString();
 
     el = document.querySelector(".acesB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player2Aces /
-      (this.state.player1Aces + this.state.player2Aces)
+      this.statistic.player2Aces /
+      (this.statistic.player1Aces + this.statistic.player2Aces)
     ).toString();
 
     el = document.querySelector(".doubleFaultsA-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player1DoubleFaults /
-      (this.state.player1DoubleFaults + this.state.player2DoubleFaults)
+      this.statistic.player1DoubleFaults /
+      (this.statistic.player1DoubleFaults + this.statistic.player2DoubleFaults)
     ).toString();
 
     el = document.querySelector(".doubleFaultsB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player2DoubleFaults /
-      (this.state.player1DoubleFaults + this.state.player2DoubleFaults)
+      this.statistic.player2DoubleFaults /
+      (this.statistic.player1DoubleFaults + this.statistic.player2DoubleFaults)
     ).toString();
 
     el = document.querySelector(".unforcedErrorsA-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player1UnforcedErrors /
-      (this.state.player1UnforcedErrors + this.state.player2UnforcedErrors)
+      this.statistic.player1UnforcedErrors /
+      (this.statistic.player1UnforcedErrors + this.statistic.player2UnforcedErrors)
     ).toString();
 
     el = document.querySelector(".unforcedErrorsB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player2UnforcedErrors /
-      (this.state.player1UnforcedErrors + this.state.player2UnforcedErrors)
+      this.statistic.player2UnforcedErrors /
+      (this.statistic.player1UnforcedErrors + this.statistic.player2UnforcedErrors)
     ).toString();
     el = document.querySelector(".breakPointsWonA-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player1BreakPtWon /
-      (this.state.player1BreakPtWon + this.state.player2BreakPtWon)
+      this.breakPt.player1BreakPtWon /
+      (this.breakPt.player1BreakPtWon + this.breakPt.player2BreakPtWon)
     ).toString();
     el = document.querySelector(".breakPointsWonB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player2BreakPtWon /
-      (this.state.player1BreakPtWon + this.state.player2BreakPtWon)
+      this.breakPt.player2BreakPtWon /
+      (this.breakPt.player1BreakPtWon + this.breakPt.player2BreakPtWon)
     ).toString();
     el = document.querySelector(".forehandWinnersA-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player1ForehandWinners /
-      (this.state.player1ForehandWinners + this.state.player2ForehandWinners)
+      this.winner.player1ForehandWinners /
+      (this.winner.player1ForehandWinners + this.winner.player2ForehandWinners)
     ).toString();
     el = document.querySelector(".forehandWinnersB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player2ForehandWinners /
-      (this.state.player1ForehandWinners + this.state.player2ForehandWinners)
+      this.winner.player2ForehandWinners /
+      (this.winner.player1ForehandWinners + this.winner.player2ForehandWinners)
     ).toString();
     el = document.querySelector(".backhandWinnersA-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player1BackhandWinners /
-      (this.state.player1BackhandWinners + this.state.player2BackhandWinners)
+      this.winner.player1BackhandWinners /
+      (this.winner.player1BackhandWinners + this.winner.player2BackhandWinners)
     ).toString();
     el = document.querySelector(".backhandWinnersB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player2BackhandWinners /
-      (this.state.player1BackhandWinners + this.state.player2BackhandWinners)
+      this.winner.player2BackhandWinners /
+      (this.winner.player1BackhandWinners + this.winner.player2BackhandWinners)
     ).toString();
     el = document.querySelector(".totalWinnersA-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player1TotalWinners /
-      (this.state.player1TotalWinners + this.state.player2TotalWinners)
+      this.winner.player1TotalWinners /
+      (this.winner.player1TotalWinners + this.winner.player2TotalWinners)
     ).toString();
     el = document.querySelector(".totalWinnersB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
-      this.state.player2TotalWinners /
-      (this.state.player1TotalWinners + this.state.player2TotalWinners)
+      this.winner.player2TotalWinners /
+      (this.winner.player1TotalWinners + this.winner.player2TotalWinners)
     ).toString();
   }
   async getStatistic(): Promise<Statistic> {
-    let toRet: Statistic = new Statistic(emptyString, 0, 0, 0, 0, 0, 0, 0, 0);
+    let toRet!: Statistic;
     await axios
-      .get(redisStatisticURL + this.props.matchID)
+      .get(redisStatisticURL + this.props.matchid)
       .then((response: { data: Statistic }) => {
         toRet = response.data;
       });
     return toRet;
   }
   async getWinner(): Promise<Winner> {
-    let toRet: Winner = new Winner(emptyString, 0, 0, 0, 0, 0, 0);
+    let toRet!: Winner;
     await axios
-      .get(redisWinnerURL + this.props.matchID)
+      .get(redisWinnerURL + this.props.matchid)
       .then((response: { data: Winner }) => {
         toRet = response.data;
       });
     return toRet;
   }
   async getSet(): Promise<Set> {
-    let toRet: Set = new Set(emptyString, 0, 0, 0, false);
+    let toRet!: Set;
     await axios
-      .get(redisSetURL + this.props.matchID)
+      .get(redisSetURL + this.props.matchid)
       .then((response: { data: Set }) => {
         toRet = response.data;
       });
     return toRet;
   }
   async getGame(): Promise<Game> {
-    let toRet: Game = new Game(emptyString, 0, 0);
+    let toRet!: Game;
     await axios
-      .get(redisGameURL + this.props.matchID)
+      .get(redisGameURL + this.props.matchid)
       .then((response: { data: Game }) => {
         toRet = response.data;
       });
     return toRet;
   }
   async getBreakPt(): Promise<BreakPt> {
-    let toRet: BreakPt = new BreakPt(emptyString, 0, 0, 0, 0);
+    let toRet!: BreakPt;
     await axios
-      .get(redisBreakPtURL + this.props.matchID)
+      .get(redisBreakPtURL + this.props.matchid)
       .then((response: { data: BreakPt }) => {
         toRet = response.data;
       });
     return toRet;
   }
+
+  // async getData(): Promise<void> {
+  //   await getMatchByIdService(this.props.matchid).then(m => this.match = m);
+  //   if (this.match.isFinished) {
+  //     this.setState({ isFinished: true });
+  //     await getStatisticByIdService(this.props.matchid).then(s => this.statistic = s);
+  //     await getWinnersByIdService(this.props.matchid).then(w=>this.winner=w);
+  //     await getBreakPtByIdService(this.props.matchid).then(b=>this.breakPt=b);
+      
+  //   }
+  //   else {
+  //     this.statistic = await this.getStatistic();
+  //   console.log(this.statistic);
+  //   this.set = await this.getSet();
+  //   this.winner = await this.getWinner();
+  //   this.breakPt = await this.getBreakPt();
+  //   }
+  //   await this.setState({ loading: true });
+  //   this.render();
+  // }
 }
 
 export default ClientMatch;

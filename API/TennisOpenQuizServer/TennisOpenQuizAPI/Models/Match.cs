@@ -4,7 +4,7 @@ namespace TennisOpenQuizAPI.Models
 {
     public class Match
     {
-        public string MatchID { get; set; }
+        public string Matchid { get; set; }
 
         public string TournamentName { get; set; }
 
@@ -13,6 +13,8 @@ namespace TennisOpenQuizAPI.Models
         public string Player2 { get; set; }
 
         public string Date { get; set; }
+
+        public bool IsFinished { get; set; }
 
     }
 }

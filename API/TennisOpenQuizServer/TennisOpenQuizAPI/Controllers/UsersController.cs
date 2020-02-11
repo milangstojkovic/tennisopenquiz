@@ -37,10 +37,10 @@ namespace TennisOpenQuizAPI.Controllers
         }
 
         // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{username}")]
+        public void Put([FromBody] User user)
         {
-
+            userService.UpdateUserScore(user);
         }
 
         // DELETE: api/ApiWithActions/5

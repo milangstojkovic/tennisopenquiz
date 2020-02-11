@@ -1,36 +1,49 @@
-import React, { Component } from "react";
+import React, { Component, useReducer } from "react";
 import "./login.css";
+import { getUserByNameService } from "../../CassandraServices/user.service";
+import { User } from "../../Models/Model";
 
 interface Props {}
 interface IState {
-  email: string;
+  username: string;
   password: string;
 }
 const emptyString = "";
 class Login extends Component<Props, IState> {
+  user!: User;
   constructor(props: Props) {
     super(props);
     this.state = {
-      email: emptyString,
-      password: emptyString
+      username: emptyString,
+      password: emptyString,
     };
   }
-  handleChangeEmail(event: any): void {
-    this.setState({ email: event.target.value });
+  handleChangeUsername(event: any): void {
+    this.setState({ username: event.target.value });
   }
   handleChangePassword(event: any): void {
     this.setState({ password: event.target.value });
   }
+  async logInUser(event: any): Promise<void> {
+    event.preventDefault();
+    await getUserByNameService(this.state.username).then(res=>this.user=res);
+    if (this.user) {
+      if (this.user.password==this.state.password) {
+        localStorage.setItem("username", this.user.username);
+        window.location.reload();
+      }
+    }
+    console.log(localStorage.getItem("username"));
+  }
   render() {
     return (
       <form className="login-form">
-        <label>Email:</label>
+        <label>Username:</label>
         <input
-          type="email"
-          value={this.state.email}
-          onChange={e => this.handleChangeEmail(e)}
-          placeholder="Add email"
-          className="input-email"
+          type="username"
+          value={this.state.username}
+          onChange={e => this.handleChangeUsername(e)}
+          placeholder="Add username"
         ></input>
         <label>Password:</label>
         <input
@@ -41,7 +54,7 @@ class Login extends Component<Props, IState> {
           className="input-password"
         ></input>
         <div className="buttons-login-register">
-          <button className="button-login"> Login </button>
+          <button className="btn btn-primary" onClick={e=>this.logInUser(e)}> Login </button>
         </div>
       </form>
     );

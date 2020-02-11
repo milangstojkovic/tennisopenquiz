@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Questions from "./Components/QuestionsComponent/questions";
-import AdminHome from "./Components/AdminComponent/adminHome";
-import Register from "./Components/RegisterComponent/register";
-import Login from "./Components/LoginComponent/login";
-import AdminStatistic from "./Components/AdminStatistic/adminStatistic";
 import NavComponent from "./Components/NavComponent/navComponent";
 import ClientMatch from "./Components/ClientMatchComponent/clientMatch";
 import QuestionAnswers from "./Components/QuestionsComponent/questionAnswers";
+import Questions from "./Components/QuestionsComponent/questions";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -33,6 +29,7 @@ class App extends Component<Props, IState> {
     this.setState({ nmbr: 10 });
   }
   render() {
+    
     return (
       // <div className="body">
       //   <div className="header">
@@ -57,7 +54,7 @@ class App extends Component<Props, IState> {
         <Questions />
         <ClientMatch
         key={2}
-        matchID="cao"
+        matchid="cao"
         player1="Nikola"
         player2="Milan" />
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Player } from "../../Models/Model";
 import { createPlayerService, getPlayersService } from "../../CassandraServices/player.service";
+import './adminPlayer.css';
 
 interface Props { }
 interface IState {

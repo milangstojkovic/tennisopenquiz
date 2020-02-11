@@ -1,6 +1,6 @@
 import {Set} from "../Models/Model";
 import axios from 'axios';
-const baseUrl = 'https://localhost:9160/api';
+const baseUrl = 'https://localhost:5001/api';
 
 export const getSetsByIdService = (id: String): Promise<[Set]>=>
     axios.get<[Set]>(

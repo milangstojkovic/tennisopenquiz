@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Tournament } from "../../Models/Model";
 import { createTournamentService, getTournamentsService } from "../../CassandraServices/tournament.service";
-
+import './adminTournament.css';
 interface Props { }
 interface IState {
   name: string;

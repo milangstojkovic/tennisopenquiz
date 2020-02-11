@@ -18,11 +18,12 @@ namespace TennisOpenQuizAPI.Services
             foreach (var matchData in matchesData)
             {
                 Match match = new Match();
-                match.MatchID = matchData["matchid"] != null ? matchData["matchid"].ToString() : string.Empty;
+                match.Matchid = matchData["matchid"] != null ? matchData["matchid"].ToString() : string.Empty;
                 match.TournamentName = matchData["tournamentname"] != null ? matchData["tournamentname"].ToString() : string.Empty;
                 match.Player1 = matchData["player1"] != null ? matchData["player1"].ToString() : string.Empty;
                 match.Player2 = matchData["player2"] != null ? matchData["player2"].ToString() : string.Empty;
                 match.Date = matchData["date"] != null ? matchData["date"].ToString() : string.Empty;
+                match.IsFinished = matchData["isfinished"] != null ? (bool)matchData["isfinished"] : false;
                 matchesList.Add(match);
             }
             return matchesList;
@@ -33,15 +34,16 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var matchData = session.Execute("select * from match where matchid='" + matchID + "' ALLOW FILTERING").FirstOrDefault();
+            var matchData = session.Execute("select * from match where matchid=" + Guid.Parse(matchID) + " ALLOW FILTERING").FirstOrDefault();
             Match match = new Match();
             if (matchData != null)
             {
-                match.MatchID = matchData["matchid"] != null ? matchData["matchid"].ToString() : string.Empty;
+                match.Matchid = matchData["matchid"] != null ? matchData["matchid"].ToString() : string.Empty;
                 match.TournamentName = matchData["tournamentname"] != null ? matchData["tournamentname"].ToString() : string.Empty;
                 match.Player1 = matchData["player1"] != null ? matchData["player1"].ToString() : string.Empty;
                 match.Player2 = matchData["player2"] != null ? matchData["player2"].ToString() : string.Empty;
                 match.Date = matchData["date"] != null ? matchData["date"].ToString() : string.Empty;
+                match.IsFinished = matchData["isfinished"] != null ? (bool)matchData["isfinished"] : false;
             }
             return match;
         }
@@ -51,7 +53,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet matchData = session.Execute("insert into match (matchid, tournamentname, player1, player2, date)  values (uuid(), '" + match.TournamentName + "', '" + match.Player1 + "', '" + match.Player2 + "', '" + match.Date + "')");
+            RowSet matchData = session.Execute("insert into match (matchid, tournamentname, player1, player2, date, isfinished)  values (uuid(), '" + match.TournamentName + "', '" + match.Player1 + "', '" + match.Player2 + "', '" + match.Date + "', false)");
         }
     }
 }

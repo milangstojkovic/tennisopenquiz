@@ -23,16 +23,16 @@ export interface Tournament {
 }
 
 export interface Match {
-    id: string;
+    matchid: string;
     tournamentName: string;
     player1: string;
     player2: string;
     date: string;
-    quizable: boolean;
+    isFinished: boolean;
 }
 
 export interface Statistic {
-    matchId: string;
+    matchid: string;
     player1Aces: number;
     player2Aces: number;
     player1DoubleFaults: number;
@@ -41,10 +41,7 @@ export interface Statistic {
     player2UnforcedErrors: number;
     player1TotalPoints: number;
     player2TotalPoints: number;
-    winners: Winner;
-    breakPts: BreakPt;
-    Result: [Set];
-    activeGame: Game;
+
 }
 
 export interface Winner {
@@ -65,7 +62,7 @@ export interface BreakPt {
 
 export interface Set {
     setNo: number;
-    active: boolean;
+    live: boolean;
     player1GamesWon: number;
     player2GamesWon: number;
 }

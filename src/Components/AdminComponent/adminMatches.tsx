@@ -4,6 +4,8 @@ import { getTournamentsService } from "../../CassandraServices/tournament.servic
 import { getMatchesService, createMatchService } from "../../CassandraServices/match.service";
 import Modal from 'react-bootstrap/Modal';
 import { getPlayersService } from "../../CassandraServices/player.service";
+import "./adminMatches.css";
+import AdminStatistic from "../AdminStatistic/adminStatistic";
 
 interface Props { }
 interface IState {
@@ -18,6 +20,8 @@ interface IState {
     playersModalIsOpen: boolean;
     dateModalIsOpen: boolean;
     btnSubmit: boolean;
+    redirect: boolean;
+    matchid: string;
 }
 const emptyString = "";
 class AdminMatches extends Component<Props, IState> {
@@ -37,13 +41,21 @@ class AdminMatches extends Component<Props, IState> {
             dateModalIsOpen: false,
             player1Id: 0,
             player2Id: 0,
-            btnSubmit: true
+            btnSubmit: true,
+            redirect: false,
+            matchid: ""
         };
         this.getData();
     }
     render() {
         if (this.state.loading)
             return null;
+        if(this.state.redirect)
+            return (
+                <AdminStatistic
+                matchid={this.state.matchid}
+                />
+            )
         const matchRendering = this.matches.map((match, index) =>
             <tr key={index}>
                 <th scope="row">{index}</th>
@@ -51,16 +63,15 @@ class AdminMatches extends Component<Props, IState> {
                 <td>{match.player1}</td>
                 <td>{match.player2}</td>
                 <td>{match.date}</td>
-                <td><button className="btn btn-secondary" id={match.id}>Start match</button></td>
+                <td><button className="btn btn-secondary" onClick={e=>this.startMatch(e)} id={match.matchid}>Start match</button></td>
             </tr>
         )
         const toursRender = this.tournaments.map((tournament, index) =>
             <div className="col" key={index}>
                 <button
                     className={this.buttonColor(tournament.surface)}
-                    id={tournament.name}
-                    value={tournament.name}
-                    onClick={e => this.handleTourChoose(e)}>
+                    value={""+tournament.name}
+                    onClick={e => this.handleTourChoose(e, tournament.name)}>
                     <h5>{tournament.name}</h5>
                     <h6>{tournament.surface}</h6>
                 </button>
@@ -135,15 +146,15 @@ class AdminMatches extends Component<Props, IState> {
         await getTournamentsService().then(res => this.tournaments = res);
         await getMatchesService().then(res => this.matches = res);
         await getPlayersService().then(res => this.players = res);
+        console.log(this.tournaments);
         await this.players.sort((player1, player2) => player1.ranking - player2.ranking);
         await this.setState({ loading: false });
         this.render();
     }
-    async handleTourChoose(ev: any): Promise<void> {
-        var target = ev.target;
+    async handleTourChoose(ev:any, name:string): Promise<void> {
         ev.preventDefault();
-        await this.setState({ tournamentName: target.value });
-        this.setState({ toursModalIsOpen: false });
+        await this.setState({ tournamentName: name });
+        console.log(this.state.tournamentName);
         this.setState({ playersModalIsOpen: true });
     }
     openToursModal(e: any): void {
@@ -176,13 +187,14 @@ class AdminMatches extends Component<Props, IState> {
 
     async createMatch(e: any): Promise<void> {
         e.preventDefault();
-        this.setState({ dateModalIsOpen: false });
         let match = {
             player1: this.state.player1,
             player2: this.state.player2,
             tournamentName: this.state.tournamentName,
             date: this.state.date
         }
+        console.log(match.tournamentName);
+        await this.setState({ dateModalIsOpen: false });
         await createMatchService(match as Match);
     }
 
@@ -199,6 +211,13 @@ class AdminMatches extends Component<Props, IState> {
             return "btn btn-outline-success";
         else
             return "btn btn-outline-primary";
+    }
+    
+    async startMatch(event: any): Promise<void> {
+        let target=event.target;
+        await this.setState({matchid:target.id});
+        await this.setState({redirect: true});
+        this.render();
     }
 }
 export default AdminMatches;
