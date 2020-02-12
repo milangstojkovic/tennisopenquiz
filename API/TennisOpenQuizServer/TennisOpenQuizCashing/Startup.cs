@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TennisOpenQuizCashing.Hubs;
 using TennisOpenQuizCashing.PublishSubscribeServices;
 using TennisOpenQuizCashing.RedisServices;
 
@@ -41,6 +42,15 @@ namespace TennisOpenQuizCashing
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+            services.AddSignalR();
+            services.AddCors(o => o.AddPolicy("CorsPolicySignalR", builder =>
+            {
+                builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithOrigins("http://locahost:3000");
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,12 +69,21 @@ namespace TennisOpenQuizCashing
 
             app.UseRouting();
             app.UseCors("MyPolicy");
+            app.UseCors("CorsPolicySignalR");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<QAHub>("qahub");
+            });
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            
         }
     }
 }

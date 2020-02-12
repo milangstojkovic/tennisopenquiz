@@ -27,7 +27,10 @@ class MatchList extends Component<Props, IState> {
             return (
                 <ClientMatch
                 matchid={this.state.matchid}
+                player1="Nikola"
+                player2="Milan"
                 />
+               
             )
         const matchRendering = this.matches.map((match, index) =>
             <tr key={index}>

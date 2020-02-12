@@ -19,9 +19,9 @@ namespace TennisOpenQuizCashing.Controllers
         }
        
         [HttpPost]
-        public void Post([FromBody]string keyValueToPublish)
+        public void Post([FromBody]string messageToPublish)
         {
-            publishService.PublishMessage(keyValueToPublish);
+            publishService.PublishMessage(messageToPublish);
         }
 
         #region NON USED 

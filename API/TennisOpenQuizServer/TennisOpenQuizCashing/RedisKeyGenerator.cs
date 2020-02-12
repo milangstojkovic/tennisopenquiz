@@ -95,13 +95,9 @@ namespace TennisOpenQuizCashing
 
         private string GenerateKeyForAnswer(Answer answer)
         {
-            string firstKeyPart = answer.AnswerId;
-            int halfAnswerTextLength = answer.AnswerText.Length / 2;
-            string secondKeyPart = answer.AnswerText.Substring(0,halfAnswerTextLength)+
-                                 answer.Points.ToString()+answer.QuestionId;
-            string generatedKeyForAnswer = firstKeyPart +"-"+ secondKeyPart+"_";
+            string firstKeyPart = answer.UserAnswered;
 
-            return generatedKeyForAnswer;
+            return firstKeyPart;
         }
 
         private string GenerateKeyForQuestion(Question question)
@@ -109,7 +105,7 @@ namespace TennisOpenQuizCashing
             string firstKeyPart = question.QuestionId;
             string secondKeyPart = Regex.Replace(question.QuestionText, @"\s", "");
 
-            string generatedKeyForQuestion = firstKeyPart +"-"+ secondKeyPart+"_";
+            string generatedKeyForQuestion = firstKeyPart +"-"+ secondKeyPart;
             return generatedKeyForQuestion;
         }
     }

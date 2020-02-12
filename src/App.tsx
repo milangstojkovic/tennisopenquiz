@@ -2,60 +2,61 @@ import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavComponent from "./Components/NavComponent/navComponent";
-import Home from "./Components/HomeComponent/home";
-import MatchList from "./Components/MatchListComponent/matchList";
-import AdminHome from "./Components/AdminComponent/adminHome";
+import ClientMatch from "./Components/ClientMatchComponent/clientMatch";
+import QuestionAnswers from "./Components/QuestionsComponent/questionAnswers";
+import Questions from "./Components/QuestionsComponent/questions";
 export type Props = {};
 interface IState {
   nmbr: number;
-  question: boolean;
+  nick: string;
+  message: string;
+  messages: string[];
+  hubConnection: any;
 }
 class App extends Component<Props, IState> {
   constructor(props: Props) {
     super(props);
     this.state = {
       nmbr: 2,
-      question: false
+      nick: "",
+      message: "",
+      messages: [],
+      hubConnection: null
     };
   }
+
   clickedButtonCancel(ev: any) {
     this.setState({ nmbr: 10 });
   }
   render() {
-    if(localStorage.getItem("username")=="admin")
-    return(
-      <div className="body">
-      <div className="header">
-        <NavComponent />
-      </div>
-      <div className="container">
-
-        <AdminHome/>
-      </div>
-    </div>
-    )
-    else if (localStorage.getItem("username"))
+    
     return (
-      <div className="body">
-      <div className="header">
-        <NavComponent />
-      </div>
-      <div className="container">
-
-        <MatchList />
-      </div>
-    </div>
-    )
-    else
-    return (
-      <div className="body">
-        <div className="header">
-          <NavComponent />
-        </div>
-        <div className="container">
-
-          <Home />
-        </div>
+      // <div className="body">
+      //   <div className="header">
+      //     <NavComponent />
+      //   </div>
+      //   <div className="container">
+      //     {/* <div>
+      //     {this.state.nmbr > 3 ? <Login /> : <Home />}
+      //     <button
+      //       onClick={ev => this.clickedButtonCancel(ev)}
+      //       className="meetup-cancel-button"
+      //     >
+      //       Click me
+      //     </button>
+      //   </div>
+      //   <Register /> */}
+      //   <AdminStatistic key={1} matchId="caos" />
+      //     <ClientMatch key={2} matchID="caos" player1="Novak Djokovic" player2="Rafael Nadal"/>
+      //   </div>
+      // </div>
+      <div>
+        <Questions />
+        <ClientMatch
+        key={2}
+        matchid="cao"
+        player1="Nikola"
+        player2="Milan" />
       </div>
     );
   }

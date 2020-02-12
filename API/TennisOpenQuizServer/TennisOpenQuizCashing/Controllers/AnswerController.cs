@@ -26,11 +26,9 @@ namespace TennisOpenQuizCashing.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Answer Get([FromBody]Answer answer)
+        public string Get(string id)
         {
-            string answerKey = redisKeyGenerator.GenerateKey(answer);
-
-            return answerService.GetAnswer(answerKey);
+            return answerService.GetAnswer(id);
         }
 
         // POST api/<controller>
