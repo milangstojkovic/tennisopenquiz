@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./adminStatistic.css";
 import { Button } from "react-bootstrap";
+import Questions from "../QuestionsComponent/questions";
+import { createStatisticService } from "../../CassandraServices/statistic.service";
 const emptyString = "";
 const False = false;
 const POST = "POST";
@@ -141,326 +143,149 @@ class AdminStatistic extends Component<Props, IState> {
   render() {
     return (
       <div className="admin-statistic">
-        <div className="playerA-statistic">
-          <h1>PLAYER A</h1>
-          <div className="aces">
-            <label className="label">Aces: {this.state.acesA}</label>
-            <div className="buttons">
-              <Button onClick={() => this.acesAButtonPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.acesAButtonMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="doubleFaults">
-            <label className="label">
-              Double faults: {this.state.doubleFaultsA}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.doubleFaultsAPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.doubleFaultsAMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="unforcedErrors">
-            <label className="label">
-              Unforced errors: {this.state.unforcedErrorsA}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.unforcedErrorsAPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.unforcedErrorsAMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="totalPoints">
-            <label className="label">
-              Total points: {this.state.totalPointsA}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.totalPointsAPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.totalPointsAMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="set">
-            <label className="label">Sets: {this.state.setA}</label>
-            <div className="buttons">
-              <Button onClick={() => this.setAPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.setAMinusClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="games">
-            <label className="label">Games: {this.state.gameA}</label>
-            <div className="buttons">
-              <Button onClick={() => this.gamesAPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.gamesAMinusClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="points">
-            <label className="label">Points: {this.state.pointsInGameA}</label>
-            <div className="buttons">
-              <Button onClick={() => this.pointsAPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.pointsAMinutClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="breakPoints">
-            <label className="label">
-              Break points att: {this.state.breakPointsAAtt}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.breakPointsAAttPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.breakPointsAAttMinusClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="breakPoints">
-            <label className="label">
-              Break points won: {this.state.breakPointsAWon}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.breakPointsAWonPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.breakPointsAWonMinusClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="winners">
-            <label className="label">
-              Forehand winners: {this.state.forehandWinnersA}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.forehandWinnersAPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.forehandWinnersAMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="winners">
-            <label className="label">
-              Backhand winners: {this.state.backhandWinnersA}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.backhandWinnersAPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.backhandWinnersAMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
+        <div className="row">
+          <div className="col">
+        <Questions/>
         </div>
-        <div className="playerB-statistic">
-          <h1>PLAYER B</h1>
-          <div className="aces">
-            <label className="label">Aces: {this.state.acesB}</label>
-            <div className="buttons">
-              <Button onClick={() => this.acesBButtonPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.acesBButtonMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="doubleFaults">
-            <label className="label">
-              Double faults: {this.state.doubleFaultsB}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.doubleFaultsBPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.doubleFaultsBMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="unforcedErrors">
-            <label className="label">
-              Unforced errors: {this.state.unforcedErrorsB}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.unforcedErrorsBPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.unforcedErrorsBMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="totalPoints">
-            <label className="label">
-              Total points: {this.state.totalPointsB}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.totalPointsBPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.totalPointsBMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="set">
-            <label className="label">Sets: {this.state.setB}</label>
-            <div className="buttons">
-              <Button onClick={() => this.setBPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.setBMinusClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="games">
-            <label className="label">Games: {this.state.gameB}</label>
-            <div className="buttons">
-              <Button onClick={() => this.gamesBPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.gamesBMinusClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="points">
-            <label className="label">Points: {this.state.pointsInGameB}</label>
-            <div className="buttons">
-              <Button onClick={() => this.pointsBPlusClicked()}>+</Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.pointsBMinutClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="breakPoints">
-            <label className="label">
-              Break points att: {this.state.breakPointsBAtt}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.breakPointsBAttPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.breakPointsBAttMinusClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="breakPoints">
-            <label className="label">
-              Break points won: {this.state.breakPointsBWon}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.breakPointsBWonPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.breakPointsBWonMinusClicked()}
-              >
-                -
-              </Button>{" "}
-            </div>
-          </div>
-          <div className="winners">
-            <label className="label">
-              Forehand winners: {this.state.forehandWinnersB}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.forehandWinnersBPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.forehandWinnersBMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-          <div className="winners">
-            <label className="label">
-              Backhand winners: {this.state.backhandWinnersB}
-            </label>
-            <div className="buttons">
-              <Button onClick={() => this.backhandWinnersBPlusClicked()}>
-                +
-              </Button>
-              <Button
-                className="button-minus"
-                onClick={() => this.backhandWinnersBMinusClicked()}
-              >
-                -
-              </Button>
-            </div>
-          </div>
-        </div>{" "}
-        <Button onClick={() => this.AddStatistic()}> ADD REDIS</Button>
-      </div>
+        <div className="col">
+          <div className="row">
+            <div className="col">
+            <h1>PLAYER A</h1>
+        <table className="playerA-statistic">
+          
+          <tbody>
+          <tr>
+            <td className="label">Aces: {this.state.acesA}</td>
+            <td>  <Button onClick={() => this.acesAButtonPlusClicked()}>+</Button></td>
+             <td> <Button className="button-minus" onClick={() => this.acesAButtonMinusClicked()}>-</Button></td>
+          </tr>
+          <tr>
+            <td className="label"> Double faults: {this.state.doubleFaultsA} </td>
+             <td> <Button onClick={() => this.doubleFaultsAPlusClicked()}>+</Button></td>
+           <td>   <Button className="button-minus" onClick={() => this.doubleFaultsAMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="unforcedErrors">
+            <td className="label">Unforced errors: {this.state.unforcedErrorsA}</td>
+            <td> <Button onClick={() => this.unforcedErrorsAPlusClicked()}>+</Button></td>
+             <td> <Button className="button-minus" onClick={() => this.unforcedErrorsAMinusClicked()}>-</Button> </td>
+          </tr>
+          <tr className="totalPoints">
+            <td className="label">Total points: {this.state.totalPointsA}</td>
+             <td> <Button onClick={() => this.totalPointsAPlusClicked()}>+</Button></td>
+              <td><Button className="button-minus" onClick={() => this.totalPointsAMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="set">
+            <td className="label">Sets: {this.state.setA}</td>
+             <td> <Button onClick={() => this.setAPlusClicked()}>+</Button></td>
+              <td><Button className="button-minus" onClick={() => this.setAMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="games">
+            <td className="label">Games: {this.state.gameA}</td>
+            <td>  <Button onClick={() => this.gamesAPlusClicked()}>+</Button></td>
+             <td><Button className="button-minus" onClick={() => this.gamesAMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="points">
+            <td className="label">Points: {this.state.pointsInGameA}</td>
+             <td><Button onClick={() => this.pointsAPlusClicked()}>+</Button></td> 
+             <td> <Button className="button-minus" onClick={() => this.pointsAMinutClicked()}>-</Button></td>
+          </tr>
+          <tr className="breakPoints">
+            <td className="label">Break points att: {this.state.breakPointsAAtt}</td>
+             <td> <Button onClick={() => this.breakPointsAAttPlusClicked()}>+</Button></td>
+              <td><Button className="button-minus" onClick={() => this.breakPointsAAttMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="breakPoints">
+            <td className="label">Break points won: {this.state.breakPointsAWon}</td>
+             <td> <Button onClick={() => this.breakPointsAWonPlusClicked()}>+</Button></td>
+             <td><Button className="button-minus" onClick={() => this.breakPointsAWonMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="winners">
+            <td className="label">Forehand winners: {this.state.forehandWinnersA}</td>
+             <td> <Button onClick={() => this.forehandWinnersAPlusClicked()}>+</Button></td>
+             <td> <Button className="button-minus" onClick={() => this.forehandWinnersAMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="winners">
+            <td className="label">Backhand winners: {this.state.backhandWinnersA}</td>
+             <td> <Button onClick={() => this.backhandWinnersAPlusClicked()}>+</Button></td>
+              <td><Button className="button-minus" onClick={() => this.backhandWinnersAMinusClicked()}>-</Button></td>
+          </tr>
+          </tbody>
+        </table>
+        </div>
+        <div className="col"> 
+        <h1>PLAYER B</h1>
+        <table className="playerB-statistic">   
+          <tbody>
+          <tr>
+            <td className="label">Aces: {this.state.acesB}</td>
+            <td>  <Button onClick={() => this.acesBButtonPlusClicked()}>+</Button></td>
+             <td> <Button className="button-minus" onClick={() => this.acesAButtonMinusClicked()}>-</Button></td>
+          </tr>
+          <tr>
+            <td className="label"> Double faults: {this.state.doubleFaultsB} </td>
+             <td> <Button onClick={() => this.doubleFaultsBPlusClicked()}>+</Button></td>
+           <td>   <Button className="button-minus" onClick={() => this.doubleFaultsAMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="unforcedErrors">
+            <td className="label">Unforced errors: {this.state.unforcedErrorsB}</td>
+            <td> <Button onClick={() => this.unforcedErrorsBPlusClicked()}>+</Button></td>
+             <td> <Button className="button-minus" onClick={() => this.unforcedErrorsBMinusClicked()}>-</Button> </td>
+          </tr>
+          <tr className="totalPoints">
+            <td className="label">Total points: {this.state.totalPointsB}</td>
+             <td> <Button onClick={() => this.totalPointsBPlusClicked()}>+</Button></td>
+              <td><Button className="button-minus" onClick={() => this.totalPointsBMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="set">
+            <td className="label">Sets: {this.state.setB}</td>
+             <td> <Button onClick={() => this.setBPlusClicked()}>+</Button></td>
+              <td><Button className="button-minus" onClick={() => this.setBMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="games">
+            <td className="label">Games: {this.state.gameB}</td>
+            <td>  <Button onClick={() => this.gamesBPlusClicked()}>+</Button></td>
+             <td><Button className="button-minus" onClick={() => this.gamesBMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="points">
+            <td className="label">Points: {this.state.pointsInGameB}</td>
+             <td><Button onClick={() => this.pointsBPlusClicked()}>+</Button></td> 
+             <td> <Button className="button-minus" onClick={() => this.pointsBMinutClicked()}>-</Button></td>
+          </tr>
+          <tr className="breakPoints">
+            <td className="label">Break points att: {this.state.breakPointsBAtt}</td>
+             <td> <Button onClick={() => this.breakPointsBAttPlusClicked()}>+</Button></td>
+              <td><Button className="button-minus" onClick={() => this.breakPointsBAttMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="breakPoints">
+            <td className="label">Break points won: {this.state.breakPointsBWon}</td>
+             <td> <Button onClick={() => this.breakPointsBWonPlusClicked()}>+</Button></td>
+             <td><Button className="button-minus" onClick={() => this.breakPointsBWonMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="winners">
+            <td className="label">Forehand winners: {this.state.forehandWinnersB}</td>
+             <td> <Button onClick={() => this.forehandWinnersBPlusClicked()}>+</Button></td>
+             <td> <Button className="button-minus" onClick={() => this.forehandWinnersBMinusClicked()}>-</Button></td>
+          </tr>
+          <tr className="winners">
+            <td className="label">Backhand winners: {this.state.backhandWinnersB}</td>
+             <td> <Button onClick={() => this.backhandWinnersBPlusClicked()}>+</Button></td>
+              <td><Button className="button-minus" onClick={() => this.backhandWinnersBMinusClicked()}>-</Button></td>
+          </tr>
+          </tbody>
+        </table>
+        </div>
+        </div>
+        <table>
+          <tbody>
+            <tr>
+        <td><Button id="addRedis" onClick={() => this.AddStatistic()}> ADD REDIS</Button></td>
+        <td><Button id="finish" onClick={() => this.finishMatch()}> Finish match</Button></td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        </div>
+        </div>
     );
   }
 
@@ -735,6 +560,20 @@ class AdminStatistic extends Component<Props, IState> {
       response.json().then(data => {});
     });
     await alert("Statistic changed");
+  }
+  finishMatch(): void {
+    let statisticsCassandra = {
+      matchid: this.props.matchid,
+      player1Aces: this.state.acesA,
+      player2Aces: this.state.acesB,
+      player1DoubleFaults: this.state.doubleFaultsA,
+      player2DoubleFaults: this.state.doubleFaultsB,
+      player1UnforcedErrors: this.state.unforcedErrorsA,
+      player2UnforcedErrors: this.state.unforcedErrorsB,
+      player1TotalPoints: this.state.totalPointsA,
+      player2TotalPoints: this.state.totalPointsB
+    }
+    createStatisticService(statisticsCassandra);
   }
 }
 export default AdminStatistic;

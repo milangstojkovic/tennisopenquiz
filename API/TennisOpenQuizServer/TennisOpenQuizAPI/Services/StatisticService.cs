@@ -35,7 +35,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet statisticData = session.Execute("insert into statistic (matchid, player1aces, player2aces, player1doublefaults, player2doublefaults, player1unforcederrors, player2unforcederrors, player1totalpoints, player2totalpoints)  values (uuid(), '" + statistic.Player1Aces + "', '" + statistic.Player2Aces + "', '" + statistic.Player1DoubleFaults + "', '" + statistic.Player2DoubleFaults + "', '" + statistic.Player1UnforcedErrors + "', '" + statistic.Player2UnforcedErrors + "', '" + statistic.Player1TotalPoints + "', '" + statistic.Player2TotalPoints + "' )");
+            RowSet statisticData = session.Execute("insert into statistic (matchid, player1aces, player2aces, player1doublefaults, player2doublefaults, player1unforcederrors, player2unforcederrors, player1totalpoints, player2totalpoints)  values ("+statistic.Matchid+", " + statistic.Player1Aces + ", " + statistic.Player2Aces + ", " + statistic.Player1DoubleFaults + ", " + statistic.Player2DoubleFaults + ", " + statistic.Player1UnforcedErrors + ", " + statistic.Player2UnforcedErrors + ", " + statistic.Player1TotalPoints + ", " + statistic.Player2TotalPoints + " )");
         }
     }
 }

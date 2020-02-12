@@ -20,7 +20,7 @@ export const getStatisticByIdService = (id: String): Promise<Statistic>=>
         throw err
     })
 
-export const createStatisticService = (statistic: Statistic): any => 
+export const createStatisticService = (statistic: any): any => 
     axios.post<any>(
         `${baseUrl}/statistic`, statistic
     )

@@ -3,8 +3,12 @@ import "./clientMatch.css";
 import { Button } from "react-bootstrap";
 import { HubConnectionBuilder } from "@aspnet/signalr";
 import * as signalR from "@microsoft/signalr";
-import { Match } from "../../Models/Model";
+import { Match, Statistic, BreakPt, Winner, Set, Game } from "../../Models/Model";
 import { getMatchByIdService } from "../../CassandraServices/match.service";
+import { getStatisticByIdService } from "../../CassandraServices/statistic.service";
+import { getBreakPtByIdService } from "../../CassandraServices/breakPt.service";
+import {getWinnersByIdService} from "../../CassandraServices/winner.service";
+import { Modal } from "react-bootstrap";
 
 const axios = require("axios");
 const emptyString = "";
@@ -20,94 +24,16 @@ const POST = "POST";
 
 interface Props {
   matchid: string;
-  player1: string;
-  player2: string;
 }
 interface IState {
   question: Question;
-
-  player1TotalPoints: number;
-  player2TotalPoints: number;
-  player1Aces: number;
-  player2Aces: number;
-  player1DoubleFaults: number;
-  player2DoubleFaults: number;
-  player1UnforcedErrors: number;
-  player2UnforcedErrors: number;
-
-  setNo: number;
-  player1GamesWon: number;
-  player2GamesWon: number;
-
-  player1Points: number;
-  player2Points: number;
-
-  player1BreakPtAtt: number;
-  player1BreakPtWon: number;
-  player2BreakPtAtt: number;
-  player2BreakPtWon: number;
-
-  player1ForehandWinners: number;
-  player1BackhandWinners: number;
-  player1TotalWinners: number;
-  player2ForehandWinners: number;
-  player2BackhandWinners: number;
-  player2TotalWinners: number;
-
-  /////////////////////////////
   nick: string;
   message: string;
   messages: string[];
   hubConnection: any;
-}
-class Statistic {
-  constructor(
-    public matchID: string,
-    public player1Aces: number,
-    public player2Aces: number,
-    public player1DoubleFaults: number,
-    public player2DoubleFaults: number,
-    public player1UnforcedErrors: number,
-    public player2UnforcedErrors: number,
-    public player1TotalPoints: number,
-    public player2TotalPoints: number
-  ) {}
-}
-class Game {
-  constructor(
-    public matchID: string,
-    public player1Points: number,
-    public player2Points: number
-  ) {}
-}
-class Set {
-  constructor(
-    public matchID: string,
-    public setNo: number,
-    public player1GamesWon: number,
-    public player2GamesWon: number,
-    public live: boolean
-  ) {}
-}
-class BreakPt {
-  constructor(
-    public matchID: string,
-    public player1BreakPtAtt: number,
-    public player1BreakPtWon: number,
-    public player2BreakPtAtt: number,
-    public player2BreakPtWon: number
-  ) {}
-}
-class Winner {
-  constructor(
-    public matchID: string,
-    public player1ForehandWinners: number,
-    public player1BackhandWinners: number,
-    public player1TotalWinners: number,
-    public player2ForehandWinners: number,
-    public player2BackhandWinners: number,
-    public player2TotalWinners: number
-  ) {}
+  loading: boolean;
+  isFinished:boolean;
+  activeQ:boolean;
 }
 class Question {
   constructor(
@@ -144,42 +70,16 @@ class ClientMatch extends Component<Props, IState> {
         0,
         false
       ),
-
-      player1TotalPoints: 0,
-      player2TotalPoints: 0,
-      player1Aces: 0,
-      player2Aces: 0,
-      player1DoubleFaults: 0,
-      player2DoubleFaults: 0,
-      player1UnforcedErrors: 0,
-      player2UnforcedErrors: 0,
-
-      setNo: 0,
-      player1GamesWon: 0,
-      player2GamesWon: 0,
-
-      player1Points: 0,
-      player2Points: 0,
-
-      player1BreakPtAtt: 0,
-      player1BreakPtWon: 0,
-      player2BreakPtAtt: 0,
-      player2BreakPtWon: 0,
-
-      player1ForehandWinners: 0,
-      player1BackhandWinners: 0,
-      player1TotalWinners: 0,
-      player2ForehandWinners: 0,
-      player2BackhandWinners: 0,
-      player2TotalWinners: 0,
-
       nick: emptyString,
       message: emptyString,
       messages: [],
-      hubConnection: null
+      hubConnection: null,
+      loading:false,
+      isFinished:false,
+      activeQ:false
     };
     console.log("uso");
-    // this.getData();
+     this.getData();
   }
   //#region HUB
   componentDidMount = () => {
@@ -208,6 +108,7 @@ class ClientMatch extends Component<Props, IState> {
           this.setState({ messages });
 
           this.setState({ message: receivedMessage });
+          this.setState({activeQ:true});
 
           this.getQuestion();
         }
@@ -215,10 +116,11 @@ class ClientMatch extends Component<Props, IState> {
 
       this.state.hubConnection.on(
         "sendToAllCorrectAnswer",
-        (receivedMessage: string) => {
+        async (receivedMessage: string) => {
           let res: string = "";
-          this.getMyAnswer().then(result => (res = result));
-          if (receivedMessage === res) {
+          await this.getMyAnswer().then(result => (res = result));
+          console.log(res);
+          if (receivedMessage == res) {
             console.log("TACNOOOOOOOOO");
           } else {
             console.log("NETACNO :(");
@@ -269,9 +171,12 @@ class ClientMatch extends Component<Props, IState> {
   //#endregion
 
   render() {
+    if(!this.state.loading)
+      return null;
+    else {
     return (
       <div className="client-match">
-        <div className="question">
+        <Modal className="question" show={this.state.activeQ}>
           <h2>
             Points: {this.state.question.points}{" "}
             {this.state.question.questionText}
@@ -304,10 +209,10 @@ class ClientMatch extends Component<Props, IState> {
           >
             D) {this.state.question.answerD}{" "}
           </button>
-        </div>
+        </Modal>
         <div className="players">
-          <h2>{this.props.player1}</h2>
-          <h2>{this.props.player2}</h2>
+          <h2>{this.match.player1}</h2>
+          <h2>{this.match.player2}</h2>
         </div>
         <div className="total-points">
           <div className="totalPoints-client">
@@ -315,12 +220,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="totalPoints-data">
               <div className="totalPointsA">
                 <div className="totalPointsA-value">
-                  {this.state.player1TotalPoints}
+                  {this.statistic.player1TotalPoints}
                 </div>
               </div>
               <div className="totalPointsB">
                 <div className="totalPointsB-value">
-                  {this.state.player2TotalPoints}
+                  {this.statistic.player2TotalPoints}
                 </div>
               </div>
             </div>
@@ -329,10 +234,10 @@ class ClientMatch extends Component<Props, IState> {
             <h4>Aces</h4>
             <div className="aces-data">
               <div className="acesA">
-                <div className="acesA-value">{this.state.player1Aces}</div>
+                <div className="acesA-value">{this.statistic.player1Aces}</div>
               </div>
               <div className="acesB">
-                <div className="acesB-value">{this.state.player2Aces}</div>
+                <div className="acesB-value">{this.statistic.player2Aces}</div>
               </div>
             </div>
           </div>
@@ -341,12 +246,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="doubleFaults-data">
               <div className="doubleFaultsA">
                 <div className="doubleFaultsA-value">
-                  {this.state.player1DoubleFaults}
+                  {this.statistic.player1DoubleFaults}
                 </div>
               </div>
               <div className="doubleFaultsB">
                 <div className="doubleFaultsB-value">
-                  {this.state.player2DoubleFaults}
+                  {this.statistic.player2DoubleFaults}
                 </div>
               </div>
             </div>
@@ -356,12 +261,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="unforcedErrors-data">
               <div className="unforcedErrorsA">
                 <div className="unforcedErrorsA-value">
-                  {this.state.player1UnforcedErrors}
+                  {this.statistic.player1UnforcedErrors}
                 </div>
               </div>
               <div className="unforcedErrorsB">
                 <div className="unforcedErrorsB-value">
-                  {this.state.player2UnforcedErrors}
+                  {this.statistic.player2UnforcedErrors}
                 </div>
               </div>
             </div>
@@ -371,12 +276,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="breakPointsWon-data">
               <div className="breakPointsWonA">
                 <div className="breakPointsWonA-value">
-                  {this.state.player1BreakPtWon}
+                  {this.breakPt.player1BreakPtWon}
                 </div>
               </div>
               <div className="breakPointsWonB">
                 <div className="breakPointsWonB-value">
-                  {this.state.player2BreakPtWon}
+                  {this.breakPt.player2BreakPtWon}
                 </div>
               </div>
             </div>
@@ -386,12 +291,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="forehandWinners-data">
               <div className="forehandWinnersA">
                 <div className="forehandWinnersA-value">
-                  {this.state.player1ForehandWinners}
+                  {this.winner.player1ForehandWinners}
                 </div>
               </div>
               <div className="forehandWinnersB">
                 <div className="forehandWinnersB-value">
-                  {this.state.player2ForehandWinners}
+                  {this.winner.player2ForehandWinners}
                 </div>
               </div>
             </div>
@@ -401,12 +306,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="backhandWinners-data">
               <div className="backhandWinnersA">
                 <div className="backhandWinnersA-value">
-                  {this.state.player1BackhandWinners}
+                  {this.winner.player1BackhandWinners}
                 </div>
               </div>
               <div className="backhandWinnersB">
                 <div className="backhandWinnersB-value">
-                  {this.state.player2BackhandWinners}
+                  {this.winner.player2BackhandWinners}
                 </div>
               </div>
             </div>
@@ -416,12 +321,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="totalWinners-data">
               <div className="totalWinnersA">
                 <div className="totalWinnersA-value">
-                  {this.state.player1TotalWinners}
+                  {this.winner.player1TotalWinners}
                 </div>
               </div>
               <div className="totalWinnersB">
                 <div className="totalWinnersB-value">
-                  {this.state.player2TotalWinners}
+                  {this.winner.player2TotalWinners}
                 </div>
               </div>
             </div>
@@ -436,6 +341,7 @@ class ClientMatch extends Component<Props, IState> {
         </Button>
       </div>
     );
+    }
   }
   async addAnswerToRedis(answerValue: string): Promise<void> {
     let answerToRedis: Answer = new Answer(
@@ -457,51 +363,27 @@ class ClientMatch extends Component<Props, IState> {
   }
   clickedAnswerA(): void {
     this.addAnswerToRedis("a");
+    this.setState({activeQ:false});
   }
   clickedAnswerB(): void {
     this.addAnswerToRedis("b");
+    this.setState({activeQ:false});
   }
   clickedAnswerC(): void {
     this.addAnswerToRedis("c");
+    this.setState({activeQ:false});
   }
   clickedAnswerD(): void {
     this.addAnswerToRedis("d");
+    this.setState({activeQ:false});
   }
 
   async clickedButtonRefresh(): Promise<void> {
-    let statistic: Statistic = await this.getStatistic();
-    console.log(statistic);
-    let set: Set = await this.getSet();
-    let winner: Winner = await this.getWinner();
-    let breakPt: BreakPt = await this.getBreakPt();
-    this.setState({
-      player1TotalPoints: statistic.player1TotalPoints,
-      player2TotalPoints: statistic.player2TotalPoints,
-      player1Aces: statistic.player1Aces,
-      player2Aces: statistic.player2Aces,
-      player1DoubleFaults: statistic.player1DoubleFaults,
-      player2DoubleFaults: statistic.player2DoubleFaults,
-      player1UnforcedErrors: statistic.player1UnforcedErrors,
-      player2UnforcedErrors: statistic.player2UnforcedErrors,
-
-      setNo: set.setNo,
-      player1GamesWon: set.player1GamesWon,
-      player2GamesWon: set.player2GamesWon,
-
-      player1BreakPtAtt: breakPt.player1BreakPtAtt,
-      player1BreakPtWon: breakPt.player1BreakPtWon,
-      player2BreakPtAtt: breakPt.player2BreakPtAtt,
-      player2BreakPtWon: breakPt.player2BreakPtWon,
-
-      player1ForehandWinners: winner.player1ForehandWinners,
-      player1BackhandWinners: winner.player1BackhandWinners,
-      player1TotalWinners:
-        winner.player1ForehandWinners + winner.player1BackhandWinners,
-      player2ForehandWinners: winner.player2ForehandWinners,
-      player2BackhandWinners: winner.player2BackhandWinners,
-      player2TotalWinners:
-        winner.player2ForehandWinners + winner.player2BackhandWinners
-    });
+    this.statistic = await this.getStatistic();
+    this.set = await this.getSet();
+    this.winner = await this.getWinner();
+    this.breakPt = await this.getBreakPt();
+    this.forceUpdate();
     this.fillStatisticData();
   }
   fillStatisticData(): void {
@@ -658,25 +540,23 @@ class ClientMatch extends Component<Props, IState> {
     return toRet;
   }
 
-  // async getData(): Promise<void> {
-  //   await getMatchByIdService(this.props.matchid).then(m => this.match = m);
-  //   if (this.match.isFinished) {
-  //     this.setState({ isFinished: true });
-  //     await getStatisticByIdService(this.props.matchid).then(s => this.statistic = s);
-  //     await getWinnersByIdService(this.props.matchid).then(w=>this.winner=w);
-  //     await getBreakPtByIdService(this.props.matchid).then(b=>this.breakPt=b);
-
-  //   }
-  //   else {
-  //     this.statistic = await this.getStatistic();
-  //   console.log(this.statistic);
-  //   this.set = await this.getSet();
-  //   this.winner = await this.getWinner();
-  //   this.breakPt = await this.getBreakPt();
-  //   }
-  //   await this.setState({ loading: true });
-  //   this.render();
-  // }
+   async getData(): Promise<void> {
+     await getMatchByIdService(this.props.matchid).then(m => this.match = m);
+     if (this.match.isFinished) {
+       this.setState({ isFinished: true });
+       await getStatisticByIdService(this.props.matchid).then(s => this.statistic = s);
+       await getWinnersByIdService(this.props.matchid).then(w=>this.winner=w);
+       await getBreakPtByIdService(this.props.matchid).then(b=>this.breakPt=b);
+     }
+     else {
+       this.statistic = await this.getStatistic();
+     console.log(this.statistic);
+     this.set = await this.getSet();
+     this.winner = await this.getWinner();
+     this.breakPt = await this.getBreakPt();
+     }
+     await this.setState({ loading: true });
+   }
 }
 
 export default ClientMatch;

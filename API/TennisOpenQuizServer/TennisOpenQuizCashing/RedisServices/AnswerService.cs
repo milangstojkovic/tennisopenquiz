@@ -31,8 +31,9 @@ namespace TennisOpenQuizCashing.RedisServices
         public string GetAnswer(string answerKey)
         {
             var db = _redis.GetDatabase();
-            Answer answerFromCache = JsonConvert.DeserializeObject<Answer>(db.StringGet(answerKey));
-            return answerFromCache.AnswerValue;
+            
+            string answer = db.StringGet(answerKey);
+            return answer;
         }
     }
 }

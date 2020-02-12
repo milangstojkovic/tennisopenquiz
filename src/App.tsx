@@ -5,6 +5,10 @@ import NavComponent from "./Components/NavComponent/navComponent";
 import ClientMatch from "./Components/ClientMatchComponent/clientMatch";
 import QuestionAnswers from "./Components/QuestionsComponent/questionAnswers";
 import Questions from "./Components/QuestionsComponent/questions";
+import Login from "./Components/LoginComponent/login";
+import AdminHome from "./Components/AdminComponent/adminHome";
+import MatchList from "./Components/MatchListComponent/matchList";
+import Home from "./Components/HomeComponent/home";
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -29,35 +33,38 @@ class App extends Component<Props, IState> {
     this.setState({ nmbr: 10 });
   }
   render() {
-    
+    if(localStorage.getItem("username")=="admin")
     return (
-      // <div className="body">
-      //   <div className="header">
-      //     <NavComponent />
-      //   </div>
-      //   <div className="container">
-      //     {/* <div>
-      //     {this.state.nmbr > 3 ? <Login /> : <Home />}
-      //     <button
-      //       onClick={ev => this.clickedButtonCancel(ev)}
-      //       className="meetup-cancel-button"
-      //     >
-      //       Click me
-      //     </button>
-      //   </div>
-      //   <Register /> */}
-      //   <AdminStatistic key={1} matchId="caos" />
-      //     <ClientMatch key={2} matchID="caos" player1="Novak Djokovic" player2="Rafael Nadal"/>
-      //   </div>
-      // </div>
-      <div>
-        <Questions />
-        <ClientMatch
-        key={2}
-        matchid="cao"
-        player1="Nikola"
-        player2="Milan" />
-      </div>
+      <div className="body">
+      <div className="header">
+           <NavComponent />
+         </div>
+         <div className="container">
+           <AdminHome/>
+           </div>
+           </div>
+    )
+    else if(localStorage.getItem("username"))
+    return (
+      <div className="body">
+      <div className="header">
+           <NavComponent />
+         </div>
+         <div className="container">
+           <MatchList/>
+           </div>
+           </div>
+    )
+    else
+    return (
+      <div className="body">
+      <div className="header">
+           <NavComponent />
+         </div>
+         <div className="container">
+           <Home/>
+           </div>
+           </div>
     );
   }
 }
