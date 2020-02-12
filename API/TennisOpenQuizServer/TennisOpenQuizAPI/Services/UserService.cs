@@ -61,7 +61,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet userData = session.Execute("Update user set score = "+user.Score + " Where username = '" + user.Username+"' and email='"+user.Email+"';");
+            RowSet userData = session.Execute("Update user set score = "+user.Score + " Where username = '" + user.Username+"';");
         }
     }
 }
