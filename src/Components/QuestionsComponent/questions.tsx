@@ -34,7 +34,6 @@ interface IState {
   points: number;
   stringKeyToReturn: string;
   hubConnection: any;
-
 }
 const emptyString = "";
 const False = false;
@@ -42,7 +41,7 @@ const POST = "POST";
 
 const redisQuestionUR = "https://localhost:44379/api/question";
 const redisPublishURL = "https://localhost:44379/api/publish";
-const hubConnUrl="https://localhost:44379/qahub";
+const hubConnUrl = "https://localhost:44379/qahub";
 
 var ID = function() {
   return Math.random()
@@ -72,12 +71,11 @@ class Questions extends Component<Props, IState> {
       answerDInput: emptyString,
       points: 0,
       stringKeyToReturn: emptyString,
-      hubConnection:null
+      hubConnection: null
     };
     this.questions = [];
     this.answers = [];
   }
-
 
   componentDidMount = () => {
     console.log("aaa");
@@ -114,7 +112,11 @@ class Questions extends Component<Props, IState> {
 
     //this.setState({ message: "" });
   };
-
+  sendCorrectAnswer = (correctAnswer: string) => {
+    this.state.hubConnection
+      .invoke("sendToAllCorrectAnswer", correctAnswer)
+      .catch((err: any) => console.error(err));
+  };
 
   render() {
     return (
@@ -131,30 +133,66 @@ class Questions extends Component<Props, IState> {
           />
           <div className="answers-inputs">
             <label> Answers: </label>
-            <input
-              className="input-answer"
-              value={this.state.answerAInput}
-              placeholder="Add answer A"
-              onChange={event => this.handleChangeAnswerA(event)}
-            />
-            <input
-              className="input-answer"
-              value={this.state.answerBInput}
-              placeholder="Add answer B"
-              onChange={event => this.handleChangeAnswerB(event)}
-            />
-            <input
-              className="input-answer"
-              value={this.state.answerCInput}
-              placeholder="Add answer C"
-              onChange={event => this.handleChangeAnswerC(event)}
-            />
-            <input
-              className="input-answer"
-              value={this.state.answerDInput}
-              placeholder="Add answer D"
-              onChange={event => this.handleChangeAnswerD(event)}
-            />
+            <div className="answer-correct">
+              <input
+                className="input-answer"
+                value={this.state.answerAInput}
+                placeholder="Add answer A"
+                onChange={event => this.handleChangeAnswerA(event)}
+              />
+              <button
+                type="button"
+                className="btn btn-outline-success"
+                onClick={() => this.sendCorrectAnswer("a")}
+              >
+                Correct
+              </button>
+            </div>
+            <div className="answer-correct">
+              <input
+                className="input-answer"
+                value={this.state.answerBInput}
+                placeholder="Add answer B"
+                onChange={event => this.handleChangeAnswerB(event)}
+              />
+              <button
+                type="button"
+                className="btn btn-outline-success"
+                onClick={() => this.sendCorrectAnswer("b")}
+              >
+                Correct
+              </button>
+            </div>
+            <div className="answer-correct">
+              <input
+                className="input-answer"
+                value={this.state.answerCInput}
+                placeholder="Add answer C"
+                onChange={event => this.handleChangeAnswerC(event)}
+              />{" "}
+              <button
+                type="button"
+                className="btn btn-outline-success"
+                onClick={() => this.sendCorrectAnswer("c")}
+              >
+                Correct
+              </button>
+            </div>
+            <div className="answer-correct">
+              <input
+                className="input-answer"
+                value={this.state.answerDInput}
+                placeholder="Add answer D"
+                onChange={event => this.handleChangeAnswerD(event)}
+              />{" "}
+              <button
+                type="button"
+                className="btn btn-outline-success"
+                onClick={() => this.sendCorrectAnswer("d")}
+              >
+                Correct
+              </button>
+            </div>
             <input
               type="number"
               id="tentacles"
@@ -183,7 +221,7 @@ class Questions extends Component<Props, IState> {
     );
   }
   handleChangePoints(event: React.ChangeEvent<HTMLInputElement>): void {
-    this.setState({points:parseInt(event.target.value)})
+    this.setState({ points: parseInt(event.target.value) });
   }
   async sendToRedisAndPublish(): Promise<void> {
     await this.publish(this.state.stringKeyToReturn.toString());
@@ -204,8 +242,6 @@ class Questions extends Component<Props, IState> {
     await this.addQuestion(this.state.questionInput);
     await this.publish(this.state.stringKeyToReturn);
     await this.sendMessage();
-
-   
   }
 
   handleChangeAnswerA(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -220,7 +256,7 @@ class Questions extends Component<Props, IState> {
   handleChangeAnswerD(event: React.ChangeEvent<HTMLInputElement>): void {
     this.setState({ answerDInput: event.target.value });
   }
-  
+
   buttonCancelClicked(): void {
     this.setState({ questionInput: emptyString });
     this.setState({ answerAInput: emptyString });

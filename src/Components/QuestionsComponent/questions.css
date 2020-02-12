@@ -52,3 +52,7 @@
     flex-flow: column;
     border: solid black 1px;
 }
+.answer-correct{
+    display:flex;
+    flex-direction: row;
+}

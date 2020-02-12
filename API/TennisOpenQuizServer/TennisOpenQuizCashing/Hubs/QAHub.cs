@@ -12,5 +12,11 @@ namespace TennisOpenQuizCashing.Hubs
         {
             await Clients.All.SendAsync("sendToAll", user, message);
         }
+
+        public async Task SendToAllCorrectAnswer(string correctAnswer)
+        {
+            await Clients.All.SendAsync("sendToAllCorrectAnswer", correctAnswer);
+
+        }
     }
 }

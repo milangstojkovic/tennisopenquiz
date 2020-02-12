@@ -20,8 +20,8 @@ const POST = "POST";
 
 interface Props {
   matchid: string;
-  player1:string;
-  player2:string;
+  player1: string;
+  player2: string;
 }
 interface IState {
   question: Question;
@@ -125,12 +125,12 @@ class Answer {
   constructor(public answerValue: string, public userAnswered: string) {}
 }
 class ClientMatch extends Component<Props, IState> {
-  match !: Match;
-  statistic !: Statistic;
-  set !: Set;
-  winner !: Winner;
-  breakPt !: BreakPt;
-  sets !: Set[];
+  match!: Match;
+  statistic!: Statistic;
+  set!: Set;
+  winner!: Winner;
+  breakPt!: BreakPt;
+  sets!: Set[];
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -179,7 +179,7 @@ class ClientMatch extends Component<Props, IState> {
       hubConnection: null
     };
     console.log("uso");
-   // this.getData();
+    // this.getData();
   }
   //#region HUB
   componentDidMount = () => {
@@ -212,6 +212,19 @@ class ClientMatch extends Component<Props, IState> {
           this.getQuestion();
         }
       );
+
+      this.state.hubConnection.on(
+        "sendToAllCorrectAnswer",
+        (receivedMessage: string) => {
+          let res: string = "";
+          this.getMyAnswer().then(result => (res = result));
+          if (receivedMessage === res) {
+            console.log("TACNOOOOOOOOO");
+          } else {
+            console.log("NETACNO :(");
+          }
+        }
+      );
     });
   };
   sendMessage = () => {
@@ -221,6 +234,16 @@ class ClientMatch extends Component<Props, IState> {
 
     this.setState({ message: "" });
   };
+
+  async getMyAnswer(): Promise<string> {
+    let toRet: string = "";
+    await axios
+      .get(redisAnswerURL + localStorage.getItem("username"))
+      .then((response: { data: string }) => {
+        toRet = response.data;
+      });
+    return toRet;
+  }
 
   async getQuestion(): Promise<Question> {
     let toRet: Question = new Question(
@@ -233,6 +256,7 @@ class ClientMatch extends Component<Props, IState> {
       0,
       false
     );
+
     await axios
       .get(redisQuestionURL + this.state.message)
       .then((response: { data: Question }) => {
@@ -252,49 +276,51 @@ class ClientMatch extends Component<Props, IState> {
             Points: {this.state.question.points}{" "}
             {this.state.question.questionText}
           </h2>
-          <Button
+          <button
             className="btn btn-outline-info"
             value="a"
             onClick={() => this.clickedAnswerA()}
           >
             A) {this.state.question.answerA}{" "}
-          </Button>
-          <Button
+          </button>
+          <button
             className="btn btn-outline-info"
             value="b"
             onClick={() => this.clickedAnswerB()}
           >
             B) {this.state.question.answerB}{" "}
-          </Button>
-          <Button
+          </button>
+          <button
             className="btn btn-outline-info"
             value="b"
             onClick={() => this.clickedAnswerC()}
           >
             C) {this.state.question.answerC}{" "}
-          </Button>
-          <Button
+          </button>
+          <button
             className="btn btn-outline-info"
             value="b"
             onClick={() => this.clickedAnswerD()}
           >
-            D) {this.state.question.answerC}{" "}
-          </Button>
+            D) {this.state.question.answerD}{" "}
+          </button>
         </div>
         <div className="players">
           <h2>{this.props.player1}</h2>
           <h2>{this.props.player2}</h2>
         </div>
         <div className="total-points">
-          <h4>Total points</h4>
-          <div className="totalPoints-data">
-            <div className="totalPointsA">
-              <div className="totalPointsA-value">
-                {this.state.player1TotalPoints}
+          <div className="totalPoints-client">
+            <h4>Total points</h4>
+            <div className="totalPoints-data">
+              <div className="totalPointsA">
+                <div className="totalPointsA-value">
+                  {this.state.player1TotalPoints}
+                </div>
               </div>
               <div className="totalPointsB">
                 <div className="totalPointsB-value">
-                  {this.statistic.player2TotalPoints}
+                  {this.state.player2TotalPoints}
                 </div>
               </div>
             </div>
@@ -303,10 +329,10 @@ class ClientMatch extends Component<Props, IState> {
             <h4>Aces</h4>
             <div className="aces-data">
               <div className="acesA">
-                <div className="acesA-value">{this.statistic.player1Aces}</div>
+                <div className="acesA-value">{this.state.player1Aces}</div>
               </div>
               <div className="acesB">
-                <div className="acesB-value">{this.statistic.player2Aces}</div>
+                <div className="acesB-value">{this.state.player2Aces}</div>
               </div>
             </div>
           </div>
@@ -315,12 +341,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="doubleFaults-data">
               <div className="doubleFaultsA">
                 <div className="doubleFaultsA-value">
-                  {this.statistic.player1DoubleFaults}
+                  {this.state.player1DoubleFaults}
                 </div>
               </div>
               <div className="doubleFaultsB">
                 <div className="doubleFaultsB-value">
-                  {this.statistic.player2DoubleFaults}
+                  {this.state.player2DoubleFaults}
                 </div>
               </div>
             </div>
@@ -330,12 +356,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="unforcedErrors-data">
               <div className="unforcedErrorsA">
                 <div className="unforcedErrorsA-value">
-                  {this.statistic.player1UnforcedErrors}
+                  {this.state.player1UnforcedErrors}
                 </div>
               </div>
               <div className="unforcedErrorsB">
                 <div className="unforcedErrorsB-value">
-                  {this.statistic.player2UnforcedErrors}
+                  {this.state.player2UnforcedErrors}
                 </div>
               </div>
             </div>
@@ -345,12 +371,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="breakPointsWon-data">
               <div className="breakPointsWonA">
                 <div className="breakPointsWonA-value">
-                  {this.breakPt.player1BreakPtWon}
+                  {this.state.player1BreakPtWon}
                 </div>
               </div>
               <div className="breakPointsWonB">
                 <div className="breakPointsWonB-value">
-                  {this.breakPt.player2BreakPtWon}
+                  {this.state.player2BreakPtWon}
                 </div>
               </div>
             </div>
@@ -360,12 +386,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="forehandWinners-data">
               <div className="forehandWinnersA">
                 <div className="forehandWinnersA-value">
-                  {this.winner.player1ForehandWinners}
+                  {this.state.player1ForehandWinners}
                 </div>
               </div>
               <div className="forehandWinnersB">
                 <div className="forehandWinnersB-value">
-                  {this.winner.player2ForehandWinners}
+                  {this.state.player2ForehandWinners}
                 </div>
               </div>
             </div>
@@ -375,12 +401,12 @@ class ClientMatch extends Component<Props, IState> {
             <div className="backhandWinners-data">
               <div className="backhandWinnersA">
                 <div className="backhandWinnersA-value">
-                  {this.winner.player1BackhandWinners}
+                  {this.state.player1BackhandWinners}
                 </div>
               </div>
               <div className="backhandWinnersB">
                 <div className="backhandWinnersB-value">
-                  {this.winner.player2BackhandWinners}
+                  {this.state.player2BackhandWinners}
                 </div>
               </div>
             </div>
@@ -390,28 +416,31 @@ class ClientMatch extends Component<Props, IState> {
             <div className="totalWinners-data">
               <div className="totalWinnersA">
                 <div className="totalWinnersA-value">
-                  {this.winner.player1TotalWinners}
+                  {this.state.player1TotalWinners}
                 </div>
               </div>
               <div className="totalWinnersB">
                 <div className="totalWinnersB-value">
-                  {this.winner.player2TotalWinners}
+                  {this.state.player2TotalWinners}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <Button className="btn-refresh" onClick={() => this.clickedButtonRefresh()}>
+        <Button
+          className="btn-refresh"
+          onClick={() => this.clickedButtonRefresh()}
+        >
           {" "}
           REFRESH
         </Button>
-        </div>
-      )
-      }
+      </div>
+    );
+  }
   async addAnswerToRedis(answerValue: string): Promise<void> {
     let answerToRedis: Answer = new Answer(
       answerValue,
-      localStorage.getItem("username") as string
+      (localStorage.getItem("username") as string) || "admirrr"
     );
     await fetch(redisAnswerURL, {
       method: POST,
@@ -523,14 +552,16 @@ class ClientMatch extends Component<Props, IState> {
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.statistic.player1UnforcedErrors /
-      (this.statistic.player1UnforcedErrors + this.statistic.player2UnforcedErrors)
+      (this.statistic.player1UnforcedErrors +
+        this.statistic.player2UnforcedErrors)
     ).toString();
 
     el = document.querySelector(".unforcedErrorsB-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
     el.style.flexGrow = (
       this.statistic.player2UnforcedErrors /
-      (this.statistic.player1UnforcedErrors + this.statistic.player2UnforcedErrors)
+      (this.statistic.player1UnforcedErrors +
+        this.statistic.player2UnforcedErrors)
     ).toString();
     el = document.querySelector(".breakPointsWonA-value") as HTMLDivElement;
     el.style.backgroundColor = "green";
@@ -634,7 +665,7 @@ class ClientMatch extends Component<Props, IState> {
   //     await getStatisticByIdService(this.props.matchid).then(s => this.statistic = s);
   //     await getWinnersByIdService(this.props.matchid).then(w=>this.winner=w);
   //     await getBreakPtByIdService(this.props.matchid).then(b=>this.breakPt=b);
-      
+
   //   }
   //   else {
   //     this.statistic = await this.getStatistic();
