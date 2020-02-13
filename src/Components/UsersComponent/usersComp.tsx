@@ -1,7 +1,7 @@
 import React, { Component, useReducer } from "react";
 import { getUsersService } from "../../CassandraServices/user.service";
 import { User } from "../../Models/Model";
-
+import "./userComp.css"
 interface Props {}
 interface IState {
     loading:boolean;
@@ -28,7 +28,7 @@ class Userscomp extends Component<Props, IState> {
     </tr>)
     return (
       <form >
-        <table>
+        <table className="table">
             <thead>
                 <tr>
                     <th>No.</th><th>Username</th><th>Score</th>
