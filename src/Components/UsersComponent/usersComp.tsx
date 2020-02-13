@@ -22,13 +22,18 @@ class Userscomp extends Component<Props, IState> {
     return null;
     const playersRender = this.users.map((user, index) =>
     <tr className="user" key={index}>
-        <td>{index}</td>
+        <td>{index+1}</td>
         <td> {user.username}</td>
         <td>{user.score}</td>
     </tr>)
     return (
       <form >
         <table>
+            <thead>
+                <tr>
+                    <th>No.</th><th>Username</th><th>Score</th>
+                </tr>
+            </thead>
             <tbody>
                 {playersRender}
             </tbody>
