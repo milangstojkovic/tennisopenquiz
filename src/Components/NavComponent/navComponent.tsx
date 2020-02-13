@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import './navComponent.css'
 import logo from '../../Resources/Logo1Default11.png'
+import 'bootstrap/dist/css/bootstrap.min.css';
 interface Props { }
 interface IState {
 }
@@ -28,18 +29,18 @@ class NavComponent extends Component<Props, IState> {
                     </li>
                 </ul>
                 <ul className="nav">
-                    <li id="logo" className="nav-item" onClick={e=>this.logOut(e)}>
-                        <img className="item" src={logo}></img>
+                    <li id="logo" className="nav-item " onClick={e => this.logOut(e)} >
+                        <img className="item" src={logo} title="LOG OUT"></img>
                     </li>
                 </ul>
             </div>
         );
 
     }
-    logOut(event:any): void {
+    logOut(event: any): void {
         localStorage.removeItem("username");
         window.location.reload();
-        }
+    }
 }
 
 export default NavComponent;

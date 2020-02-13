@@ -9,7 +9,7 @@ import Login from "./Components/LoginComponent/login";
 import AdminHome from "./Components/AdminComponent/adminHome";
 import MatchList from "./Components/MatchListComponent/matchList";
 import Home from "./Components/HomeComponent/home";
-import Userscomp from "./Components/UsersComponent/usersComp";
+
 export type Props = {};
 interface IState {
   nmbr: number;
@@ -34,7 +34,7 @@ class App extends Component<Props, IState> {
     this.setState({ nmbr: 10 });
   }
   render() {
-    /*if(localStorage.getItem("username")=="admin")
+    if(localStorage.getItem("username")=="admin")
     return (
       <div className="body">
       <div className="header">
@@ -66,17 +66,17 @@ class App extends Component<Props, IState> {
            <Home/>
            </div>
            </div>
-    );*/
-    return(
-      <div className="body">
-      <div className="header">
-           <NavComponent />
-         </div>
-         <div className="container">
-           <Userscomp/>
-           </div>
-           </div>
-    )
+    );
+    // return(
+    //   <div className="body">
+    //   <div className="header">
+    //        <NavComponent />
+    //      </div>
+    //      <div className="container">
+    //        <Userscomp/>
+    //        </div>
+    //        </div>
+    // )
   }
 }
 

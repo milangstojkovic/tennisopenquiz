@@ -5,12 +5,17 @@ import AdminTournament from "./adminTournament";
 import AdminMatches from "./adminMatches";
 import { Modal } from "react-bootstrap";
 import "./adminHome.css";
+import Userscomp from "../UsersComponent/usersComp";
+import TournamentsComp from "../TournamentsComponent/tournamentsComp";
+
 
 interface Props { }
 interface IState {
     playersModalIsOpen: boolean,
     tournamentsModalIsOpen: boolean,
-    matchesModalIsOpen: boolean
+    matchesModalIsOpen: boolean,
+    playersRangListModalIsOpen: boolean,
+    tournamentsListModalIsOpen:boolean
 }
 const emptyString = "";
 class AdminHome extends Component<Props, IState> {
@@ -20,7 +25,9 @@ class AdminHome extends Component<Props, IState> {
         this.state = {
             playersModalIsOpen: false,
             tournamentsModalIsOpen: false,
-            matchesModalIsOpen: false
+            matchesModalIsOpen: false,
+            playersRangListModalIsOpen: false,
+            tournamentsListModalIsOpen:false
         };
     }
     render() {
@@ -55,9 +62,29 @@ class AdminHome extends Component<Props, IState> {
                         </div>
                     </div>
                 </div>
+                <div className="row">
+                    <div className="col-4 mt-4">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5 className="card-title">Users rank list</h5>
+                                <p className="card-text">Click on button to see Users.</p>
+                                <a onClick={e => this.openPlayersRangListModal(e)} className="btn btn-secondary">Users rank list</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-4 mt-4">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5 className="card-title">Tournaments list</h5>
+                                <p className="card-text">Click on button to see Tournaments.</p>
+                                <a onClick={e => this.openTournamentsListModal(e)} className="btn btn-secondary">Tournaments list</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <Modal show={this.state.playersModalIsOpen}>
                     <div className="btnClose">
-                        <button onClick={e => this.closePlayersModal(e)} className="btn btn-danger">Close</button>
+                        <button onClick={e => this.closeTournamentsListModal(e)} className="btn btn-danger">Close</button>
                     </div>
                     <AdminPlayer />
                 </Modal>
@@ -73,8 +100,28 @@ class AdminHome extends Component<Props, IState> {
                     </div>
                     <AdminMatches />
                 </Modal>
+                <Modal show={this.state.playersRangListModalIsOpen} className="modal">
+                    <div className="btnClose">
+                        <button onClick={e => this.closePlayersRangListModal(e)} className="btn btn-danger">Close</button>
+                    </div>
+                    <Userscomp/>
+                </Modal>
+                <Modal show={this.state.tournamentsListModalIsOpen} className="modal">
+                    <div className="btnClose">
+                        <button onClick={e => this.closeTournamentsListModal(e)} className="btn btn-danger">Close</button>
+                    </div>
+                    <TournamentsComp/>
+                </Modal>
             </form>
         );
+    }
+  
+    openTournamentsListModal(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
+        this.setState({ tournamentsListModalIsOpen: true });
+    }
+   
+    openPlayersRangListModal(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
+        this.setState({ playersRangListModalIsOpen: true });
     }
     openPlayersModal(e: any): void {
         this.setState({ playersModalIsOpen: true });
@@ -93,6 +140,12 @@ class AdminHome extends Component<Props, IState> {
     }
     closeMatchesModal(e: any): void {
         this.setState({ matchesModalIsOpen: false });
+    }
+    closePlayersRangListModal(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+        this.setState({ playersRangListModalIsOpen: false });
+    }
+    closeTournamentsListModal(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+        this.setState({ tournamentsListModalIsOpen: false });
     }
 }
 export default AdminHome;

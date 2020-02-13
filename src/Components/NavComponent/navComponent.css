@@ -8,6 +8,8 @@
 
 #logo {
     text-align: right;
+    cursor: pointer;
+
 }
 
 .item {
