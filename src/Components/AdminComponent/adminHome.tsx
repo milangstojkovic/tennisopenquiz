@@ -15,7 +15,7 @@ interface IState {
     tournamentsModalIsOpen: boolean,
     matchesModalIsOpen: boolean,
     playersRangListModalIsOpen: boolean,
-    tournamentsListModalIsOpen:boolean
+    tournamentsListModalIsOpen: boolean
 }
 const emptyString = "";
 class AdminHome extends Component<Props, IState> {
@@ -27,7 +27,7 @@ class AdminHome extends Component<Props, IState> {
             tournamentsModalIsOpen: false,
             matchesModalIsOpen: false,
             playersRangListModalIsOpen: false,
-            tournamentsListModalIsOpen:false
+            tournamentsListModalIsOpen: false
         };
     }
     render() {
@@ -84,7 +84,7 @@ class AdminHome extends Component<Props, IState> {
                 </div>
                 <Modal show={this.state.playersModalIsOpen}>
                     <div className="btnClose">
-                        <button onClick={e => this.closeTournamentsListModal(e)} className="btn btn-danger">Close</button>
+                        <button onClick={e => this.closePlayersModal(e)} className="btn btn-danger">Close</button>
                     </div>
                     <AdminPlayer />
                 </Modal>
@@ -104,41 +104,41 @@ class AdminHome extends Component<Props, IState> {
                     <div className="btnClose">
                         <button onClick={e => this.closePlayersRangListModal(e)} className="btn btn-danger">Close</button>
                     </div>
-                    <Userscomp/>
+                    <Userscomp />
                 </Modal>
                 <Modal show={this.state.tournamentsListModalIsOpen} className="modal">
                     <div className="btnClose">
                         <button onClick={e => this.closeTournamentsListModal(e)} className="btn btn-danger">Close</button>
                     </div>
-                    <TournamentsComp/>
+                    <TournamentsComp />
                 </Modal>
             </form>
         );
     }
-  
+
     openTournamentsListModal(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
         this.setState({ tournamentsListModalIsOpen: true });
     }
-   
+
     openPlayersRangListModal(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
         this.setState({ playersRangListModalIsOpen: true });
     }
-    openPlayersModal(e: any): void {
+    openPlayersModal(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
         this.setState({ playersModalIsOpen: true });
     }
-    openTournamentsModal(e: any): void {
+    openTournamentsModal(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
         this.setState({ tournamentsModalIsOpen: true });
     }
-    openMatchesModal(e: any): void {
+    openMatchesModal(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
         this.setState({ matchesModalIsOpen: true });
     }
-    closePlayersModal(e: any): void {
+    closePlayersModal(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
         this.setState({ playersModalIsOpen: false });
     }
-    closeTournamentsModal(e: any): void {
+    closeTournamentsModal(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
         this.setState({ tournamentsModalIsOpen: false });
     }
-    closeMatchesModal(e: any): void {
+    closeMatchesModal(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
         this.setState({ matchesModalIsOpen: false });
     }
     closePlayersRangListModal(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
