@@ -34,5 +34,10 @@ namespace TennisOpenQuizAPI.Controllers
         {
             matchService.AddMatch(match);
         }
+        [HttpPut("{matchid}")]
+        public void Put([FromBody] Match match)
+        {
+            matchService.UpdateMatchScore(match);
+        }
     }
 }

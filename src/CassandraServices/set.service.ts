@@ -11,7 +11,7 @@ export const getSetsByIdService = (id: String): Promise<[Set]>=>
         throw err
     })
 
-export const createSetService = (set: Set): any => 
+export const createSetService = (set: any): any => 
     axios.post<any>(
         `${baseUrl}/set`, set
     )

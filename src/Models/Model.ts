@@ -62,7 +62,6 @@ export interface BreakPt {
 
 export interface Set {
     setNo: number;
-    live: boolean;
     player1GamesWon: number;
     player2GamesWon: number;
 }

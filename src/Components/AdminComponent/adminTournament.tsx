@@ -105,7 +105,7 @@ class AdminTournament extends Component<Props, IState> {
     await getTournamentsService().then(res => this.names = res.map(element => element.name));
   }
 
-  buttonAddClicked(ev: any): void {
+  async buttonAddClicked(ev: any): Promise<void> {
     ev.preventDefault();
     let tournament = {
       name: this.state.name,
@@ -114,7 +114,8 @@ class AdminTournament extends Component<Props, IState> {
     }
     let select = document.getElementById("surface") as HTMLSelectElement;
     tournament.surface = select.options[select.selectedIndex].value;
-    createTournamentService(tournament as Tournament)
+    await createTournamentService(tournament as Tournament)
+    window.location.reload();
   }
 }
 export default AdminTournament;

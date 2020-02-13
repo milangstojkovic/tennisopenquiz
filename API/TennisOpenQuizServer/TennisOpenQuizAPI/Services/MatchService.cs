@@ -34,7 +34,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var matchData = session.Execute("select * from match where matchid=" + Guid.Parse(matchID) + " ALLOW FILTERING").FirstOrDefault();
+            var matchData = session.Execute("select * from match where matchid=" + matchID + " ALLOW FILTERING").FirstOrDefault();
             Match match = new Match();
             if (matchData != null)
             {
@@ -54,6 +54,14 @@ namespace TennisOpenQuizAPI.Services
             if (session == null)
                 return;
             RowSet matchData = session.Execute("insert into match (matchid, tournamentname, player1, player2, date, isfinished)  values (uuid(), '" + match.TournamentName + "', '" + match.Player1 + "', '" + match.Player2 + "', '" + match.Date + "', false)");
+        }
+
+        public void UpdateMatchScore(Match match)
+        {
+            ISession session = SessionManager.GetSession();
+            if (session == null)
+                return;
+            RowSet matchData = session.Execute("Update match set isfinished = true Where matchid = " + match.Matchid + ";");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var winnerData = session.Execute("select * from winner where matchid = '" + matchID + "' ALLOW FILTERING").FirstOrDefault();
+            var winnerData = session.Execute("select * from winner where matchid = " + matchID + " ALLOW FILTERING").FirstOrDefault();
             Winner winner = new Winner();
             if (winnerData != null)
             {
@@ -32,7 +32,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet winnerData = session.Execute("insert into winner (matchID, player1forehandwinners, player1backhandwinners, player1totalwinners, player2forehandwinners, player2backhandwinners, player2totalwinners)  values (uuid(), '" + winner.Player1ForehandWinners + "', '" + winner.Player1BackhandWinners + "', '" + winner.Player1TotalWinners + "', '" + winner.Player2ForehandWinners + "', '" + winner.Player2BackhandWinners + "', '" + winner.Player2TotalWinners + "')");
+            RowSet winnerData = session.Execute("insert into winner (matchid, player1forehandwinners, player1backhandwinners, player1totalwinners, player2forehandwinners, player2backhandwinners, player2totalwinners)  values ("+winner.MatchID+", " + winner.Player1ForehandWinners + ", " + winner.Player1BackhandWinners + ", " + winner.Player1TotalWinners + ", " + winner.Player2ForehandWinners + ", " + winner.Player2BackhandWinners + ", " + winner.Player2TotalWinners + ")");
         }
     }
 }

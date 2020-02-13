@@ -11,7 +11,7 @@ export const getBreakPtByIdService = (id: String): Promise<BreakPt>=>
         throw err
     })
 
-export const createBreakPtService = (breakPt: BreakPt): any => 
+export const createBreakPtService = (breakPt: any): any => 
     axios.post<any>(
         `${baseUrl}/breakpt`, breakPt
     )

@@ -188,7 +188,7 @@ class AdminPlayer extends Component<Props, IState> {
     await getPlayersService().then(res => this.players = res);
   }
 
-  buttonAddClicked(ev: any): void {
+  async buttonAddClicked(ev: any): Promise<void> {
     ev.preventDefault();
     var player = {
       name: this.state.name,
@@ -201,7 +201,8 @@ class AdminPlayer extends Component<Props, IState> {
     let select = document.getElementById("selectCountry") as HTMLSelectElement;
     player.country = select.options[select.selectedIndex].value;
     console.log(player);
-    createPlayerService(player as Player)
+    await createPlayerService(player as Player)
+    window.location.reload();
   }
 }
 export default AdminPlayer;

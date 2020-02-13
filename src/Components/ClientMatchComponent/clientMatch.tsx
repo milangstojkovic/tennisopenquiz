@@ -9,6 +9,8 @@ import { getStatisticByIdService } from "../../CassandraServices/statistic.servi
 import { getBreakPtByIdService } from "../../CassandraServices/breakPt.service";
 import {getWinnersByIdService} from "../../CassandraServices/winner.service";
 import { Modal } from "react-bootstrap";
+import { wait } from "@testing-library/react";
+import { getUserByNameService, updateUserService } from "../../CassandraServices/user.service";
 
 const axios = require("axios");
 const emptyString = "";
@@ -34,6 +36,8 @@ interface IState {
   loading: boolean;
   isFinished:boolean;
   activeQ:boolean;
+  falseAnswer:boolean;
+  trueAnswer:boolean;
 }
 class Question {
   constructor(
@@ -76,7 +80,9 @@ class ClientMatch extends Component<Props, IState> {
       hubConnection: null,
       loading:false,
       isFinished:false,
-      activeQ:false
+      activeQ:false,
+      falseAnswer:false,
+      trueAnswer:false
     };
     console.log("uso");
      this.getData();
@@ -95,9 +101,10 @@ class ClientMatch extends Component<Props, IState> {
     this.setState({ hubConnection, nick }, () => {
       this.state.hubConnection
         .start(() => console.log("started..."))
-        .then(() => console.log("Connection started!"))
-        .catch((err: any) =>
+        .then(() => console.log("usoo"))
+        .catch((err: any) => {
           console.log("Error while establishing connection :(")
+        }
         );
 
       this.state.hubConnection.on(
@@ -111,6 +118,7 @@ class ClientMatch extends Component<Props, IState> {
           this.setState({activeQ:true});
 
           this.getQuestion();
+          this.closeWindow();
         }
       );
 
@@ -121,9 +129,12 @@ class ClientMatch extends Component<Props, IState> {
           await this.getMyAnswer().then(result => (res = result));
           console.log(res);
           if (receivedMessage == res) {
-            console.log("TACNOOOOOOOOO");
+            getUserByNameService(localStorage.getItem("username")).then(u=>{u.score+=this.state.question.points;
+              localStorage.setItem("userScore",u.score.toString());
+            updateUserService(u);
+            this.showTrueModal()})
           } else {
-            console.log("NETACNO :(");
+            this.showFalseModal()
           }
         }
       );
@@ -210,6 +221,13 @@ class ClientMatch extends Component<Props, IState> {
             D) {this.state.question.answerD}{" "}
           </button>
         </Modal>
+        <Modal show={this.state.trueAnswer}>
+          TACNO, vas skor je {localStorage.getItem("userScore")}
+        </Modal>
+        <Modal show={this.state.falseAnswer}>
+          NETACNO, vas skor je {localStorage.getItem("userScore")}
+        </Modal>
+
         <div className="players">
           <h2>{this.match.player1}</h2>
           <h2>{this.match.player2}</h2>
@@ -333,6 +351,7 @@ class ClientMatch extends Component<Props, IState> {
           </div>
         </div>
         <Button
+        disabled={this.state.isFinished}
           className="btn-refresh"
           onClick={() => this.clickedButtonRefresh()}
         >
@@ -379,10 +398,7 @@ class ClientMatch extends Component<Props, IState> {
   }
 
   async clickedButtonRefresh(): Promise<void> {
-    this.statistic = await this.getStatistic();
-    this.set = await this.getSet();
-    this.winner = await this.getWinner();
-    this.breakPt = await this.getBreakPt();
+    await this.getData();
     this.forceUpdate();
     this.fillStatisticData();
   }
@@ -557,6 +573,25 @@ class ClientMatch extends Component<Props, IState> {
      }
      await this.setState({ loading: true });
    }
+   delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+  async closeWindow(): Promise<void> {
+    await this.delay(15000);
+    this.setState({activeQ:false});
+  }
+
+  async showTrueModal(): Promise<void> {
+    this.setState({trueAnswer:true});
+    await this.delay(15000);
+    this.setState({trueAnswer:false});
+  }
+
+  async showFalseModal(): Promise<void> {
+    this.setState({falseAnswer:true});
+    await this.delay(15000);
+    this.setState({falseAnswer:false});
+  }
 }
 
 export default ClientMatch;

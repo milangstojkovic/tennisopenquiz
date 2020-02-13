@@ -11,9 +11,9 @@ export const getWinnersByIdService = (id: String): Promise<Winner>=>
         throw err
     })
 
-export const createWinnerService = (winner: Winner): any => 
+export const createWinnerService = (winner: any): any => 
     axios.post<any>(
-        `${baseUrl}/winners`, winner
+        `${baseUrl}/winner`, winner
     )
     .catch (err=>{
         throw err

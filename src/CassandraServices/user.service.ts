@@ -11,7 +11,7 @@ export const getUsersService = (): Promise<User[]> =>
         throw err
     })
 
-export const getUserByNameService = (name: String): Promise<User>=>
+export const getUserByNameService = (name: any): Promise<User>=>
      axios.get<User>(
         `${baseUrl}/users/${name}`
     )

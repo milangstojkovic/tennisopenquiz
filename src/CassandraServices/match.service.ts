@@ -27,3 +27,8 @@ export const createMatchService = (match: Match): any =>
     .catch (err=>{
         throw err
     })
+
+export const updateMatchService = (match:Match):any =>
+    axios.put(
+        `${baseUrl}/match/${match.matchid}`, match
+    )

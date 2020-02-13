@@ -13,7 +13,7 @@ namespace TennisOpenQuizAPI.Services
             List<Set> setsList = new List<Set>();
             if (session == null)
                 return null;
-            var SetsData = session.Execute("select * from matchset where matchid ='" + matchID + "' ALLOW FILTERING");
+            var SetsData = session.Execute("select * from matchset where matchid =" + matchID + " ALLOW FILTERING");
             foreach (var SetData in SetsData)
             {
                 Set set = new Set();
@@ -31,7 +31,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet setData = session.Execute("insert into matchset (matchid, setno, player1gameswon, player2gameswon)  values (uuid(), '" + set.SetNo + "', '" + set.Player1GamesWon + "', '" + set.Player2GamesWon + "')");
+            RowSet setData = session.Execute("insert into matchset (matchid, setno, player1gameswon, player2gameswon)  values ("+set.MatchID+", " + set.SetNo + ", " + set.Player1GamesWon + ", " + set.Player2GamesWon + ")");
         }
     }
 }

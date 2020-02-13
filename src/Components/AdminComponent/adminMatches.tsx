@@ -63,7 +63,7 @@ class AdminMatches extends Component<Props, IState> {
                 <td>{match.player1}</td>
                 <td>{match.player2}</td>
                 <td>{match.date}</td>
-                <td><button className="btn btn-secondary" onClick={e=>this.startMatch(e)} id={match.matchid}>Start match</button></td>
+                <td><button className="btn btn-secondary" disabled={match.isFinished} onClick={e=>this.startMatch(e)} id={match.matchid}>Start match</button></td>
             </tr>
         )
         const toursRender = this.tournaments.map((tournament, index) =>
@@ -196,6 +196,7 @@ class AdminMatches extends Component<Props, IState> {
         console.log(match.tournamentName);
         await this.setState({ dateModalIsOpen: false });
         await createMatchService(match as Match);
+        window.location.reload();
     }
 
     changeDate(e: any): void {

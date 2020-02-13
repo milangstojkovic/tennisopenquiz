@@ -12,7 +12,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return null;
-            var breakPtData = session.Execute("select * from breakpt where matchid = '" + matchID + "' ALLOW FILTERING").FirstOrDefault();
+            var breakPtData = session.Execute("select * from breakpt where matchid = " + matchID + " ALLOW FILTERING").FirstOrDefault();
             BreakPt breakPt = new BreakPt();
             if (breakPtData != null)
             {
@@ -30,7 +30,7 @@ namespace TennisOpenQuizAPI.Services
             ISession session = SessionManager.GetSession();
             if (session == null)
                 return;
-            RowSet breakPtData = session.Execute("insert into breakpt (matchid, player1breakptatt, player1breakptwon, player2breakptatt, player2breakptwon)  values (uuid(), '" + breakPt.Player1BreakPtAtt + "', '" + breakPt.Player1BreakPtWon + "', '" + breakPt.Player2BreakPtAtt + "', '" + breakPt.Player2BreakPtWon + "')");
+            RowSet breakPtData = session.Execute("insert into breakpt (matchid, player1breakptatt, player1breakptwon, player2breakptatt, player2breakptwon)  values ("+breakPt.MatchID+", " + breakPt.Player1BreakPtAtt + ", " + breakPt.Player1BreakPtWon + ", " + breakPt.Player2BreakPtAtt + ", " + breakPt.Player2BreakPtWon + ")");
         }
     }
 }

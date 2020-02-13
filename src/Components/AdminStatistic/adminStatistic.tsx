@@ -3,6 +3,10 @@ import "./adminStatistic.css";
 import { Button } from "react-bootstrap";
 import Questions from "../QuestionsComponent/questions";
 import { createStatisticService } from "../../CassandraServices/statistic.service";
+import { createWinnerService } from "../../CassandraServices/winner.service";
+import { createBreakPtService } from "../../CassandraServices/breakPt.service";
+import { createSetService } from "../../CassandraServices/set.service";
+import { getMatchByIdService, updateMatchService } from "../../CassandraServices/match.service";
 const emptyString = "";
 const False = false;
 const POST = "POST";
@@ -342,9 +346,18 @@ class AdminStatistic extends Component<Props, IState> {
     let breakPointsAMinusOne = this.state.setA - 1;
     this.setState({ setA: breakPointsAMinusOne });
   }
-  setAPlusClicked(): void {
+  async setAPlusClicked(): Promise<void> {
     let breakPointsAPlusOne = this.state.setA + 1;
     this.setState({ setA: breakPointsAPlusOne });
+    let setCassandra = {
+      matchid:this.props.matchid,
+      setNo: this.state.setA+this.state.setB,
+    player1GamesWon: this.state.gameA,
+    player2GamesWon: this.state.gameB
+    }
+    await createSetService(setCassandra);
+    this.setState({gameA:0});
+    this.setState({gameB:0});
   }
   totalPointsAMinusClicked(): void {
     let breakPointsAMinusOne = this.state.totalPointsA - 1;
@@ -418,9 +431,17 @@ class AdminStatistic extends Component<Props, IState> {
     let breakPointsAMinusOne = this.state.setB - 1;
     this.setState({ setB: breakPointsAMinusOne });
   }
-  setBPlusClicked(): void {
-    let breakPointsAPlusOne = this.state.setB + 1;
-    this.setState({ setB: breakPointsAPlusOne });
+  async setBPlusClicked(): Promise<void> {
+    let setCassandra = {
+      matchid:this.props.matchid,
+      setNo: this.state.setA+this.state.setB+1,
+    player1GamesWon: this.state.gameA,
+    player2GamesWon: this.state.gameB
+    }
+    this.setState({ setB: this.state.setB + 1 });
+    await createSetService(setCassandra);
+    this.setState({gameA:0});
+    this.setState({gameB:0});
   }
   totalPointsBMinusClicked(): void {
     let breakPointsAMinusOne = this.state.totalPointsB - 1;
@@ -561,7 +582,7 @@ class AdminStatistic extends Component<Props, IState> {
     });
     await alert("Statistic changed");
   }
-  finishMatch(): void {
+  async finishMatch(): Promise<void> {
     let statisticsCassandra = {
       matchid: this.props.matchid,
       player1Aces: this.state.acesA,
@@ -573,7 +594,29 @@ class AdminStatistic extends Component<Props, IState> {
       player1TotalPoints: this.state.totalPointsA,
       player2TotalPoints: this.state.totalPointsB
     }
-    createStatisticService(statisticsCassandra);
+    await createStatisticService(statisticsCassandra);
+    let winnerCassandra = {
+      matchid:this.props.matchid,
+      player1ForehandWinners: this.state.forehandWinnersA,
+      player1BackhandWinners: this.state.backhandWinnersA,
+      player1TotalWinners: this.state.totalWinnersA,
+      player2ForehandWinners: this.state.forehandWinnersB,
+      player2BackhandWinners: this.state.backhandWinnersB,
+      player2TotalWinners: this.state.totalWinnersB
+    }
+    await createWinnerService(winnerCassandra);
+    let breakPtCassandra = {
+      matchid: this.props.matchid,
+      player1BreakPtAtt: this.state.breakPointsAAtt,
+      player1BreakPtWon: this.state.breakPointsAWon,
+      player2BreakPtAtt: this.state.breakPointsBAtt,
+      player2BreakPtWon: this.state.breakPointsBWon
+    }
+    await createBreakPtService(breakPtCassandra);
+    await getMatchByIdService(this.props.matchid).then(m=>{
+      m.isFinished=true;
+      updateMatchService(m);
+    })
   }
 }
 export default AdminStatistic;

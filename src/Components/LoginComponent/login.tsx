@@ -30,6 +30,7 @@ class Login extends Component<Props, IState> {
     if (this.user) {
       if (this.user.password==this.state.password) {
         localStorage.setItem("username", this.user.username);
+        localStorage.setItem("userScore", this.user.score.toString());
         window.location.reload();
       }
     }
