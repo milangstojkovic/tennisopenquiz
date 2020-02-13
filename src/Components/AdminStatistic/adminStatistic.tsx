@@ -7,11 +7,7 @@ import { createWinnerService } from "../../CassandraServices/winner.service";
 import { createBreakPtService } from "../../CassandraServices/breakPt.service";
 import { createSetService } from "../../CassandraServices/set.service";
 import { getMatchByIdService, updateMatchService } from "../../CassandraServices/match.service";
-const emptyString = "";
-const False = false;
 const POST = "POST";
-const GET = "GET";
-const PUT = "PUT";
 const redisStatisticURL = "https://localhost:44379/api/statistic";
 const redisSetURL = "https://localhost:44379/api/set";
 const redisGameURL = "https://localhost:44379/api/game";
@@ -68,14 +64,14 @@ class Statistic {
     public Player2UnforcedErrors: number,
     public Player1TotalPoints: number,
     public Player2TotalPoints: number
-  ) {}
+  ) { }
 }
 class Game {
   constructor(
     public matchid: string,
     public player1Points: number,
     public player2Points: number
-  ) {}
+  ) { }
 }
 class Set {
   constructor(
@@ -84,7 +80,7 @@ class Set {
     public player1GamesWon: number,
     public player2GamesWon: number,
     public live: boolean
-  ) {}
+  ) { }
 }
 class BreakPt {
   constructor(
@@ -93,7 +89,7 @@ class BreakPt {
     public player1BreakPtWon: number,
     public player2BreakPtAtt: number,
     public player2BreakPtWon: number
-  ) {}
+  ) { }
 }
 class Winner {
   constructor(
@@ -104,7 +100,7 @@ class Winner {
     public player2ForehandWinners: number,
     public player2BackhandWinners: number,
     public player2TotalWinners: number
-  ) {}
+  ) { }
 }
 class AdminStatistic extends Component<Props, IState> {
   constructor(props: Props) {
@@ -149,147 +145,147 @@ class AdminStatistic extends Component<Props, IState> {
       <div className="admin-statistic">
         <div className="row">
           <div className="col">
-        <Questions/>
+            <Questions />
+          </div>
+          <div className="col">
+            <div className="row">
+              <div className="col">
+                <h1>PLAYER A</h1>
+                <table className="playerA-statistic">
+
+                  <tbody>
+                    <tr>
+                      <td className="label">Aces: {this.state.acesA}</td>
+                      <td>  <Button onClick={() => this.acesAButtonPlusClicked()}>+</Button></td>
+                      <td> <Button className="button-minus" onClick={() => this.acesAButtonMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr>
+                      <td className="label"> Double faults: {this.state.doubleFaultsA} </td>
+                      <td> <Button onClick={() => this.doubleFaultsAPlusClicked()}>+</Button></td>
+                      <td>   <Button className="button-minus" onClick={() => this.doubleFaultsAMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="unforcedErrors">
+                      <td className="label">Unforced errors: {this.state.unforcedErrorsA}</td>
+                      <td> <Button onClick={() => this.unforcedErrorsAPlusClicked()}>+</Button></td>
+                      <td> <Button className="button-minus" onClick={() => this.unforcedErrorsAMinusClicked()}>-</Button> </td>
+                    </tr>
+                    <tr className="totalPoints">
+                      <td className="label">Total points: {this.state.totalPointsA}</td>
+                      <td> <Button onClick={() => this.totalPointsAPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.totalPointsAMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="set">
+                      <td className="label">Sets: {this.state.setA}</td>
+                      <td> <Button onClick={() => this.setAPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.setAMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="games">
+                      <td className="label">Games: {this.state.gameA}</td>
+                      <td>  <Button onClick={() => this.gamesAPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.gamesAMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="points">
+                      <td className="label">Points: {this.state.pointsInGameA}</td>
+                      <td><Button onClick={() => this.pointsAPlusClicked()}>+</Button></td>
+                      <td> <Button className="button-minus" onClick={() => this.pointsAMinutClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="breakPoints">
+                      <td className="label">Break points att: {this.state.breakPointsAAtt}</td>
+                      <td> <Button onClick={() => this.breakPointsAAttPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.breakPointsAAttMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="breakPoints">
+                      <td className="label">Break points won: {this.state.breakPointsAWon}</td>
+                      <td> <Button onClick={() => this.breakPointsAWonPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.breakPointsAWonMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="winners">
+                      <td className="label">Forehand winners: {this.state.forehandWinnersA}</td>
+                      <td> <Button onClick={() => this.forehandWinnersAPlusClicked()}>+</Button></td>
+                      <td> <Button className="button-minus" onClick={() => this.forehandWinnersAMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="winners">
+                      <td className="label">Backhand winners: {this.state.backhandWinnersA}</td>
+                      <td> <Button onClick={() => this.backhandWinnersAPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.backhandWinnersAMinusClicked()}>-</Button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="col">
+                <h1>PLAYER B</h1>
+                <table className="playerB-statistic">
+                  <tbody>
+                    <tr>
+                      <td className="label">Aces: {this.state.acesB}</td>
+                      <td>  <Button onClick={() => this.acesBButtonPlusClicked()}>+</Button></td>
+                      <td> <Button className="button-minus" onClick={() => this.acesAButtonMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr>
+                      <td className="label"> Double faults: {this.state.doubleFaultsB} </td>
+                      <td> <Button onClick={() => this.doubleFaultsBPlusClicked()}>+</Button></td>
+                      <td>   <Button className="button-minus" onClick={() => this.doubleFaultsAMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="unforcedErrors">
+                      <td className="label">Unforced errors: {this.state.unforcedErrorsB}</td>
+                      <td> <Button onClick={() => this.unforcedErrorsBPlusClicked()}>+</Button></td>
+                      <td> <Button className="button-minus" onClick={() => this.unforcedErrorsBMinusClicked()}>-</Button> </td>
+                    </tr>
+                    <tr className="totalPoints">
+                      <td className="label">Total points: {this.state.totalPointsB}</td>
+                      <td> <Button onClick={() => this.totalPointsBPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.totalPointsBMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="set">
+                      <td className="label">Sets: {this.state.setB}</td>
+                      <td> <Button onClick={() => this.setBPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.setBMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="games">
+                      <td className="label">Games: {this.state.gameB}</td>
+                      <td>  <Button onClick={() => this.gamesBPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.gamesBMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="points">
+                      <td className="label">Points: {this.state.pointsInGameB}</td>
+                      <td><Button onClick={() => this.pointsBPlusClicked()}>+</Button></td>
+                      <td> <Button className="button-minus" onClick={() => this.pointsBMinutClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="breakPoints">
+                      <td className="label">Break points att: {this.state.breakPointsBAtt}</td>
+                      <td> <Button onClick={() => this.breakPointsBAttPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.breakPointsBAttMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="breakPoints">
+                      <td className="label">Break points won: {this.state.breakPointsBWon}</td>
+                      <td> <Button onClick={() => this.breakPointsBWonPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.breakPointsBWonMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="winners">
+                      <td className="label">Forehand winners: {this.state.forehandWinnersB}</td>
+                      <td> <Button onClick={() => this.forehandWinnersBPlusClicked()}>+</Button></td>
+                      <td> <Button className="button-minus" onClick={() => this.forehandWinnersBMinusClicked()}>-</Button></td>
+                    </tr>
+                    <tr className="winners">
+                      <td className="label">Backhand winners: {this.state.backhandWinnersB}</td>
+                      <td> <Button onClick={() => this.backhandWinnersBPlusClicked()}>+</Button></td>
+                      <td><Button className="button-minus" onClick={() => this.backhandWinnersBMinusClicked()}>-</Button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <table>
+              <tbody>
+                <tr>
+                  <td><Button id="addRedis" onClick={() => this.AddStatistic()}> ADD REDIS</Button></td>
+                  <td><Button id="finish" onClick={() => this.finishMatch()}> Finish match</Button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div className="col">
-          <div className="row">
-            <div className="col">
-            <h1>PLAYER A</h1>
-        <table className="playerA-statistic">
-          
-          <tbody>
-          <tr>
-            <td className="label">Aces: {this.state.acesA}</td>
-            <td>  <Button onClick={() => this.acesAButtonPlusClicked()}>+</Button></td>
-             <td> <Button className="button-minus" onClick={() => this.acesAButtonMinusClicked()}>-</Button></td>
-          </tr>
-          <tr>
-            <td className="label"> Double faults: {this.state.doubleFaultsA} </td>
-             <td> <Button onClick={() => this.doubleFaultsAPlusClicked()}>+</Button></td>
-           <td>   <Button className="button-minus" onClick={() => this.doubleFaultsAMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="unforcedErrors">
-            <td className="label">Unforced errors: {this.state.unforcedErrorsA}</td>
-            <td> <Button onClick={() => this.unforcedErrorsAPlusClicked()}>+</Button></td>
-             <td> <Button className="button-minus" onClick={() => this.unforcedErrorsAMinusClicked()}>-</Button> </td>
-          </tr>
-          <tr className="totalPoints">
-            <td className="label">Total points: {this.state.totalPointsA}</td>
-             <td> <Button onClick={() => this.totalPointsAPlusClicked()}>+</Button></td>
-              <td><Button className="button-minus" onClick={() => this.totalPointsAMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="set">
-            <td className="label">Sets: {this.state.setA}</td>
-             <td> <Button onClick={() => this.setAPlusClicked()}>+</Button></td>
-              <td><Button className="button-minus" onClick={() => this.setAMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="games">
-            <td className="label">Games: {this.state.gameA}</td>
-            <td>  <Button onClick={() => this.gamesAPlusClicked()}>+</Button></td>
-             <td><Button className="button-minus" onClick={() => this.gamesAMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="points">
-            <td className="label">Points: {this.state.pointsInGameA}</td>
-             <td><Button onClick={() => this.pointsAPlusClicked()}>+</Button></td> 
-             <td> <Button className="button-minus" onClick={() => this.pointsAMinutClicked()}>-</Button></td>
-          </tr>
-          <tr className="breakPoints">
-            <td className="label">Break points att: {this.state.breakPointsAAtt}</td>
-             <td> <Button onClick={() => this.breakPointsAAttPlusClicked()}>+</Button></td>
-              <td><Button className="button-minus" onClick={() => this.breakPointsAAttMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="breakPoints">
-            <td className="label">Break points won: {this.state.breakPointsAWon}</td>
-             <td> <Button onClick={() => this.breakPointsAWonPlusClicked()}>+</Button></td>
-             <td><Button className="button-minus" onClick={() => this.breakPointsAWonMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="winners">
-            <td className="label">Forehand winners: {this.state.forehandWinnersA}</td>
-             <td> <Button onClick={() => this.forehandWinnersAPlusClicked()}>+</Button></td>
-             <td> <Button className="button-minus" onClick={() => this.forehandWinnersAMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="winners">
-            <td className="label">Backhand winners: {this.state.backhandWinnersA}</td>
-             <td> <Button onClick={() => this.backhandWinnersAPlusClicked()}>+</Button></td>
-              <td><Button className="button-minus" onClick={() => this.backhandWinnersAMinusClicked()}>-</Button></td>
-          </tr>
-          </tbody>
-        </table>
-        </div>
-        <div className="col"> 
-        <h1>PLAYER B</h1>
-        <table className="playerB-statistic">   
-          <tbody>
-          <tr>
-            <td className="label">Aces: {this.state.acesB}</td>
-            <td>  <Button onClick={() => this.acesBButtonPlusClicked()}>+</Button></td>
-             <td> <Button className="button-minus" onClick={() => this.acesAButtonMinusClicked()}>-</Button></td>
-          </tr>
-          <tr>
-            <td className="label"> Double faults: {this.state.doubleFaultsB} </td>
-             <td> <Button onClick={() => this.doubleFaultsBPlusClicked()}>+</Button></td>
-           <td>   <Button className="button-minus" onClick={() => this.doubleFaultsAMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="unforcedErrors">
-            <td className="label">Unforced errors: {this.state.unforcedErrorsB}</td>
-            <td> <Button onClick={() => this.unforcedErrorsBPlusClicked()}>+</Button></td>
-             <td> <Button className="button-minus" onClick={() => this.unforcedErrorsBMinusClicked()}>-</Button> </td>
-          </tr>
-          <tr className="totalPoints">
-            <td className="label">Total points: {this.state.totalPointsB}</td>
-             <td> <Button onClick={() => this.totalPointsBPlusClicked()}>+</Button></td>
-              <td><Button className="button-minus" onClick={() => this.totalPointsBMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="set">
-            <td className="label">Sets: {this.state.setB}</td>
-             <td> <Button onClick={() => this.setBPlusClicked()}>+</Button></td>
-              <td><Button className="button-minus" onClick={() => this.setBMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="games">
-            <td className="label">Games: {this.state.gameB}</td>
-            <td>  <Button onClick={() => this.gamesBPlusClicked()}>+</Button></td>
-             <td><Button className="button-minus" onClick={() => this.gamesBMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="points">
-            <td className="label">Points: {this.state.pointsInGameB}</td>
-             <td><Button onClick={() => this.pointsBPlusClicked()}>+</Button></td> 
-             <td> <Button className="button-minus" onClick={() => this.pointsBMinutClicked()}>-</Button></td>
-          </tr>
-          <tr className="breakPoints">
-            <td className="label">Break points att: {this.state.breakPointsBAtt}</td>
-             <td> <Button onClick={() => this.breakPointsBAttPlusClicked()}>+</Button></td>
-              <td><Button className="button-minus" onClick={() => this.breakPointsBAttMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="breakPoints">
-            <td className="label">Break points won: {this.state.breakPointsBWon}</td>
-             <td> <Button onClick={() => this.breakPointsBWonPlusClicked()}>+</Button></td>
-             <td><Button className="button-minus" onClick={() => this.breakPointsBWonMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="winners">
-            <td className="label">Forehand winners: {this.state.forehandWinnersB}</td>
-             <td> <Button onClick={() => this.forehandWinnersBPlusClicked()}>+</Button></td>
-             <td> <Button className="button-minus" onClick={() => this.forehandWinnersBMinusClicked()}>-</Button></td>
-          </tr>
-          <tr className="winners">
-            <td className="label">Backhand winners: {this.state.backhandWinnersB}</td>
-             <td> <Button onClick={() => this.backhandWinnersBPlusClicked()}>+</Button></td>
-              <td><Button className="button-minus" onClick={() => this.backhandWinnersBMinusClicked()}>-</Button></td>
-          </tr>
-          </tbody>
-        </table>
-        </div>
-        </div>
-        <table>
-          <tbody>
-            <tr>
-        <td><Button id="addRedis" onClick={() => this.AddStatistic()}> ADD REDIS</Button></td>
-        <td><Button id="finish" onClick={() => this.finishMatch()}> Finish match</Button></td>
-        </tr>
-        </tbody>
-        </table>
-        </div>
-        </div>
-        </div>
+      </div>
     );
   }
 
@@ -350,14 +346,14 @@ class AdminStatistic extends Component<Props, IState> {
     let breakPointsAPlusOne = this.state.setA + 1;
     this.setState({ setA: breakPointsAPlusOne });
     let setCassandra = {
-      matchid:this.props.matchid,
-      setNo: this.state.setA+this.state.setB,
-    player1GamesWon: this.state.gameA,
-    player2GamesWon: this.state.gameB
+      matchid: this.props.matchid,
+      setNo: this.state.setA + this.state.setB,
+      player1GamesWon: this.state.gameA,
+      player2GamesWon: this.state.gameB
     }
     await createSetService(setCassandra);
-    this.setState({gameA:0});
-    this.setState({gameB:0});
+    this.setState({ gameA: 0 });
+    this.setState({ gameB: 0 });
   }
   totalPointsAMinusClicked(): void {
     let breakPointsAMinusOne = this.state.totalPointsA - 1;
@@ -433,15 +429,15 @@ class AdminStatistic extends Component<Props, IState> {
   }
   async setBPlusClicked(): Promise<void> {
     let setCassandra = {
-      matchid:this.props.matchid,
-      setNo: this.state.setA+this.state.setB+1,
-    player1GamesWon: this.state.gameA,
-    player2GamesWon: this.state.gameB
+      matchid: this.props.matchid,
+      setNo: this.state.setA + this.state.setB + 1,
+      player1GamesWon: this.state.gameA,
+      player2GamesWon: this.state.gameB
     }
     this.setState({ setB: this.state.setB + 1 });
     await createSetService(setCassandra);
-    this.setState({gameA:0});
-    this.setState({gameB:0});
+    this.setState({ gameA: 0 });
+    this.setState({ gameB: 0 });
   }
   totalPointsBMinusClicked(): void {
     let breakPointsAMinusOne = this.state.totalPointsB - 1;
@@ -541,7 +537,7 @@ class AdminStatistic extends Component<Props, IState> {
       },
       body: JSON.stringify(statistic)
     }).then(response => {
-      response.json().then(data => {});
+      response.json().then(data => { });
     });
 
     await fetch(redisSetURL, {
@@ -551,7 +547,7 @@ class AdminStatistic extends Component<Props, IState> {
       },
       body: JSON.stringify(set)
     }).then(response => {
-      response.json().then(data => {});
+      response.json().then(data => { });
     });
     await fetch(redisGameURL, {
       method: POST,
@@ -560,7 +556,7 @@ class AdminStatistic extends Component<Props, IState> {
       },
       body: JSON.stringify(game)
     }).then(response => {
-      response.json().then(data => {});
+      response.json().then(data => { });
     });
     await fetch(redisWinnerURL, {
       method: POST,
@@ -569,7 +565,7 @@ class AdminStatistic extends Component<Props, IState> {
       },
       body: JSON.stringify(winner)
     }).then(response => {
-      response.json().then(data => {});
+      response.json().then(data => { });
     });
     await fetch(redisBreakPtURL, {
       method: POST,
@@ -578,7 +574,7 @@ class AdminStatistic extends Component<Props, IState> {
       },
       body: JSON.stringify(breakPt)
     }).then(response => {
-      response.json().then(data => {});
+      response.json().then(data => { });
     });
     await alert("Statistic changed");
   }
@@ -596,7 +592,7 @@ class AdminStatistic extends Component<Props, IState> {
     }
     await createStatisticService(statisticsCassandra);
     let winnerCassandra = {
-      matchid:this.props.matchid,
+      matchid: this.props.matchid,
       player1ForehandWinners: this.state.forehandWinnersA,
       player1BackhandWinners: this.state.backhandWinnersA,
       player1TotalWinners: this.state.totalWinnersA,
@@ -613,8 +609,8 @@ class AdminStatistic extends Component<Props, IState> {
       player2BreakPtWon: this.state.breakPointsBWon
     }
     await createBreakPtService(breakPtCassandra);
-    await getMatchByIdService(this.props.matchid).then(m=>{
-      m.isFinished=true;
+    await getMatchByIdService(this.props.matchid).then(m => {
+      m.isFinished = true;
       updateMatchService(m);
     })
   }

@@ -101,7 +101,7 @@ class ClientMatch extends Component<Props, IState> {
     this.setState({ hubConnection, nick }, () => {
       this.state.hubConnection
         .start(() => console.log("started..."))
-        .then(() => console.log("usoo"))
+        .then(() => console.log("Conected to HUB"))
         .catch((err: any) => {
           console.log("Error while establishing connection :(")
         }
@@ -222,10 +222,16 @@ class ClientMatch extends Component<Props, IState> {
           </button>
         </Modal>
         <Modal show={this.state.trueAnswer}>
-          TACNO, vas skor je {localStorage.getItem("userScore")}
+        <div className="modal-content">
+            <div className="modal-header correct">TACNO</div>
+            <div className = "modal-body">vas skor je {localStorage.getItem("userScore")}</div>
+            </div>
         </Modal>
-        <Modal show={this.state.falseAnswer}>
-          NETACNO, vas skor je {localStorage.getItem("userScore")}
+        <Modal className="modal-dialog" show={this.state.falseAnswer}>
+          <div className="modal-content">
+            <div className="modal-header incorrect">NETACNO</div>
+            <div className = "modal-body">vas skor je {localStorage.getItem("userScore")}</div>
+          </div>
         </Modal>
 
         <div className="players">
@@ -583,13 +589,13 @@ class ClientMatch extends Component<Props, IState> {
 
   async showTrueModal(): Promise<void> {
     this.setState({trueAnswer:true});
-    await this.delay(15000);
+    await this.delay(5000);
     this.setState({trueAnswer:false});
   }
 
   async showFalseModal(): Promise<void> {
     this.setState({falseAnswer:true});
-    await this.delay(15000);
+    await this.delay(5000);
     this.setState({falseAnswer:false});
   }
 }

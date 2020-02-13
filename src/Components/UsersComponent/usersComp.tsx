@@ -28,7 +28,7 @@ class Userscomp extends Component<Props, IState> {
     </tr>)
     return (
       <form >
-        <table className="table">
+        <table className="table table-hover">
             <thead>
                 <tr>
                     <th>No.</th><th>Username</th><th>Score</th>

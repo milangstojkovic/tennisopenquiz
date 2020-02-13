@@ -29,10 +29,10 @@ class TournamentsComp extends Component<Props, IState> {
     </tr>)
     return (
       <form >
-        <table className="table">
+        <table className="table table-hover">
             <thead>
-                <tr>
-                    <th>No.</th><th>Name</th><th>Date</th>
+                <tr className="tr">
+                    <th className="th">No.</th><th className="th">Name</th><th className="th">Date</th>
                 </tr>
             </thead>
             <tbody>

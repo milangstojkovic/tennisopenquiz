@@ -31,8 +31,8 @@ class MatchList extends Component<Props, IState> {
                
             )
         const matchRendering = this.matches.map((match, index) =>
-            <tr key={index}>
-                <th scope="row">{index}</th>
+            <tr className="trMatches" key={index}>
+                <th scope="row" className="trMatches">{index}</th>
                 <td>{match.tournamentName}</td>
                 <td>{match.player1}</td>
                 <td>{match.player2}</td>
@@ -42,18 +42,18 @@ class MatchList extends Component<Props, IState> {
         )
         return (
             <form className="matches-form">
-                <table className="table table-hover" id="matches">
+                <table className="table table-hover">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Tournament name</th>
-                            <th scope="col">Player 1</th>
-                            <th scope="col">Player 2</th>
-                            <th scope="col">Date</th>
-                            <th scope="col"></th>
+                        <tr className="trMatches">
+                            <th scope="col" className="trMatches">#</th>
+                            <th scope="col" className="trMatches">Tournament name</th>
+                            <th scope="col" className="trMatches">Player 1</th>
+                            <th scope="col" className="trMatches">Player 2</th>
+                            <th scope="col" className="trMatches">Date</th>
+                            <th scope="col" className="trMatches"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="matches">
                         {matchRendering}
                     </tbody>
                 </table>
