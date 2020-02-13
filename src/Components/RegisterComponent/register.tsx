@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { User } from "../../Models/Model";
 import {createUserService, getUsersService} from '../../CassandraServices/user.service';
+import "./register.css"
 interface Props {}
 interface IState {
   email: string;

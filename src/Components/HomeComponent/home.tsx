@@ -12,8 +12,8 @@ class Home extends Component<Props> {
     return (
       <div id="c">
         <table className="btns"><thead><tr>
-        <th><Login/></th>
-        <th><Register/></th>
+        <th className="login"><Login/></th>
+        <th className="login"><Register/></th>
         </tr>
         </thead>
         </table>
